@@ -55,6 +55,42 @@ export async function GET() {
       });
     }
 
+    // ✅ Ensure newsletter subscription flag stays in sync with existing subscriber records
+    if (dbUser.email) {
+      const newsletterRecord = await prisma.newsletterSubscriber.findUnique({
+        where: { email: dbUser.email },
+      });
+
+      if (newsletterRecord) {
+        const tx: Parameters<typeof prisma.$transaction>[0] = [];
+
+        if (!newsletterRecord.userId) {
+          tx.push(
+            prisma.newsletterSubscriber.update({
+              where: { email: dbUser.email },
+              data: { userId: dbUser.id },
+            })
+          );
+        }
+
+        if (!dbUser.newsletterSubscribed) {
+          tx.push(
+            prisma.user.update({
+              where: { id: dbUser.id },
+              data: { newsletterSubscribed: true },
+            })
+          );
+        }
+
+        if (tx.length > 0) {
+          await prisma.$transaction(tx);
+          if (!dbUser.newsletterSubscribed) {
+            dbUser = { ...dbUser, newsletterSubscribed: true };
+          }
+        }
+      }
+    }
+
     // ✅ Fetch final user data including the plan
     const FINAL_FREE_LIMIT = 5;
 

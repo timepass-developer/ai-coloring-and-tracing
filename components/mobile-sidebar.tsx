@@ -1,6 +1,16 @@
 "use client"
 
-import { X, HelpCircle, Info, Mail, Crown, LogOut } from "lucide-react"
+import {
+  X,
+  HelpCircle,
+  Info,
+  Mail,
+  Crown,
+  LogOut,
+  Home as HomeIcon,
+  PenTool,
+  LayoutDashboard,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
@@ -17,12 +27,26 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
   const { isAuthenticated } = useKindeBrowserClient()
   const { t, isLoading } = useTranslations()
 
-  const navItems = [
+  const baseNavItems = [
+    { label: "Home", translationKey: "navigation.home", icon: HomeIcon, href: "/" },
+    { label: "Create", translationKey: "navigation.create", icon: PenTool, href: "/create" },
     { label: "Membership", translationKey: "navigation.membership", icon: Crown, href: "/membership" },
     { label: "How to Use", translationKey: "navigation.howToUse", icon: HelpCircle, href: "/how-to-use" },
     { label: "About Us", translationKey: "navigation.aboutUs", icon: Info, href: "/about-us" },
     { label: "Parenting Newsletter", translationKey: "navigation.newsletter", icon: Mail, href: "/parenting-newsletter" },
   ]
+
+  const navItems = isAuthenticated
+    ? [
+        ...baseNavItems,
+        {
+          label: "Dashboard",
+          translationKey: "navigation.dashboard",
+          icon: LayoutDashboard,
+          href: "/dashboard",
+        },
+      ]
+    : baseNavItems
 
   return (
     <>
@@ -46,7 +70,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
             {navItems.map((item) => {
               const Icon = item.icon
               return (
-                <Link key={item.label} href={item.href} onClick={onClose}>
+                <Link key={item.href} href={item.href} onClick={onClose}>
                   <Card className="flex items-center gap-3 p-3 hover:bg-muted/50 cursor-pointer transition-all">
                     <Icon className="h-5 w-5 text-primary" />
                     <span className="font-medium">{isLoading ? item.label : t(item.translationKey)}</span>

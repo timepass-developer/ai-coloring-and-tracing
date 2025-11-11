@@ -5,7 +5,7 @@ import { useMemo, useState, type ComponentType } from "react";
 import Link from "next/link";
 import MobileHeader from "@/components/mobile-header";
 import MobileSidebar from "@/components/mobile-sidebar";
-import Footer from "@/components/Footer";
+
 import { useTranslations } from "@/hooks/use-translations";
 import {
   Sparkles,
@@ -280,7 +280,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-        <Footer />
+
       </div>
     </main>
   );

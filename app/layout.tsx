@@ -4,6 +4,7 @@ import { Fredoka } from "next/font/google"
 import "../styles/globals.css"
 import { AuthProvider } from "./AuthProvider"
 import ClientLayout from "@/components/ClientLayout"
+import Footer from "@/components/Footer"
 import { ToastProviderWrapper } from "@/components/ui/use-toast"
 import { generateMetadata as generateSEOMetadata, generateOrganizationSchema, generateWebApplicationSchema } from "@/lib/seo"
 
@@ -56,6 +57,9 @@ export default function RootLayout({
           <ToastProviderWrapper>
             <ClientLayout>{children}</ClientLayout>
           </ToastProviderWrapper>
+          <div className="hidden lg:block">
+            <Footer />
+          </div>
         </body>
       </html>
     </AuthProvider>

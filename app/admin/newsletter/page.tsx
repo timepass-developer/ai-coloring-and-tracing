@@ -1,38 +1,35 @@
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function NewsletterAdminPage() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+  const result = await requireAdmin();
 
-  if (!user) redirect("/api/auth/login");
+  if ("context" in result && result.context) {
+    const { prisma } = result.context;
 
-  if (!process.env.DATABASE_URL) {
-    console.warn("DATABASE_URL is not configured. Newsletter admin disabled.");
-    redirect("/");
+    const subs = await prisma.newsletterSubscriber.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+
+    return (
+      <div>
+        <h1 className="text-2xl font-bold mb-6">Newsletter Subscribers</h1>
+        <ul className="space-y-2">
+          {subs.map((subscriber) => (
+            <li key={subscriber.id} className="p-3 border rounded-lg bg-card">
+              {subscriber.email}
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
   }
 
-  const { prisma } = await import("@/lib/prisma");
+  if (result.response.status === 401) {
+    redirect("/api/auth/login");
+  }
 
-  const dbUser = await prisma.user.findUnique({ where: { kindeId: user.id } });
-  if (!dbUser?.isAdmin) redirect("/");
-
-  const subs = await prisma.newsletterSubscriber.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-
-  return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Newsletter Subscribers</h1>
-      <ul className="space-y-2">
-        {subs.map((s) => (
-          <li key={s.id} className="p-3 border rounded-lg bg-card">
-            {s.email}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  redirect("/");
 }

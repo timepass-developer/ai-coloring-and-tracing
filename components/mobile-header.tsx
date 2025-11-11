@@ -80,7 +80,7 @@ export default function MobileHeader({ onMenuToggle, isMenuOpen }: MobileHeaderP
 
   const renderCreditsBadge = () => {
     if (isLoading || (isAuthenticated && loadingUser)) {
-      return <div className="w-14 h-7 rounded-full bg-muted animate-pulse" />
+      return <div className="h-7 w-12 rounded-full bg-muted animate-pulse" />
     }
 
     let displayValue: string | null = null
@@ -110,10 +110,10 @@ export default function MobileHeader({ onMenuToggle, isMenuOpen }: MobileHeaderP
 
     return (
       <div
-        className="flex items-center gap-1 px-3 py-1 rounded-full border border-orange-200 bg-orange-50 text-orange-600 text-sm font-semibold shadow-sm"
+        className="flex items-center gap-1 rounded-full border border-orange-200 bg-orange-50 px-2 py-1 text-xs font-semibold text-orange-600 shadow-sm md:px-3 md:text-sm"
         title={tooltip}
       >
-        <Flame className="h-4 w-4 text-orange-500" />
+        <Flame className="h-3.5 w-3.5 text-orange-500 md:h-4 md:w-4" />
         <span>{displayValue}</span>
       </div>
     )
@@ -149,7 +149,7 @@ export default function MobileHeader({ onMenuToggle, isMenuOpen }: MobileHeaderP
         <div className="flex items-center gap-2">
           {/* Language Switcher */}
           <LanguageSwitcher />
-          <div className="hidden md:block">{renderCreditsBadge()}</div>
+          {renderCreditsBadge()}
           
           {isLoading ? (
             <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />

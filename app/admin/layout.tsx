@@ -1,15 +1,24 @@
 import { ReactNode } from "react";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import BottomNav from "@/components/ui/BottomNav";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
   if (!user) redirect("/api/auth/login");
+
+  if (!process.env.DATABASE_URL) {
+    console.warn("DATABASE_URL is not configured. Admin dashboard disabled.");
+    redirect("/");
+  }
+
+  const { prisma } = await import("@/lib/prisma");
 
   const dbUser = await prisma.user.findFirst({
     where: { OR: [{ email: user.email! }, { kindeId: user.id }] },

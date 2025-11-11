@@ -1,9 +1,25 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+
+async function getPrisma() {
+  if (!process.env.DATABASE_URL) {
+    console.warn("DATABASE_URL is not configured. Admin users API unavailable.");
+    return null;
+  }
+  const { prisma } = await import("@/lib/prisma");
+  return prisma;
+}
 
 export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params; // ✅ unwrap the params
   try {
+    const prisma = await getPrisma();
+    if (!prisma) {
+      return NextResponse.json(
+        { error: "Database not configured" },
+        { status: 503 }
+      );
+    }
+
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
     return NextResponse.json(user);
@@ -16,6 +32,14 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
 export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params; // ✅ fix here too
   try {
+    const prisma = await getPrisma();
+    if (!prisma) {
+      return NextResponse.json(
+        { error: "Database not configured" },
+        { status: 503 }
+      );
+    }
+
     const body = await req.json();
     const { name, email, plan, isAdmin } = body;
 
@@ -43,6 +67,14 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
 export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params; // ✅ also fix here
   try {
+    const prisma = await getPrisma();
+    if (!prisma) {
+      return NextResponse.json(
+        { error: "Database not configured" },
+        { status: 503 }
+      );
+    }
+
     await prisma.user.delete({ where: { id } });
     return NextResponse.json({ message: "User deleted successfully" });
   } catch (error) {

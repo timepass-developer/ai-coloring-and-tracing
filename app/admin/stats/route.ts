@@ -1,7 +1,8 @@
 // app/admin/stats/route.ts
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
@@ -24,6 +25,16 @@ export async function GET() {
         { status: 403 }
       );
     }
+
+    if (!process.env.DATABASE_URL) {
+      console.warn("DATABASE_URL is not configured. Admin stats unavailable.");
+      return NextResponse.json(
+        { error: "Database not configured" },
+        { status: 503 }
+      );
+    }
+
+    const { prisma } = await import("@/lib/prisma");
 
     // Fetch all stats concurrently
     const [totalUsers, totalSubscribers, premiumUsers, activeUsers, newUsersToday] =

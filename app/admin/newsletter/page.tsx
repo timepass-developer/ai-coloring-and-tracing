@@ -1,19 +1,27 @@
-import { prisma } from "@/lib/prisma"
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import { redirect } from "next/navigation"
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 export default async function NewsletterAdminPage() {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
 
-  if (!user) redirect("/api/auth/login")
+  if (!user) redirect("/api/auth/login");
 
-  const dbUser = await prisma.user.findUnique({ where: { kindeId: user.id } })
-  if (!dbUser?.isAdmin) redirect("/")
+  if (!process.env.DATABASE_URL) {
+    console.warn("DATABASE_URL is not configured. Newsletter admin disabled.");
+    redirect("/");
+  }
+
+  const { prisma } = await import("@/lib/prisma");
+
+  const dbUser = await prisma.user.findUnique({ where: { kindeId: user.id } });
+  if (!dbUser?.isAdmin) redirect("/");
 
   const subs = await prisma.newsletterSubscriber.findMany({
     orderBy: { createdAt: "desc" },
-  })
+  });
 
   return (
     <div>
@@ -26,5 +34,5 @@ export default async function NewsletterAdminPage() {
         ))}
       </ul>
     </div>
-  )
+  );
 }

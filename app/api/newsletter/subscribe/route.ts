@@ -1,5 +1,15 @@
-import { prisma } from "@/lib/prisma";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+export const dynamic = "force-dynamic";
+
+async function getPrisma() {
+  if (!process.env.DATABASE_URL) {
+    console.warn("DATABASE_URL is not configured. Newsletter subscribe API unavailable.");
+    return null;
+  }
+  const { prisma } = await import("@/lib/prisma");
+  return prisma;
+}
 
 export async function POST(req: Request) {
   try {
@@ -13,6 +23,14 @@ export async function POST(req: Request) {
 
     if (!user) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const prisma = await getPrisma();
+    if (!prisma) {
+      return Response.json(
+        { error: "Service unavailable. Please try again later." },
+        { status: 503 }
+      );
     }
 
     // 🔹 Find user in your DB using kindeId

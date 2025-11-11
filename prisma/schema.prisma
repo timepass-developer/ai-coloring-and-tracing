@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String   @id @default(cuid())
+  kindeId              String   @unique
+  email                String   @unique
+  name                 String?
+  image                String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime? @updatedAt
+  plan                 Plan     @default(FREE)
+  generationCount      Int      @default(0)
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  newsletterSubscribed Boolean  @default(false)
+  isAdmin              Boolean  @default(false)
+
+  coloringCount        Int      @default(0)    // ✅ New: track coloring pages
+  tracingCount         Int      @default(0)    // ✅ New: track tracing pages
+  totalSessionHours    Float    @default(0)    // ✅ New: track total logged-in hours
+
+  // Relations
+  newsletterSubscribers NewsletterSubscriber[]
+  activities            Activity[]             // ✅ New: relation to user activity
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  type        ActivityType
+  prompt      String
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+  userId    String?  @unique
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+enum Plan {
+  FREE
+  PREMIUM
+}
+
+enum ActivityType {
+  COLORING
+  TRACING
+}

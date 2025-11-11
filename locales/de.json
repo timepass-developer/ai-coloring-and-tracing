@@ -1,0 +1,594 @@
+{
+  "common": {
+    "appName": "Kiwiz",
+    "tagline": "KI-gestützte Mal- und Nachzeichenvorlagen für Kinder von 2-8 Jahren",
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "retry": "Erneut versuchen",
+    "close": "Schließen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "continue": "Weiter",
+    "back": "Zurück",
+    "next": "Weiter",
+    "finish": "Fertig",
+    "welcomeBack": "Willkommen zurück!"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "register": "Registrieren",
+    "signIn": "Einloggen",
+    "signUp": "Registrieren",
+    "signInWithGoogle": "Mit Google anmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "forgotPassword": "Passwort vergessen?",
+    "noAccount": "Noch kein Konto?",
+    "hasAccount": "Schon ein Konto?"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "dashboard": "Dashboard",
+    "create": "Erstellen",
+    "coloring": "Ausmalen",
+    "tracing": "Nachzeichnen",
+    "membership": "Mitgliedschaft",
+    "howToUse": "Anleitung",
+    "aboutUs": "Über uns",
+    "newsletter": "Eltern-Newsletter",
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "help": "Hilfe"
+  },
+  "home": {
+    "hero": {
+      "title": "Verwandeln Sie jede Idee in",
+      "titleHighlight": "Erstaunliche Kunst!",
+      "subtitle": "KI erstellt personalisierte Malvorlagen und Nachzeichenarbeitsblätter für Ihr Kind in Sekunden.",
+      "cta": "Jetzt kostenlos starten",
+      "timeInfo": "Dauert weniger als 30 Sekunden"
+    },
+    "features": {
+      "title": "Warum Eltern Kiwiz wählen",
+      "instant": {
+        "title": "Sofortige KI-Magie",
+        "description": "Erstellen Sie personalisierte Inhalte in Sekunden."
+      },
+      "safe": {
+        "title": "100% kindersicher",
+        "description": "Alle Inhalte sind gefiltert und sicher für Kinder."
+      },
+      "unlimited": {
+        "title": "Unbegrenzte Downloads",
+        "description": "Herunterladen und drucken Sie so oft Sie möchten."
+      },
+      "loved": {
+        "title": "Kinder lieben es",
+        "description": "Fesselnde Aktivitäten, die Freude und Kreativität wecken."
+      }
+    },
+    "benefits": {
+      "title": "Entwicklungs-Superkräfte freischalten!",
+      "motorSkills": "Entwickelt feinmotorische Fähigkeiten",
+      "creativity": "Fördert Kreativität und Vorstellungskraft",
+      "handwriting": "Verbessert Handschrift und Vor-Schreib-Fähigkeiten",
+      "concentration": "Baut Konzentration und Fokus auf",
+      "screenFree": "Bildschirmfreies Lernen und Spaß",
+      "accomplishment": "Sofortige Befriedigung und Erfolgserlebnis"
+    },
+    "socialProof": {
+      "title": "Von Familien weltweit geliebt!",
+      "pagesCreated": "Erstellte Seiten",
+      "happyFamilies": "Glückliche Familien",
+      "countriesReached": "Erreichte Länder",
+      "parentRating": "Elternbewertung"
+    },
+    "howItWorks": {
+      "title": "Erstellen ist super einfach!",
+      "step1": {
+        "title": "Wählen Sie Ihr Abenteuer",
+        "description": "Wählen Sie, ob Sie eine Malvorlage oder ein Nachzeichenarbeitsblatt für Ihr Kind möchten."
+      },
+      "step2": {
+        "title": "Träumen Sie sich alles aus!",
+        "description": "Geben Sie ein, was Sie erstellen möchten (z.B. \"ein glückliches Einhorn im Weltraum\") oder nutzen Sie unsere lustigen Vorschläge."
+      },
+      "step3": {
+        "title": "Sofort drucken und spielen!",
+        "description": "Ihre einzigartige Kreation erscheint sofort, bereit zum Herunterladen und Drucken."
+      }
+    },
+    "testimonials": {
+      "title": "Was glückliche Eltern sagen!",
+      "testimonial1": "Meine 4-Jährige ist besessen! Kiwiz erstellt genau das, was sie sich wünscht. Es war ein Lebensretter für Regentage und hält sie stundenlang beschäftigt!",
+      "author1": "Sarah M., Mutter einer aufstrebenden Künstlerin",
+      "testimonial2": "Die Handschrift meines Sohnes hat sich dramatisch verbessert durch die Nachzeichenarbeitsblätter! Er genießt das Lernen jetzt wirklich, weil er seine Lieblingsfiguren nachzeichnen kann.",
+      "author2": "Michael R., Vater eines fleißigen Lerners"
+    },
+    "cta": {
+      "title": "Bereit, Magie zu erschaffen?",
+      "subtitle": "Schließen Sie sich Tausenden von Familien an, die das Lernen mit KI-gestützter Kunst Spaß machen!",
+      "button": "Starten Sie Ihr KOSTENLOSES Abenteuer!",
+      "footer": "Keine Anmeldung erforderlich • Funktioniert auf jedem Gerät • Sofortige Ergebnisse"
+    },
+    "footer": {
+      "description": "KI-gestützte Mal- und Nachzeichenvorlagen für Kinder von 2-8 Jahren",
+      "links": {
+        "howToUse": "Anleitung",
+        "aboutUs": "Über uns",
+        "membership": "Mitgliedschaft",
+        "privacy": "Datenschutzrichtlinie"
+      },
+      "copyright": "Kiwiz. Alle Rechte vorbehalten. Lernen mit KI Spaß machen."
+    }
+  },
+  "coloring": {
+    "title": "Malvorlage",
+    "description": "Erstellen Sie individuelle Malvorlagen für Ihr Kind",
+    "placeholder": "Geben Sie Ihre Idee ein (z.B. 'ein Schmetterling auf einer Blume')",
+    "generate": "Generieren",
+    "generating": "Wird generiert...",
+    "generatingMessage": "Ihre Malvorlage wird erstellt...",
+    "download": "Herunterladen",
+    "print": "Drucken",
+    "tryAnother": "Einen anderen versuchen",
+    "newIdea": "Neue Idee",
+    "suggestions": "Probieren Sie diese Ideen",
+    "coloringIdeas": "Malideen",
+    "learningCards": "Lernkarten",
+    "flashcards": "Lernkarten für Kinder",
+    "suggestedPrompts": "Vorgeschlagene Eingaben",
+    "error": "Generierung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "limitReached": "Sie haben Ihr Generierungslimit erreicht.",
+    "upgradeMessage": "Upgraden Sie, um weiter zu erstellen!",
+    "success": "Malvorlage erfolgreich erstellt!",
+    "clickToGenerate": "Klicken Sie auf eine Eingabe oder geben Sie Ihre eigene Idee ein"
+  },
+  "tracing": {
+    "title": "Nachzeichenarbeitsblatt",
+    "description": "Erstellen Sie Alphabet-Nachzeichenarbeitsblätter",
+    "placeholder": "Geben Sie ein, was nachgezeichnet werden soll (z.B. 'Alphabet A nachzeichnen')",
+    "generate": "Generieren",
+    "generating": "Wird generiert...",
+    "generatingMessage": "Ihr Nachzeichenarbeitsblatt wird erstellt...",
+    "download": "Herunterladen",
+    "print": "Drucken",
+    "tryAnother": "Einen anderen versuchen",
+    "newIdea": "Neue Idee",
+    "suggestions": "Probieren Sie diese Ideen",
+    "tracingPractice": "Nachzeichenübung",
+    "letterLearning": "Buchstabenlernen",
+    "alphabetTracing": "Alphabet nachzeichnen",
+    "numberTracing": "Zahlen nachzeichnen",
+    "suggestedPrompts": "Vorgeschlagene Eingaben",
+    "error": "Generierung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "limitReached": "Sie haben Ihr Generierungslimit erreicht.",
+    "upgradeMessage": "Upgraden Sie, um weiter zu erstellen!",
+    "success": "Nachzeichenarbeitsblatt erfolgreich erstellt!",
+    "clickToGenerate": "Klicken Sie auf eine Eingabe oder geben Sie Ihre eigene Idee ein"
+  },
+  "dashboard": {
+    "welcomeBack": "Willkommen zurück!",
+    "hi": "Hallo",
+    "there": "dort",
+    "accessDenied": "Zugriff verweigert",
+    "pleaseLogin": "Bitte melden Sie sich an, um auf das Dashboard zuzugreifen",
+    "coloringPages": "Malvorlagen",
+    "tracedWorksheets": "Nachzeichenarbeitsblätter",
+    "activeTime": "Aktive Zeit",
+    "createPages": "Seiten erstellen",
+    "practiceWriting": "Schreiben üben",
+    "recentActivity": "Letzte Aktivität",
+    "noRecentActivity": "Noch keine Aktivität vorhanden.",
+    "premiumPlan": "Premium-Plan",
+    "freePlan": "Kostenloser Plan",
+    "generationsRemaining": "Generierungen heute verbleibend",
+    "upgradeToPremium": "Auf Premium upgraden",
+    "memberSince": "Mitglied seit Dez. 2024",
+    "welcome": "Willkommen zurück!",
+    "stats": {
+      "pagesCreated": "Erstellte Seiten",
+      "lettersTraced": "Nachgezeichnete Buchstaben",
+      "timePlayed": "Spielzeit"
+    },
+    "quickActions": {
+      "title": "Schnellaktionen",
+      "createColoring": "Malvorlage erstellen",
+      "createTracing": "Nachzeichnen erstellen"
+    },
+    "membership": {
+      "freePlan": "Kostenloser Plan",
+      "generationsRemaining": "Generierungen heute verbleibend",
+      "upgrade": "Auf Premium upgraden"
+    },
+    "profile": {
+      "title": "Profilinformationen",
+      "email": "E-Mail",
+      "memberSince": "Mitglied seit"
+    },
+    "settings": {
+      "help": "Hilfe & Support",
+      "logout": "Abmelden"
+    }
+  },
+  "membership": {
+    "title": "Wählen Sie Ihren Kiwiz-Plan",
+    "subtitle": "Erschließen Sie das volle Potenzial von KI-gestütztem Ausmalen und Nachzeichnen für Ihre Kinder.",
+    "activePlan": "Aktiver Plan",
+    "mostPopular": "Am beliebtesten",
+    "currentPlan": "Aktueller Plan",
+    "redirecting": "Weiterleiten...",
+    "upgradeNow": "Jetzt upgraden",
+    "choosePlan": "Plan wählen",
+    "alreadyOn": "Sie sind bereits im {plan}-Plan!",
+    "checkoutError": "Checkout konnte nicht gestartet werden. Bitte versuchen Sie es erneut.",
+    "checkoutFailed": "Beim Starten des Checkouts ist etwas schief gelaufen.",
+    "currency": "€",
+    "plans": {
+      "free": {
+        "name": "Kostenlos",
+        "price": "0",
+        "period": "lebenslang",
+        "description": "Perfekt zum Ausprobieren von Kiwiz",
+        "feature1": "5 Generierungen insgesamt (lebenslang)",
+        "feature2": "Basis-Malvorlagen",
+        "feature3": "Standard-Nachzeichnen",
+        "feature4": "Community-Support"
+      },
+      "premium": {
+        "name": "Premium",
+        "price": "9,99",
+        "period": "Monat",
+        "description": "Ideal für regelmäßige Nutzer",
+        "feature1": "Unbegrenzte Generierungen",
+        "feature2": "Premium-Inhalte",
+        "feature3": "Erweiterte Tools",
+        "feature4": "Prioritäts-Support"
+      },
+      "family": {
+        "name": "Familie",
+        "price": "19,99",
+        "period": "Monat",
+        "description": "Perfekt für Familien",
+        "feature1": "Alles in Premium",
+        "feature2": "Bis zu 5 Konten",
+        "feature3": "Familien-Dashboard",
+        "feature4": "Massen-Downloads"
+      }
+    },
+    "whyPremium": {
+      "title": "Warum Premium wählen?",
+      "forParents": {
+        "title": "Für Eltern",
+        "benefit1": "Unbegrenzte Kreativität für Kinder",
+        "benefit2": "Pädagogische Premium-Inhalte",
+        "benefit3": "Sparen Sie Zeit mit sofortiger Generierung"
+      },
+      "forChildren": {
+        "title": "Für Kinder",
+        "benefit1": "Endloses Ausmalen & Nachzeichnen",
+        "benefit2": "Altersgerechte kreative Tools",
+        "benefit3": "Feinmotorik entwickeln"
+      }
+    },
+    "faq": {
+      "title": "Häufig gestellte Fragen",
+      "q1": {
+        "question": "Welche Zahlungsmethoden akzeptieren Sie?",
+        "answer": "Wir akzeptieren alle gängigen Kredit- und Debitkarten über Stripes sicheres Zahlungssystem."
+      },
+      "q2": {
+        "question": "Kann ich jederzeit kündigen?",
+        "answer": "Ja! Sie können Ihr Abonnement jederzeit kündigen, und Ihr Plan bleibt bis zum Ende des Abrechnungszeitraums aktiv."
+      },
+      "q3": {
+        "question": "Bieten Sie Rückerstattungen an?",
+        "answer": "Wir bieten keine teilweisen Rückerstattungen an, aber Sie können vor Ihrer nächsten Abrechnungsperiode kündigen."
+      },
+      "q4": {
+        "question": "Sind meine Zahlungsinformationen sicher?",
+        "answer": "Absolut. Alle Transaktionen werden sicher über Stripe abgewickelt. Wir speichern niemals Ihre Kartendaten."
+      }
+    }
+  },
+  "howToUse": {
+    "title": "Wie man Kiwiz benutzt",
+    "subtitle": "Lernen Sie, wie Sie erstaunliche Malvorlagen und Nachzeichenarbeitsblätter für Ihre Kinder erstellen.",
+    "startCreating": "Jetzt erstellen",
+    "quickStart": {
+      "title": "Schnellstartanleitung",
+      "description": "Folgen Sie diesen einfachen Schritten, um loszulegen.",
+      "step1": {
+        "title": "Wählen Sie den Ausmal-Modus",
+        "description": "Tippen Sie auf die Schaltfläche 'Ausmalen', um Malvorlagen zu erstellen",
+        "details": "Wählen Sie aus vorgeschlagenen Eingaben oder geben Sie Ihre eigene Idee ein"
+      },
+      "step2": {
+        "title": "Wählen Sie den Nachzeichnen-Modus",
+        "description": "Tippen Sie auf die Schaltfläche 'Nachzeichnen', um Nachzeichenarbeitsblätter zu erstellen",
+        "details": "Üben Sie Buchstaben, Zahlen und Wörter mit geführtem Nachzeichnen"
+      },
+      "step3": {
+        "title": "Inhalt generieren",
+        "description": "Geben Sie eine Eingabe ein oder klicken Sie auf eine vorgeschlagene Eingabe",
+        "details": "Unsere KI erstellt eine benutzerdefinierte Malvorlage oder ein Nachzeichenarbeitsblatt"
+      },
+      "step4": {
+        "title": "Herunterladen und drucken",
+        "description": "Laden Sie Ihre Kreation herunter oder drucken Sie sie direkt",
+        "details": "Melden Sie sich an, um unbegrenzten Zugriff auf Downloads und Speicherungen zu erhalten"
+      }
+    },
+    "featuresGuide": {
+      "suggestedPrompts": {
+        "title": "Vorgeschlagene Eingaben",
+        "description": "Verwenden Sie unsere kuratierten Eingaben für sofortige Inspiration",
+        "tip1": "Versuchen Sie 'Ein Schmetterling auf einer Blume'",
+        "tip2": "Verwenden Sie 'Alphabet A nachzeichnen'",
+        "tip3": "Erkunden Sie Tierthemen"
+      },
+      "customPrompts": {
+        "title": "Benutzerdefinierte Eingaben",
+        "description": "Geben Sie Ihre eigenen Ideen für personalisierten Inhalt ein",
+        "tip1": "Seien Sie spezifisch: 'Ein rotes Auto'",
+        "tip2": "Fügen Sie Details hinzu: 'Ein glücklicher spielender Hund'",
+        "tip3": "Halten Sie es einfach für Kinder"
+      },
+      "ageAppropriate": {
+        "title": "Altersgerechte Inhalte",
+        "description": "Alle Inhalte sind für Kinder im Alter von 2-8 Jahren konzipiert",
+        "tip1": "Einfache Formen und Linien",
+        "tip2": "Große Ausmalflächen",
+        "tip3": "Klare Nachzeichenanleitungen"
+      },
+      "mobileFriendly": {
+        "title": "Mobilfreundlich",
+        "description": "Optimiert für Telefone und Tablets",
+        "tip1": "Touch-freundliche Oberfläche",
+        "tip2": "Einfache Navigation",
+        "tip3": "Funktioniert offline nach der Generierung"
+      }
+    },
+    "troubleshooting": {
+      "title": "Fehlerbehebung",
+      "notGenerating": {
+        "question": "Inhalt wird nicht generiert?",
+        "answer": "Überprüfen Sie Ihre Internetverbindung oder versuchen Sie einfachere Eingaben."
+      },
+      "cannotDownload": {
+        "question": "Kann nicht herunterladen oder drucken?",
+        "answer": "Melden Sie sich bei Ihrem Konto an für unbegrenzte Downloads. Kostenlose Benutzer haben begrenzten täglichen Zugriff."
+      },
+      "notAppropriate": {
+        "question": "Inhalt nicht geeignet?",
+        "answer": "Alle Designs sind für 2-8-Jährige gemacht. Bitte melden Sie jedes Problem an unser Support-Team."
+      }
+    }
+  },
+  "aboutUs": {
+    "title": "Über Kiwiz",
+    "subtitle": "Eltern und Pädagogen mit KI-gestützten Tools befähigen, um die Kreativität und das Lernen von Kindern zu fördern.",
+    "mission": {
+      "title": "Unsere Mission",
+      "paragraph1": "Bei Kiwiz glauben wir, dass jedes Kind Zugang zu hochwertigen, personalisierten Bildungsinhalten verdient. Unsere Mission ist es, das Lernen für Kinder im Alter von 2-8 Jahren durch innovative KI-gestützte Malvorlagen und Nachzeichenarbeitsblätter unterhaltsam, ansprechend und zugänglich zu machen.",
+      "paragraph2": "Wir setzen uns dafür ein, Eltern und Pädagogen dabei zu unterstützen, Kreativität, Feinmotorik und eine Liebe zum Lernen durch Technologie zu fördern, die Kinder in den Mittelpunkt stellt."
+    },
+    "values": {
+      "title": "Unsere Werte",
+      "description": "Die Prinzipien, die alles leiten, was wir tun",
+      "childCentered": {
+        "title": "Kindzentriert",
+        "description": "Jede Funktion ist mit der Entwicklung und Sicherheit von Kindern im Hinterkopf gestaltet"
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "Wir nutzen modernste KI, um personalisierte Bildungsinhalte zu erstellen"
+      },
+      "safetyFirst": {
+        "title": "Sicherheit zuerst",
+        "description": "Alle Inhalte sind altersgerecht und sicher für Kinder im Alter von 2-8 Jahren"
+      },
+      "familyFocused": {
+        "title": "Familienfokussiert",
+        "description": "Wir glauben daran, Familien durch kreatives Lernen zusammenzubringen"
+      }
+    },
+    "ourStory": {
+      "title": "Unsere Geschichte",
+      "paragraph1": "Kiwiz entstand aus einer einfachen Beobachtung: Eltern und Lehrer verbrachten Stunden damit, nach den richtigen Inhalten für ihre Kinder zu suchen. Bestehende Lösungen waren zu allgemein, nicht altersgerecht oder teuer.",
+      "paragraph2": "Unsere Gründerin, eine ehemalige Kindergärtnerin, erkannte den Bedarf an einem Tool, das sofort personalisierte Bildungsinhalte basierend auf den Interessen und dem Lernniveau jedes Kindes generieren kann.",
+      "paragraph3": "Heute bedient Kiwiz Tausende von Familien weltweit - und hilft Kindern, Kreativität, Feinmotorik und Selbstvertrauen durch unterhaltsame KI-gestützte Aktivitäten zu entwickeln."
+    },
+    "team": {
+      "title": "Lernen Sie unser Team kennen",
+      "description": "Leidenschaftliche Menschen hinter Kiwiz",
+      "sarah": {
+        "name": "Sarah Johnson",
+        "role": "Gründerin & CEO",
+        "description": "Ehemalige Kindergärtnerin mit über 10 Jahren Erfahrung in der frühkindlichen Bildung"
+      },
+      "michael": {
+        "name": "Dr. Michael Chen",
+        "role": "CTO",
+        "description": "KI-Forscher, spezialisiert auf Bildungstechnologie und kindliche Entwicklung"
+      },
+      "emily": {
+        "name": "Emily Rodriguez",
+        "role": "Leiterin Design",
+        "description": "Expertin für Kinderpsychologie, die sicherstellt, dass unsere Inhalte ansprechend und entwicklungsgerecht sind"
+      },
+      "david": {
+        "name": "David Kim",
+        "role": "Leitender Entwickler",
+        "description": "Full-Stack-Entwickler mit Leidenschaft für die Erstellung zugänglicher Bildungstools"
+      }
+    },
+    "contact": {
+      "title": "Kontakt aufnehmen",
+      "support": {
+        "title": "Support",
+        "description": "Benötigen Sie Hilfe mit Kiwiz? Unser Support-Team ist bereit zu helfen.",
+        "button": "Support kontaktieren"
+      },
+      "feedback": {
+        "title": "Feedback",
+        "description": "Wir würden gerne Ihre Ideen und Vorschläge hören.",
+        "button": "Feedback senden"
+      }
+    },
+    "stats": {
+      "title": "Kiwiz in Zahlen",
+      "families": "Glückliche Familien",
+      "pages": "Generierte Seiten",
+      "countries": "Länder",
+      "satisfaction": "Zufriedenheitsrate"
+    }
+  },
+  "parentingNewsletter": {
+    "title": "Eltern-Newsletter",
+    "subtitle": "Erhalten Sie wöchentliche Tipps, Aktivitäten und Bildungsinhalte für Ihr Kind.",
+    "subscribe": "Abonnieren",
+    "subscribing": "Wird abonniert...",
+    "emailPlaceholder": "Geben Sie Ihre E-Mail-Adresse ein",
+    "privacyNote": "Wir respektieren Ihre Privatsphäre. Jederzeit abbestellen.",
+    "successTitle": "Abonnement erfolgreich! 🎉",
+    "successMessage": "Sie erhalten jetzt unseren wöchentlichen Eltern-Newsletter.",
+    "missingEmail": "E-Mail fehlt",
+    "missingEmailDesc": "Bitte geben Sie Ihre E-Mail-Adresse ein, um sich anzumelden.",
+    "subscriptionFailed": "Abonnement fehlgeschlagen",
+    "subscriptionFailedDesc": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
+    "whatYouLearn": {
+      "title": "Was Sie lernen werden",
+      "description": "Unser Newsletter behandelt diese wesentlichen Erziehungsthemen",
+      "topic1": {
+        "title": "Frühes Lernen Tipps",
+        "description": "Expertenrat zur Unterstützung der kognitiven Entwicklung Ihres Kindes"
+      },
+      "topic2": {
+        "title": "Erziehungsstrategien",
+        "description": "Praktische Tipps für den Umgang mit täglichen Herausforderungen mit kleinen Kindern"
+      },
+      "topic3": {
+        "title": "Kreative Aktivitäten",
+        "description": "Unterhaltsame und lehrreiche Aktivitäten, die Sie zu Hause machen können"
+      },
+      "topic4": {
+        "title": "Entwicklungsmeilensteine",
+        "description": "Verstehen, was in jedem Alter und jeder Phase zu erwarten ist"
+      }
+    },
+    "recentArticles": {
+      "title": "Aktuelle Artikel",
+      "description": "Neueste Einblicke von unseren Erziehungsexperten",
+      "article1": {
+        "title": "Die Vorteile des Ausmalens für die Feinmotorik-Entwicklung",
+        "excerpt": "Erfahren Sie, wie Malaktivitäten Kindern helfen, wesentliche motorische Fähigkeiten zu entwickeln...",
+        "date": "15. Dez. 2024",
+        "readTime": "5 Min. Lesezeit"
+      },
+      "article2": {
+        "title": "Schaffung einer lernfreundlichen häuslichen Umgebung",
+        "excerpt": "Einfache Tipps, um Ihr Zuhause zu einem Ort zu machen, an dem Lernen natürlich geschieht...",
+        "date": "10. Dez. 2024",
+        "readTime": "7 Min. Lesezeit"
+      },
+      "article3": {
+        "title": "Bildschirmzeit vs. praktisches Lernen: Die Balance finden",
+        "excerpt": "Wie man digitale Tools mit traditionellen Lernmethoden ausbalanciert...",
+        "date": "5. Dez. 2024",
+        "readTime": "6 Min. Lesezeit"
+      },
+      "article4": {
+        "title": "Selbstvertrauen durch kreativen Ausdruck aufbauen",
+        "excerpt": "Warum kreative Aktivitäten für das Selbstwertgefühl Ihres Kindes entscheidend sind...",
+        "date": "28. Nov. 2024",
+        "readTime": "4 Min. Lesezeit"
+      }
+    },
+    "whySubscribe": {
+      "title": "Warum abonnieren?",
+      "expert": {
+        "title": "Experteninhalt",
+        "description": "Verfasst von Experten für kindliche Entwicklung und erfahrenen Eltern"
+      },
+      "weekly": {
+        "title": "Wöchentliche Zustellung",
+        "description": "Frische Inhalte werden jede Woche in Ihren Posteingang geliefert"
+      },
+      "community": {
+        "title": "Gemeinschaft",
+        "description": "Treten Sie einer Gemeinschaft gleichgesinnter Eltern und Pädagogen bei"
+      }
+    },
+    "testimonials": {
+      "title": "Was Eltern sagen",
+      "testimonial1": {
+        "text": "Der Newsletter war ein Game-Changer für unsere Familie. Die Tipps sind praktisch und leicht umzusetzen.",
+        "author": "Sarah M., Mutter von 2"
+      },
+      "testimonial2": {
+        "text": "Ich liebe es, wie die Artikel durch Forschung gestützt werden, aber auf eine leicht verständliche Weise geschrieben sind.",
+        "author": "Michael R., Vater von 3"
+      }
+    }
+  },
+  "loginPrompt": {
+    "title": "Anmelden, um fortzufahren",
+    "description": "Sie haben Ihre 2 kostenlosen Generierungen verwendet. Melden Sie sich an, um weiter zu erstellen und vollen Zugriff freizuschalten!",
+    "loginButton": "Jetzt anmelden",
+    "laterButton": "Vielleicht später"
+  },
+  "upgradeModal": {
+    "title": "Kostenloses Limit erreicht",
+    "description": "Sie haben Ihre 5 kostenlosen Generierungen verwendet. Upgraden Sie auf Premium für unbegrenztes Ausmalen, Nachzeichnen und kreativen Spaß!",
+    "feature1": "Unbegrenzte KI-Generierungen",
+    "feature2": "Zugang zu Premium-Vorlagen",
+    "feature3": "Prioritäts-Generierungsgeschwindigkeit",
+    "upgradeButton": "Jetzt upgraden",
+    "laterButton": "Vielleicht später"
+  },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Dashboard",
+    "users": "Benutzer",
+    "analytics": "Analytik",
+    "newsletter": "Newsletter",
+    "settings": "Einstellungen"
+  },
+  "meta": {
+    "home": {
+      "title": "Kiwiz - KI-Malvorlagen & Nachzeichenarbeitsblätter für Kinder",
+      "description": "Erstellen Sie personalisierte Malvorlagen und Alphabet-Nachzeichenarbeitsblätter für Kinder von 2-8 Jahren mit KI. Kostenlos testen, sofortige Ergebnisse, kindersicher."
+    },
+    "coloring": {
+      "title": "KI-Malvorlagen erstellen - Kiwiz",
+      "description": "Generieren Sie individuelle Malvorlagen für Ihr Kind in Sekunden. Perfekt für Kinder von 2-8 Jahren. Kostenlos testen mit unbegrenzten Downloads."
+    },
+    "tracing": {
+      "title": "KI-Nachzeichenarbeitsblätter für Kinder - Kiwiz",
+      "description": "Erstellen Sie Alphabet- und Wort-Nachzeichenarbeitsblätter mit KI. Helfen Sie Ihrem Kind beim Erlernen von Handschrift und Vor-Schreib-Fähigkeiten."
+    },
+    "dashboard": {
+      "title": "Dashboard - Kiwiz",
+      "description": "Verwalten Sie Ihr Kiwiz-Konto, sehen Sie Ihre Kreationen und verfolgen Sie den Fortschritt Ihres Kindes."
+    },
+    "membership": {
+      "title": "Mitgliedschaftspläne - Kiwiz",
+      "description": "Wählen Sie den perfekten Plan für Ihre Familie. Unbegrenzte KI-generierte Malvorlagen und Nachzeichenarbeitsblätter."
+    },
+    "howToUse": {
+      "title": "Wie man Kiwiz benutzt - Einstiegsanleitung",
+      "description": "Lernen Sie, wie Sie erstaunliche Malvorlagen und Nachzeichenarbeitsblätter für Ihr Kind mit Kiwiz KI erstellen."
+    },
+    "aboutUs": {
+      "title": "Über Kiwiz - Lernen mit KI Spaß machen",
+      "description": "Erfahren Sie mehr über unsere Mission, kreative und pädagogische Inhalte für Familien weltweit zugänglich zu machen."
+    },
+    "newsletter": {
+      "title": "Eltern-Newsletter - Kiwiz",
+      "description": "Abonnieren Sie unseren wöchentlichen Newsletter für Erziehungstipps, Aktivitäten und Bildungsinhalte für Ihr Kind."
+    }
+  }
+}
+

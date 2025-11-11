@@ -1,0 +1,594 @@
+{
+  "common": {
+    "appName": "Kiwiz",
+    "tagline": "Colorear y trazar con IA para niños de 2 a 8 años",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "retry": "Reintentar",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "finish": "Finalizar",
+    "welcomeBack": "¡Bienvenido de nuevo!"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "register": "Registrarse",
+    "signIn": "Entrar",
+    "signUp": "Registrarse",
+    "signInWithGoogle": "Iniciar sesión con Google",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes una cuenta?",
+    "hasAccount": "¿Ya tienes una cuenta?"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "create": "Crear",
+    "coloring": "Colorear",
+    "tracing": "Trazar",
+    "membership": "Membresía",
+    "howToUse": "Cómo usar",
+    "aboutUs": "Sobre nosotros",
+    "newsletter": "Boletín para padres",
+    "profile": "Perfil",
+    "settings": "Ajustes",
+    "help": "Ayuda"
+  },
+  "home": {
+    "hero": {
+      "title": "Convierte cualquier idea en",
+      "titleHighlight": "¡Arte increíble!",
+      "subtitle": "La IA crea páginas para colorear y hojas de trazado personalizadas para tu hijo en segundos.",
+      "cta": "Comienza a crear ahora - GRATIS",
+      "timeInfo": "Toma menos de 30 segundos"
+    },
+    "features": {
+      "title": "Por qué los padres eligen Kiwiz",
+      "instant": {
+        "title": "Magia IA instantánea",
+        "description": "Crea contenido personalizado en segundos."
+      },
+      "safe": {
+        "title": "100% seguro para niños",
+        "description": "Todo el contenido está filtrado y es seguro para niños."
+      },
+      "unlimited": {
+        "title": "Descargas ilimitadas",
+        "description": "Descarga e imprime tantas veces como quieras."
+      },
+      "loved": {
+        "title": "A los niños les encanta",
+        "description": "Actividades atractivas que despiertan alegría y creatividad."
+      }
+    },
+    "benefits": {
+      "title": "¡Desbloquea superpoderes de desarrollo!",
+      "motorSkills": "Desarrolla habilidades motoras finas",
+      "creativity": "Estimula la creatividad e imaginación",
+      "handwriting": "Mejora la escritura y habilidades pre-escritura",
+      "concentration": "Construye concentración y enfoque",
+      "screenFree": "Aprendizaje sin pantallas",
+      "accomplishment": "Gratificación instantánea y sentido de logro"
+    },
+    "socialProof": {
+      "title": "¡Amado por familias en todo el mundo!",
+      "pagesCreated": "Páginas creadas",
+      "happyFamilies": "Familias felices",
+      "countriesReached": "Países alcanzados",
+      "parentRating": "Calificación de padres"
+    },
+    "howItWorks": {
+      "title": "¡Crear es súper fácil!",
+      "step1": {
+        "title": "Elige tu aventura",
+        "description": "Elige si quieres una página para colorear o una hoja de trazado para tu hijo."
+      },
+      "step2": {
+        "title": "¡Imagina cualquier cosa!",
+        "description": "Escribe lo que quieres crear (por ejemplo, \"un unicornio feliz en el espacio\") o usa nuestras sugerencias divertidas."
+      },
+      "step3": {
+        "title": "¡Imprime y juega al instante!",
+        "description": "Tu creación única aparece al instante, lista para descargar e imprimir."
+      }
+    },
+    "testimonials": {
+      "title": "¡Lo que dicen los padres felices!",
+      "testimonial1": "¡Mi hija de 4 años está obsesionada! Kiwiz crea exactamente lo que pide. ¡Ha sido un salvavidas para días lluviosos y la mantiene ocupada durante horas!",
+      "author1": "Sarah M., Mamá de una artista en ciernes",
+      "testimonial2": "¡La escritura de mi hijo mejoró dramáticamente usando las hojas de trazado! Ahora realmente disfruta aprender porque puede trazar sus personajes favoritos.",
+      "author2": "Michael R., Papá de un aprendiz diligente"
+    },
+    "cta": {
+      "title": "¿Listo para crear magia?",
+      "subtitle": "¡Únete a miles de familias que hacen el aprendizaje divertido con arte impulsado por IA!",
+      "button": "¡Comienza tu aventura GRATIS!",
+      "footer": "No se requiere registro • Funciona en cualquier dispositivo • Resultados instantáneos"
+    },
+    "footer": {
+      "description": "Colorear y trazar con IA para niños de 2 a 8 años",
+      "links": {
+        "howToUse": "Cómo usar",
+        "aboutUs": "Sobre nosotros",
+        "membership": "Membresía",
+        "privacy": "Política de privacidad"
+      },
+      "copyright": "Kiwiz. Todos los derechos reservados. Haciendo el aprendizaje divertido con IA."
+    }
+  },
+  "coloring": {
+    "title": "Página para colorear",
+    "description": "Crea páginas para colorear personalizadas para tu hijo",
+    "placeholder": "Ingresa tu idea (ej. 'una mariposa en una flor')",
+    "generate": "Generar",
+    "generating": "Generando...",
+    "generatingMessage": "Creando tu página para colorear...",
+    "download": "Descargar",
+    "print": "Imprimir",
+    "tryAnother": "Probar otro",
+    "newIdea": "Nueva idea",
+    "suggestions": "Prueba estas ideas",
+    "coloringIdeas": "Ideas para colorear",
+    "learningCards": "Tarjetas de aprendizaje",
+    "flashcards": "Tarjetas educativas para niños",
+    "suggestedPrompts": "Sugerencias",
+    "error": "Error al generar. Por favor intenta de nuevo.",
+    "limitReached": "Has alcanzado tu límite de generaciones.",
+    "upgradeMessage": "¡Actualiza para seguir creando!",
+    "success": "¡Página para colorear creada con éxito!",
+    "clickToGenerate": "Haz clic en una sugerencia o escribe tu propia idea"
+  },
+  "tracing": {
+    "title": "Hoja de trazado",
+    "description": "Crea hojas de trazado del alfabeto",
+    "placeholder": "Ingresa qué trazar (ej. 'Trazar el alfabeto A')",
+    "generate": "Generar",
+    "generating": "Generando...",
+    "generatingMessage": "Creando tu hoja de trazado...",
+    "download": "Descargar",
+    "print": "Imprimir",
+    "tryAnother": "Probar otro",
+    "newIdea": "Nueva idea",
+    "suggestions": "Prueba estas ideas",
+    "tracingPractice": "Práctica de trazado",
+    "letterLearning": "Aprendizaje de letras",
+    "alphabetTracing": "Trazado del alfabeto",
+    "numberTracing": "Trazado de números",
+    "suggestedPrompts": "Sugerencias",
+    "error": "Error al generar. Por favor intenta de nuevo.",
+    "limitReached": "Has alcanzado tu límite de generaciones.",
+    "upgradeMessage": "¡Actualiza para seguir creando!",
+    "success": "¡Hoja de trazado creada con éxito!",
+    "clickToGenerate": "Haz clic en una sugerencia o escribe tu propia idea"
+  },
+  "dashboard": {
+    "welcomeBack": "¡Bienvenido de nuevo!",
+    "hi": "Hola",
+    "there": "allí",
+    "accessDenied": "Acceso denegado",
+    "pleaseLogin": "Por favor inicie sesión para acceder al panel",
+    "coloringPages": "Páginas para colorear",
+    "tracedWorksheets": "Hojas de trazado",
+    "activeTime": "Tiempo activo",
+    "createPages": "Crear páginas",
+    "practiceWriting": "Practicar escritura",
+    "recentActivity": "Actividad reciente",
+    "noRecentActivity": "Aún no hay actividad reciente.",
+    "premiumPlan": "Plan Premium",
+    "freePlan": "Plan gratuito",
+    "generationsRemaining": "generaciones restantes hoy",
+    "upgradeToPremium": "Actualizar a Premium",
+    "memberSince": "Miembro desde dic. 2024",
+    "welcome": "¡Bienvenido de nuevo!",
+    "stats": {
+      "pagesCreated": "Páginas creadas",
+      "lettersTraced": "Letras trazadas",
+      "timePlayed": "Tiempo jugado"
+    },
+    "quickActions": {
+      "title": "Acciones rápidas",
+      "createColoring": "Crear colorear",
+      "createTracing": "Crear trazado"
+    },
+    "membership": {
+      "freePlan": "Plan gratuito",
+      "generationsRemaining": "generaciones restantes hoy",
+      "upgrade": "Actualizar a Premium"
+    },
+    "profile": {
+      "title": "Información del perfil",
+      "email": "Correo electrónico",
+      "memberSince": "Miembro desde"
+    },
+    "settings": {
+      "help": "Ayuda y soporte",
+      "logout": "Cerrar sesión"
+    }
+  },
+  "membership": {
+    "title": "Elige tu plan Kiwiz",
+    "subtitle": "Desbloquea todo el potencial del coloreado y trazado impulsado por IA para tus hijos.",
+    "activePlan": "Plan activo",
+    "mostPopular": "Más popular",
+    "currentPlan": "Plan actual",
+    "redirecting": "Redirigiendo...",
+    "upgradeNow": "Actualizar ahora",
+    "choosePlan": "Elegir plan",
+    "alreadyOn": "¡Ya estás en el plan {plan}!",
+    "checkoutError": "Error al iniciar el pago. Por favor intenta de nuevo.",
+    "checkoutFailed": "Algo salió mal al iniciar el pago.",
+    "currency": "€",
+    "plans": {
+      "free": {
+        "name": "Gratis",
+        "price": "0",
+        "period": "de por vida",
+        "description": "Perfecto para probar Kiwiz",
+        "feature1": "5 generaciones en total (de por vida)",
+        "feature2": "Páginas para colorear básicas",
+        "feature3": "Trazado estándar",
+        "feature4": "Soporte comunitario"
+      },
+      "premium": {
+        "name": "Premium",
+        "price": "9,99",
+        "period": "mes",
+        "description": "Ideal para usuarios regulares",
+        "feature1": "Generaciones ilimitadas",
+        "feature2": "Contenido premium",
+        "feature3": "Herramientas avanzadas",
+        "feature4": "Soporte prioritario"
+      },
+      "family": {
+        "name": "Familia",
+        "price": "19,99",
+        "period": "mes",
+        "description": "Perfecto para familias",
+        "feature1": "Todo en Premium",
+        "feature2": "Hasta 5 cuentas",
+        "feature3": "Panel familiar",
+        "feature4": "Descargas masivas"
+      }
+    },
+    "whyPremium": {
+      "title": "¿Por qué elegir Premium?",
+      "forParents": {
+        "title": "Para padres",
+        "benefit1": "Creatividad ilimitada para los niños",
+        "benefit2": "Contenido educativo premium",
+        "benefit3": "Ahorra tiempo con generación instantánea"
+      },
+      "forChildren": {
+        "title": "Para niños",
+        "benefit1": "Diversión infinita coloreando y trazando",
+        "benefit2": "Herramientas creativas apropiadas para la edad",
+        "benefit3": "Desarrollar habilidades motoras finas"
+      }
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "q1": {
+        "question": "¿Qué métodos de pago aceptan?",
+        "answer": "Aceptamos todas las principales tarjetas de crédito y débito a través del sistema de pago seguro de Stripe."
+      },
+      "q2": {
+        "question": "¿Puedo cancelar en cualquier momento?",
+        "answer": "¡Sí! Puedes cancelar tu suscripción en cualquier momento, y tu plan permanecerá activo hasta el final del período de facturación."
+      },
+      "q3": {
+        "question": "¿Ofrecen reembolsos?",
+        "answer": "No ofrecemos reembolsos parciales, pero puedes cancelar antes de tu próximo período de facturación."
+      },
+      "q4": {
+        "question": "¿Es segura mi información de pago?",
+        "answer": "Absolutamente. Todas las transacciones se procesan de forma segura a través de Stripe. Nunca almacenamos los detalles de tu tarjeta."
+      }
+    }
+  },
+  "howToUse": {
+    "title": "Cómo usar Kiwiz",
+    "subtitle": "Aprende a crear increíbles páginas para colorear y hojas de trazado para tus hijos.",
+    "startCreating": "Comenzar a crear ahora",
+    "quickStart": {
+      "title": "Guía de inicio rápido",
+      "description": "Sigue estos simples pasos para comenzar.",
+      "step1": {
+        "title": "Elige el modo Colorear",
+        "description": "Toca el botón 'Colorear' para crear páginas para colorear",
+        "details": "Selecciona entre sugerencias o escribe tu propia idea"
+      },
+      "step2": {
+        "title": "Elige el modo Trazar",
+        "description": "Toca el botón 'Trazar' para crear hojas de trazado",
+        "details": "Practica letras, números y palabras con trazado guiado"
+      },
+      "step3": {
+        "title": "Generar contenido",
+        "description": "Ingresa una sugerencia o haz clic en una sugerencia",
+        "details": "Nuestra IA creará una página para colorear o hoja de trazado personalizada"
+      },
+      "step4": {
+        "title": "Descargar e imprimir",
+        "description": "Descarga tu creación o imprímela directamente",
+        "details": "Inicia sesión para acceder a descargas y guardados ilimitados"
+      }
+    },
+    "featuresGuide": {
+      "suggestedPrompts": {
+        "title": "Sugerencias",
+        "description": "Usa nuestras sugerencias curadas para inspiración instantánea",
+        "tip1": "Prueba 'Una mariposa en una flor'",
+        "tip2": "Usa 'Trazar el alfabeto A'",
+        "tip3": "Explora temas de animales"
+      },
+      "customPrompts": {
+        "title": "Sugerencias personalizadas",
+        "description": "Escribe tus propias ideas para contenido personalizado",
+        "tip1": "Sé específico: 'Un carro rojo'",
+        "tip2": "Agrega detalles: 'Un perro feliz jugando'",
+        "tip3": "Manténlo simple para niños"
+      },
+      "ageAppropriate": {
+        "title": "Contenido apropiado para la edad",
+        "description": "Todo el contenido está diseñado para niños de 2-8 años",
+        "tip1": "Formas y líneas simples",
+        "tip2": "Áreas grandes para colorear",
+        "tip3": "Guías de trazado claras"
+      },
+      "mobileFriendly": {
+        "title": "Compatible con móviles",
+        "description": "Optimizado para teléfonos y tabletas",
+        "tip1": "Interfaz táctil",
+        "tip2": "Navegación fácil",
+        "tip3": "Funciona sin conexión después de generar"
+      }
+    },
+    "troubleshooting": {
+      "title": "Solución de problemas",
+      "notGenerating": {
+        "question": "¿El contenido no se genera?",
+        "answer": "Verifica tu conexión a internet o prueba con sugerencias más simples."
+      },
+      "cannotDownload": {
+        "question": "¿No puedes descargar o imprimir?",
+        "answer": "Inicia sesión en tu cuenta para descargas ilimitadas. Los usuarios gratuitos tienen acceso diario limitado."
+      },
+      "notAppropriate": {
+        "question": "¿El contenido no es apropiado?",
+        "answer": "Todos los diseños están hechos para edades 2-8. Por favor reporta cualquier problema a nuestro equipo de soporte."
+      }
+    }
+  },
+  "aboutUs": {
+    "title": "Sobre Kiwiz",
+    "subtitle": "Empoderando a padres y educadores con herramientas impulsadas por IA para nutrir la creatividad y el aprendizaje de los niños.",
+    "mission": {
+      "title": "Nuestra misión",
+      "paragraph1": "En Kiwiz, creemos que cada niño merece acceso a contenido educativo personalizado de alta calidad. Nuestra misión es hacer que el aprendizaje sea divertido, atractivo y accesible para niños de 2-8 años a través de páginas para colorear y hojas de trazado innovadoras impulsadas por IA.",
+      "paragraph2": "Estamos comprometidos a apoyar a padres y educadores en fomentar la creatividad, las habilidades motoras finas y el amor por el aprendizaje a través de tecnología que pone a los niños primero."
+    },
+    "values": {
+      "title": "Nuestros valores",
+      "description": "Los principios que guían todo lo que hacemos",
+      "childCentered": {
+        "title": "Centrado en el niño",
+        "description": "Cada característica está diseñada pensando en el desarrollo y la seguridad de los niños"
+      },
+      "innovation": {
+        "title": "Innovación",
+        "description": "Usamos IA de vanguardia para crear contenido educativo personalizado"
+      },
+      "safetyFirst": {
+        "title": "Seguridad primero",
+        "description": "Todo el contenido es apropiado para la edad y seguro para niños de 2-8 años"
+      },
+      "familyFocused": {
+        "title": "Enfocado en la familia",
+        "description": "Creemos en unir a las familias a través del aprendizaje creativo"
+      }
+    },
+    "ourStory": {
+      "title": "Nuestra historia",
+      "paragraph1": "Kiwiz nació de una simple observación: los padres y maestros pasaban horas buscando el contenido adecuado para sus hijos. Las soluciones existentes eran demasiado genéricas, no apropiadas para la edad o costosas.",
+      "paragraph2": "Nuestra fundadora, una ex maestra de jardín de infantes, vio la necesidad de una herramienta que pudiera generar instantáneamente contenido educativo personalizado basado en los intereses y el nivel de aprendizaje de cada niño.",
+      "paragraph3": "Hoy, Kiwiz sirve a miles de familias en todo el mundo, ayudando a los niños a desarrollar creatividad, habilidades motoras finas y confianza a través de actividades divertidas impulsadas por IA."
+    },
+    "team": {
+      "title": "Conoce a nuestro equipo",
+      "description": "Personas apasionadas detrás de Kiwiz",
+      "sarah": {
+        "name": "Sarah Johnson",
+        "role": "Fundadora y CEO",
+        "description": "Ex maestra de jardín de infantes con más de 10 años de experiencia en educación infantil temprana"
+      },
+      "michael": {
+        "name": "Dr. Michael Chen",
+        "role": "CTO",
+        "description": "Investigador de IA especializado en tecnología educativa y desarrollo infantil"
+      },
+      "emily": {
+        "name": "Emily Rodriguez",
+        "role": "Jefa de Diseño",
+        "description": "Experta en psicología infantil que asegura que nuestro contenido sea atractivo y apropiado para el desarrollo"
+      },
+      "david": {
+        "name": "David Kim",
+        "role": "Desarrollador Principal",
+        "description": "Desarrollador full-stack apasionado por crear herramientas educativas accesibles"
+      }
+    },
+    "contact": {
+      "title": "Contáctanos",
+      "support": {
+        "title": "Soporte",
+        "description": "¿Necesitas ayuda con Kiwiz? Nuestro equipo de soporte está listo para ayudarte.",
+        "button": "Contactar soporte"
+      },
+      "feedback": {
+        "title": "Comentarios",
+        "description": "Nos encantaría escuchar tus ideas y sugerencias.",
+        "button": "Enviar comentarios"
+      }
+    },
+    "stats": {
+      "title": "Kiwiz en números",
+      "families": "Familias felices",
+      "pages": "Páginas generadas",
+      "countries": "Países",
+      "satisfaction": "Tasa de satisfacción"
+    }
+  },
+  "parentingNewsletter": {
+    "title": "Boletín para padres",
+    "subtitle": "Recibe consejos semanales, actividades y contenido educativo para tu hijo.",
+    "subscribe": "Suscribirse",
+    "subscribing": "Suscribiendo...",
+    "emailPlaceholder": "Ingresa tu dirección de correo electrónico",
+    "privacyNote": "Respetamos tu privacidad. Cancela tu suscripción en cualquier momento.",
+    "successTitle": "¡Suscripción exitosa! 🎉",
+    "successMessage": "Ahora recibirás nuestro boletín semanal para padres.",
+    "missingEmail": "Correo faltante",
+    "missingEmailDesc": "Por favor ingresa tu dirección de correo electrónico para suscribirte.",
+    "subscriptionFailed": "Suscripción fallida",
+    "subscriptionFailedDesc": "Algo salió mal. Por favor intenta de nuevo.",
+    "whatYouLearn": {
+      "title": "Lo que aprenderás",
+      "description": "Nuestro boletín cubre estos temas esenciales de crianza",
+      "topic1": {
+        "title": "Consejos de aprendizaje temprano",
+        "description": "Consejos de expertos para apoyar el desarrollo cognitivo de tu hijo"
+      },
+      "topic2": {
+        "title": "Estrategias de crianza",
+        "description": "Consejos prácticos para manejar desafíos diarios con niños pequeños"
+      },
+      "topic3": {
+        "title": "Actividades creativas",
+        "description": "Actividades divertidas y educativas que puedes hacer en casa"
+      },
+      "topic4": {
+        "title": "Hitos del desarrollo",
+        "description": "Comprender qué esperar en cada edad y etapa"
+      }
+    },
+    "recentArticles": {
+      "title": "Artículos recientes",
+      "description": "Últimas perspectivas de nuestros expertos en crianza",
+      "article1": {
+        "title": "Los beneficios del coloreado para el desarrollo de la motricidad fina",
+        "excerpt": "Aprende cómo las actividades de coloreado ayudan a los niños a desarrollar habilidades motoras esenciales...",
+        "date": "15 dic. 2024",
+        "readTime": "5 min de lectura"
+      },
+      "article2": {
+        "title": "Creación de un entorno hogareño propicio para el aprendizaje",
+        "excerpt": "Consejos simples para hacer de tu hogar un lugar donde el aprendizaje ocurra naturalmente...",
+        "date": "10 dic. 2024",
+        "readTime": "7 min de lectura"
+      },
+      "article3": {
+        "title": "Tiempo de pantalla vs. aprendizaje práctico: encontrar el equilibrio",
+        "excerpt": "Cómo equilibrar las herramientas digitales con los métodos de aprendizaje tradicionales...",
+        "date": "5 dic. 2024",
+        "readTime": "6 min de lectura"
+      },
+      "article4": {
+        "title": "Construir confianza a través de la expresión creativa",
+        "excerpt": "Por qué las actividades creativas son cruciales para la autoestima de tu hijo...",
+        "date": "28 nov. 2024",
+        "readTime": "4 min de lectura"
+      }
+    },
+    "whySubscribe": {
+      "title": "¿Por qué suscribirse?",
+      "expert": {
+        "title": "Contenido experto",
+        "description": "Escrito por expertos en desarrollo infantil y padres experimentados"
+      },
+      "weekly": {
+        "title": "Entrega semanal",
+        "description": "Contenido fresco entregado a tu bandeja de entrada cada semana"
+      },
+      "community": {
+        "title": "Comunidad",
+        "description": "Únete a una comunidad de padres y educadores con ideas afines"
+      }
+    },
+    "testimonials": {
+      "title": "Lo que dicen los padres",
+      "testimonial1": {
+        "text": "El boletín ha sido un cambio de juego para nuestra familia. Los consejos son prácticos y fáciles de implementar.",
+        "author": "Sarah M., Madre de 2"
+      },
+      "testimonial2": {
+        "text": "Me encanta cómo los artículos están respaldados por investigaciones pero escritos de una manera fácil de entender.",
+        "author": "Michael R., Padre de 3"
+      }
+    }
+  },
+  "loginPrompt": {
+    "title": "Inicia sesión para continuar",
+    "description": "Has usado tus 2 generaciones gratuitas. ¡Inicia sesión para continuar creando y desbloquear acceso completo!",
+    "loginButton": "Iniciar sesión ahora",
+    "laterButton": "Tal vez más tarde"
+  },
+  "upgradeModal": {
+    "title": "Límite gratuito alcanzado",
+    "description": "Has usado tus 5 generaciones gratuitas. ¡Actualiza a Premium para colorear, trazar y diversión creativa ilimitada!",
+    "feature1": "Generaciones de IA ilimitadas",
+    "feature2": "Acceso a plantillas premium",
+    "feature3": "Velocidad de generación prioritaria",
+    "upgradeButton": "Actualizar ahora",
+    "laterButton": "Tal vez más tarde"
+  },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Panel",
+    "users": "Usuarios",
+    "analytics": "Analítica",
+    "newsletter": "Boletín",
+    "settings": "Ajustes"
+  },
+  "meta": {
+    "home": {
+      "title": "Kiwiz - Páginas para colorear y hojas de trazado con IA para niños",
+      "description": "Crea páginas para colorear y hojas de trazado del alfabeto personalizadas para niños de 2 a 8 años usando IA. Gratis para probar, resultados instantáneos, seguro para niños."
+    },
+    "coloring": {
+      "title": "Crear páginas para colorear con IA - Kiwiz",
+      "description": "Genera páginas para colorear personalizadas para tu hijo en segundos. Perfecto para niños de 2 a 8 años. Gratis para probar con descargas ilimitadas."
+    },
+    "tracing": {
+      "title": "Hojas de trazado con IA para niños - Kiwiz",
+      "description": "Crea hojas de trazado del alfabeto y palabras usando IA. Ayuda a tu hijo a aprender escritura y habilidades pre-escritura."
+    },
+    "dashboard": {
+      "title": "Panel - Kiwiz",
+      "description": "Administra tu cuenta de Kiwiz, ve tus creaciones y rastrea el progreso de tu hijo."
+    },
+    "membership": {
+      "title": "Planes de membresía - Kiwiz",
+      "description": "Elige el plan perfecto para tu familia. Páginas para colorear y hojas de trazado ilimitadas generadas por IA."
+    },
+    "howToUse": {
+      "title": "Cómo usar Kiwiz - Guía de inicio",
+      "description": "Aprende a crear increíbles páginas para colorear y hojas de trazado para tu hijo usando Kiwiz IA."
+    },
+    "aboutUs": {
+      "title": "Sobre Kiwiz - Haciendo el aprendizaje divertido con IA",
+      "description": "Conoce nuestra misión de hacer el contenido creativo y educativo accesible a familias en todo el mundo."
+    },
+    "newsletter": {
+      "title": "Boletín para padres - Kiwiz",
+      "description": "Suscríbete a nuestro boletín semanal para consejos de crianza, actividades y contenido educativo para tu hijo."
+    }
+  }
+}
+

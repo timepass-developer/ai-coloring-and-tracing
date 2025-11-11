@@ -21,6 +21,11 @@ async function getPrisma() {
  *  - Logs analytics (tracingCount + Activity)
  *  - Retains placeholder-based tracing logic
  */
+declare global {
+  // eslint-disable-next-line no-var
+  var __guestCache: Record<string, { count: number; lastReset: number }> | undefined;
+}
+
 export async function POST(req: Request) {
   try {
     const { prompt } = await req.json();
@@ -101,20 +106,31 @@ export async function POST(req: Request) {
     }
 
     const kindeId = user.id;
+    const fallbackEmail = user.email ?? `${kindeId}@users.kiwiz.app`;
 
-    // Ensure user exists in DB
-    let dbUser = await prisma.user.upsert({
-      where: { kindeId },
-      update: {
-        email: user.email ?? "",
-        name: user.given_name ?? user.family_name ?? "User",
-      },
-      create: {
-        kindeId,
-        email: user.email ?? "",
-        name: user.given_name ?? user.family_name ?? "User",
-      },
-    });
+    // Ensure user exists in DB, linking by email if necessary
+    let dbUser = await prisma.user.findUnique({ where: { kindeId } });
+
+    if (!dbUser && user.email) {
+      dbUser = await prisma.user.findUnique({ where: { email: user.email } });
+
+      if (dbUser && !dbUser.kindeId) {
+        await prisma.user.update({
+          where: { id: dbUser.id },
+          data: { kindeId },
+        });
+      }
+    }
+
+    if (!dbUser) {
+      dbUser = await prisma.user.create({
+        data: {
+          kindeId,
+          email: fallbackEmail,
+          name: user.given_name ?? user.family_name ?? "User",
+        },
+      });
+    }
 
     // Reset daily generation count if a new day
     const today = new Date().toDateString();
@@ -152,7 +168,7 @@ export async function POST(req: Request) {
     // -------------------------------
     await prisma.$transaction([
       prisma.user.update({
-        where: { kindeId },
+        where: { id: dbUser.id },
         data: {
           generationCount:
             dbUser.plan === "FREE" ? { increment: 1 } : undefined,

@@ -204,15 +204,15 @@ export default function HomePage() {
         </section>
 
         {/* Highlights Section */}
-        <section className="flex flex-1 flex-col justify-between gap-10 px-4 pb-12 pt-6 md:px-12 lg:px-20">
+        <section className="flex flex-1 flex-col gap-12 px-4 pb-12 pt-8 md:px-12 lg:px-20">
           <div className="grid gap-6 md:grid-cols-3">
             {featureCards.map((card) => (
               <div
                 key={card.title}
-                className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${card.accent} p-[1px] shadow-lg transition-transform hover:-translate-y-1`}
+                className={`group rounded-3xl bg-gradient-to-br ${card.accent} p-[1px] shadow-lg`}
               >
-                <div className="rounded-[calc(1.5rem-1px)] bg-white/85 p-6 backdrop-blur">
-                  <card.icon className="mb-4 h-8 w-8 text-[#FF4C4C]" />
+                <div className="rounded-[calc(1.5rem-1px)] bg-white/85 p-6 backdrop-blur transition duration-200 group-hover:bg-white/95">
+                  <card.icon className="mb-3 h-7 w-7 text-[#FF4C4C]" />
                   <h3 className="mb-2 text-lg font-semibold text-slate-900">
                     {card.title}
                   </h3>
@@ -222,71 +222,65 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            {audienceCards.map((card) => (
-              <div
-                key={card.label}
-                className="rounded-3xl border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur transition hover:shadow-md"
-              >
-                <div className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-[#FFA500]">
-                  <Users className="h-4 w-4" />
-                  {card.label}
+          <div className="rounded-3xl border border-white/60 bg-white/85 p-6 shadow-md backdrop-blur">
+            <h3 className="mb-4 text-lg font-semibold text-slate-900">
+              We support every creative helper
+            </h3>
+            <div className="grid gap-6 md:grid-cols-3">
+              {audienceCards.map((card) => (
+                <div key={card.label} className="space-y-2">
+                  <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#FFA500]">
+                    <Users className="h-4 w-4" />
+                    {card.label}
+                  </div>
+                  <p className="text-sm text-slate-600">{card.description}</p>
                 </div>
-                <p className="text-sm text-slate-600">{card.description}</p>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-[2fr,1fr]">
+            <div className="flex flex-col justify-between rounded-3xl bg-white/85 px-6 py-6 shadow-md backdrop-blur">
+              <div className="space-y-2">
+                <h4 className="text-lg font-semibold text-slate-900">
+                  {t("home.cta.title")}
+                </h4>
+                <p className="text-sm text-slate-600">
+                  {t("home.cta.subtitle")}
+                </p>
               </div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap items-center justify-between gap-4 rounded-3xl bg-white/85 px-6 py-5 shadow-md backdrop-blur">
-            <div>
-              <h4 className="text-lg font-semibold text-slate-900">
-                {t("home.cta.title")}
-              </h4>
-              <p className="text-sm text-slate-600">
-                {t("home.cta.subtitle")}
-              </p>
+              <Link
+                href="/create"
+                className="inline-flex w-fit items-center rounded-full bg-[#4CAF50] px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-[#3e9442]"
+              >
+                {t("home.cta.button")}
+              </Link>
             </div>
-            <Link
-              href="/create"
-              className="inline-flex items-center rounded-full bg-[#4CAF50] px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-[#3e9442]"
-            >
-              {t("home.cta.button")}
-            </Link>
-          </div>
-
-          <div className="hidden w-full gap-6 md:grid md:grid-cols-3">
-            <div className="relative h-40 overflow-hidden rounded-3xl border border-white/60 shadow-lg">
-              <Image
-                src="/kids-art-wall.webp"
-                alt="Classroom art wall"
-                fill
-                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 45vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="relative h-40 overflow-hidden rounded-3xl border border-white/60 shadow-lg">
-              <Image
-                src="/kid-coloring-hand.webp"
-                alt="Child colouring printable"
-                fill
-                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 45vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="relative h-40 overflow-hidden rounded-3xl border border-white/60 shadow-lg">
-              <Image
-                src="/drawing.webp"
-                alt="Children drawing together"
-                fill
-                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 45vw, 100vw"
-                className="object-cover"
-              />
+            <div className="hidden h-full gap-4 rounded-3xl border border-white/60 bg-white/85 p-4 shadow-md backdrop-blur md:flex md:flex-col">
+              <div className="relative h-32 w-full overflow-hidden rounded-2xl">
+                <Image
+                  src="/kids-art-wall.webp"
+                  alt="Classroom art wall"
+                  fill
+                  sizes="(min-width: 1024px) 20vw, (min-width: 768px) 30vw, 100vw"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div className="relative h-32 w-full overflow-hidden rounded-2xl">
+                <Image
+                  src="/kid-coloring-hand.webp"
+                  alt="Child colouring printable"
+                  fill
+                  sizes="(min-width: 1024px) 20vw, (min-width: 768px) 30vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
 
           <footer className="text-center text-xs text-slate-500">
-            © {new Date().getFullYear()} Kiwiz · Making printable learning joyful for
-            families, teachers, and therapists.
+            © {new Date().getFullYear()} Kiwiz · Joyful printable learning for families, teachers, and therapists.
           </footer>
         </section>
       </div>

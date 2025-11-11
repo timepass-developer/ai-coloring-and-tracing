@@ -56,6 +56,8 @@ export async function GET() {
     }
 
     // ✅ Fetch final user data including the plan
+    const FINAL_FREE_LIMIT = 5;
+
     const finalUser = await prisma.user.findUnique({
       where: { id: dbUser.id },
       select: {
@@ -65,10 +67,36 @@ export async function GET() {
         image: true,
         isAdmin: true,
         plan: true, // ✅ added this
+        generationCount: true,
+        newsletterSubscribed: true,
       },
     });
 
-    return new Response(JSON.stringify(finalUser), { status: 200 });
+    if (!finalUser) {
+      return new Response(JSON.stringify({ error: "User not found" }), {
+        status: 404,
+      });
+    }
+
+    const generationLimit =
+      finalUser.plan === "FREE" ? FINAL_FREE_LIMIT : null;
+    const generationCredits =
+      finalUser.plan === "FREE"
+        ? Math.max(
+            0,
+            (generationLimit ?? FINAL_FREE_LIMIT) -
+              (finalUser.generationCount ?? 0)
+          )
+        : null;
+
+    return new Response(
+      JSON.stringify({
+        ...finalUser,
+        generationLimit,
+        generationCredits,
+      }),
+      { status: 200 }
+    );
   } catch (error) {
     console.error("❌ Error in /api/user/me:", error);
     return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });

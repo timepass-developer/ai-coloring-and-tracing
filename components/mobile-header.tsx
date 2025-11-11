@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, User, X, Shield } from "lucide-react"
+import { Menu, User, X, Shield, Flame } from "lucide-react"
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components"
 import Link from "next/link"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { useTranslations } from "@/hooks/use-translations"
+import {
+  getGuestGenerationsRemaining,
+  GUEST_GENERATION_LIMIT,
+} from "@/lib/usage-tracker"
 
 interface MobileHeaderProps {
   onMenuToggle: () => void
@@ -19,12 +23,17 @@ interface CurrentUser {
   email: string
   name?: string
   isAdmin?: boolean
+  plan?: "FREE" | "PREMIUM"
+  generationCount?: number | null
+  generationLimit?: number | null
+  generationCredits?: number | null
 }
 
 export default function MobileHeader({ onMenuToggle, isMenuOpen }: MobileHeaderProps) {
   const { user, isAuthenticated, isLoading } = useKindeBrowserClient()
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null)
   const [loadingUser, setLoadingUser] = useState(true)
+  const [guestCreditsLeft, setGuestCreditsLeft] = useState(GUEST_GENERATION_LIMIT)
   const { t, isLoading: isLoadingTranslations } = useTranslations()
 
   // ✅ Fetch user info from backend (to check admin)
@@ -49,6 +58,66 @@ export default function MobileHeader({ onMenuToggle, isMenuOpen }: MobileHeaderP
 
     fetchUser()
   }, [isAuthenticated])
+
+  // ✅ Track guest remaining credits
+  useEffect(() => {
+    const updateGuestCredits = () => {
+      setGuestCreditsLeft(getGuestGenerationsRemaining())
+    }
+
+    if (!isAuthenticated) {
+      updateGuestCredits()
+      if (typeof window !== "undefined") {
+        window.addEventListener("guestGenerationsUpdated", updateGuestCredits)
+        return () => {
+          window.removeEventListener("guestGenerationsUpdated", updateGuestCredits)
+        }
+      }
+    } else {
+      setGuestCreditsLeft(0)
+    }
+  }, [isAuthenticated])
+
+  const renderCreditsBadge = () => {
+    if (isLoading || (isAuthenticated && loadingUser)) {
+      return <div className="w-14 h-7 rounded-full bg-muted animate-pulse" />
+    }
+
+    let displayValue: string | null = null
+    let tooltip = ""
+
+    if (isAuthenticated && currentUser) {
+      if (currentUser.plan === "FREE") {
+        const remaining =
+          currentUser.generationCredits ??
+          Math.max(
+            0,
+            (currentUser.generationLimit ?? 5) -
+              (currentUser.generationCount ?? 0)
+          )
+        displayValue = `${remaining}`
+        tooltip = `${remaining} / ${currentUser.generationLimit ?? 5} free credits left today`
+      } else {
+        displayValue = "∞"
+        tooltip = "Unlimited credits with Premium"
+      }
+    } else if (!isAuthenticated) {
+      displayValue = `${guestCreditsLeft}`
+      tooltip = `${guestCreditsLeft} guest credits left today`
+    }
+
+    if (!displayValue) return null
+
+    return (
+      <div
+        className="flex items-center gap-1 px-3 py-1 rounded-full border border-orange-200 bg-orange-50 text-orange-600 text-sm font-semibold shadow-sm"
+        title={tooltip}
+      >
+        <Flame className="h-4 w-4 text-orange-500" />
+        <span>{displayValue}</span>
+      </div>
+    )
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
@@ -80,6 +149,7 @@ export default function MobileHeader({ onMenuToggle, isMenuOpen }: MobileHeaderP
         <div className="flex items-center gap-2">
           {/* Language Switcher */}
           <LanguageSwitcher />
+          {renderCreditsBadge()}
           
           {isLoading ? (
             <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />

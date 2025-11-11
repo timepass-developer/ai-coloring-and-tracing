@@ -18,13 +18,6 @@ export async function POST(req: Request) {
       return Response.json({ error: "Email is required" }, { status: 400 });
     }
 
-    const { getUser } = getKindeServerSession();
-    const user = await getUser();
-
-    if (!user) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const prisma = await getPrisma();
     if (!prisma) {
       return Response.json(
@@ -33,30 +26,34 @@ export async function POST(req: Request) {
       );
     }
 
-    // 🔹 Find user in your DB using kindeId
-    const dbUser = await prisma.user.findUnique({
-      where: { kindeId: user.id },
-    });
+    let userId: string | undefined;
+    try {
+      const { getUser } = getKindeServerSession();
+      const user = await getUser();
 
-    if (!dbUser) {
-      return Response.json({ error: "User not found in database" }, { status: 404 });
+      if (user) {
+        const dbUser =
+          (await prisma.user.findUnique({ where: { kindeId: user.id } })) ??
+          (user.email
+            ? await prisma.user.findUnique({ where: { email: user.email } })
+            : null);
+
+        if (dbUser) {
+          userId = dbUser.id;
+          await prisma.user.update({
+            where: { id: dbUser.id },
+            data: { newsletterSubscribed: true, email: dbUser.email ?? email },
+          });
+        }
+      }
+    } catch (authError) {
+      console.warn("Newsletter subscription: unable to resolve Kinde user", authError);
     }
 
-    // ✅ Use internal user ID for relations
-    const userId = dbUser.id;
-
-    // ✅ Upsert newsletter subscriber
     await prisma.newsletterSubscriber.upsert({
-      where: { userId },
-      update: { email },
-      create: { userId, email },
-    });
-
-
-    // ✅ Mark user as subscribed
-    await prisma.user.update({
-      where: { id: userId },
-      data: { newsletterSubscribed: true },
+      where: { email },
+      update: { userId },
+      create: userId ? { email, userId } : { email },
     });
 
     return Response.json({ success: true });

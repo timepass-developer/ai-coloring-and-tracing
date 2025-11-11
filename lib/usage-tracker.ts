@@ -1,6 +1,15 @@
 // lib/guest-usage.ts
 const MAX_FREE_GUEST_GENERATIONS = 2;
 
+function emitGuestUpdate() {
+  if (typeof window === "undefined") return;
+  try {
+    window.dispatchEvent(new CustomEvent("guestGenerationsUpdated"));
+  } catch {
+    // no-op if CustomEvent not supported
+  }
+}
+
 /**
  * Get how many free generations a guest has used
  */
@@ -16,6 +25,7 @@ export function incrementGuestGenerations() {
   if (typeof window === "undefined") return;
   const count = getGuestGenerations() + 1;
   localStorage.setItem("guestGenerations", count.toString());
+  emitGuestUpdate();
 }
 
 /**
@@ -24,6 +34,7 @@ export function incrementGuestGenerations() {
 export function resetGuestGenerations() {
   if (typeof window === "undefined") return;
   localStorage.removeItem("guestGenerations");
+  emitGuestUpdate();
 }
 
 /**
@@ -32,3 +43,13 @@ export function resetGuestGenerations() {
 export function hasReachedGuestLimit() {
   return getGuestGenerations() >= MAX_FREE_GUEST_GENERATIONS;
 }
+
+/**
+ * Remaining free generations a guest can use today
+ */
+export function getGuestGenerationsRemaining() {
+  if (typeof window === "undefined") return MAX_FREE_GUEST_GENERATIONS;
+  return Math.max(0, MAX_FREE_GUEST_GENERATIONS - getGuestGenerations());
+}
+
+export const GUEST_GENERATION_LIMIT = MAX_FREE_GUEST_GENERATIONS;

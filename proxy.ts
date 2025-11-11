@@ -25,7 +25,8 @@ export default withAuth(
           pathname.startsWith('/api/auth') ||
           pathname.startsWith('/api/generate-coloring') ||
           pathname.startsWith('/api/generate-tracing') ||
-          pathname.startsWith('/api/analytics/track');
+          pathname.startsWith('/api/analytics/track') ||
+          pathname.startsWith('/api/newsletter/subscribe');
 
         if (isPublicAPI) {
           return NextResponse.next();
@@ -102,6 +103,7 @@ export default withAuth(
       "/api/generate-coloring",
       "/api/generate-tracing",
       "/api/analytics/track",
+      "/api/newsletter/subscribe",
       "/how-to-use",
       "/about-us",
       "/membership",

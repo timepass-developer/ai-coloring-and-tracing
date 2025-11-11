@@ -149,7 +149,7 @@ export default function MobileHeader({ onMenuToggle, isMenuOpen }: MobileHeaderP
         <div className="flex items-center gap-2">
           {/* Language Switcher */}
           <LanguageSwitcher />
-          {renderCreditsBadge()}
+          <div className="hidden md:block">{renderCreditsBadge()}</div>
           
           {isLoading ? (
             <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
@@ -161,7 +161,7 @@ export default function MobileHeader({ onMenuToggle, isMenuOpen }: MobileHeaderP
                   <Button
                     variant="default"
                     size="sm"
-                    className="text-sm font-semibold bg-amber-500 hover:bg-amber-600 text-white flex items-center gap-1 transition-all"
+                    className="hidden text-sm font-semibold bg-amber-500 hover:bg-amber-600 text-white items-center gap-1 transition-all md:flex"
                   >
                     <Shield className="w-4 h-4" />
                     {isLoadingTranslations ? "Admin" : t('admin.title')}

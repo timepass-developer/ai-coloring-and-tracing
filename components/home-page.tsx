@@ -1,579 +1,253 @@
 "use client";
 
-import { useEffect,useState } from "react";
-import "aos/dist/aos.css"; // AOS styles
-import Header from "@/components/mobile-header";
+import { useMemo, useState, type ComponentType } from "react";
 import Link from "next/link";
+import MobileHeader from "@/components/mobile-header";
 import MobileSidebar from "@/components/mobile-sidebar";
 import { useTranslations } from "@/hooks/use-translations";
+import {
+  Sparkles,
+  ShieldCheck,
+  Palette,
+  Users,
+  BookOpen,
+  Baby,
+} from "lucide-react";
+
+interface HighlightCard {
+  title: string;
+  description: string;
+  icon: ComponentType<{ className?: string }>;
+  accent: string;
+}
+
+interface AudienceCard {
+  label: string;
+  description: string;
+}
+
+interface StatCard {
+  value: string;
+  label: string;
+}
 
 export default function HomePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { t, isLoading } = useTranslations();
-  useEffect(() => {
-    let vantaEffect: any;
 
-    const loadEffects = async () => {
-      if (typeof window === "undefined") return;
+  const featureCards: HighlightCard[] = useMemo(
+    () => [
+      {
+        title: t("home.features.instant.title"),
+        description: t("home.features.instant.description"),
+        icon: Sparkles,
+        accent: "from-[#FFD700] to-[#FFA500]",
+      },
+      {
+        title: t("home.features.safe.title"),
+        description: t("home.features.safe.description"),
+        icon: ShieldCheck,
+        accent: "from-[#4CAF50] to-[#3a8d3c]",
+      },
+      {
+        title: t("home.features.unlimited.title"),
+        description: t("home.features.unlimited.description"),
+        icon: Palette,
+        accent: "from-[#87CEEB] to-[#4ea7d8]",
+      },
+    ],
+    [t]
+  );
 
-      // AOS
-      const AOS = (await import("aos")).default;
-      AOS.init({ duration: 800, once: true, mirror: false });
+  const audienceCards: AudienceCard[] = [
+    {
+      label: "Families",
+      description:
+        "Create magical printables that keep little makers smiling, learning, and proud of their masterpieces.",
+    },
+    {
+      label: "Teachers",
+      description:
+        "Save prep time with ready-to-print activities that reinforce handwriting, storytelling, and creativity.",
+    },
+    {
+      label: "Therapists",
+      description:
+        "Personalise practice sheets that support fine motor growth and sensory-friendly play.",
+    },
+  ];
 
-      // Feather icons
-      const feather = (await import("feather-icons")).default;
-      setTimeout(() => feather.replace(), 0);
-
-      // Vanta (Waves)
-      const VANTA = (await import("vanta/dist/vanta.waves.min")).default;
-      const THREE = await import("three");
-
-      vantaEffect = VANTA({
-        el: "#vanta-bg",
-        THREE,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.0,
-        minWidth: 200.0,
-        scale: 1.0,
-        scaleMobile: 1.0,
-        color: 0xffa500,
-        shininess: 50.0,
-        waveHeight: 20.0,
-        waveSpeed: 1.0,
-        zoom: 0.75,
-      });
-    };
-
-    loadEffects();
-
-    // ✅ Handle window resize to keep Vanta responsive
-    const handleResize = () => {
-      if (vantaEffect?.resize) vantaEffect.resize();
-    };
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      if (vantaEffect && typeof vantaEffect.destroy === "function") {
-        vantaEffect.destroy();
-      }
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
+  const statCards: StatCard[] = [
+    { value: "50K+", label: t("home.socialProof.pagesCreated") },
+    { value: "10K+", label: t("home.socialProof.happyFamilies") },
+    { value: "25+", label: t("home.socialProof.countriesReached") },
+  ];
 
   return (
-    <main className="bg-kiwizBackground min-h-screen antialiased overflow-hidden relative">
-      {/* Header / Navigation */}
-      <Header onMenuToggle={() => setIsSidebarOpen((prev) => !prev)} isMenuOpen={isSidebarOpen} />
-      <MobileSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+    <main
+      className="relative h-[200vh] overflow-hidden text-slate-900 antialiased"
+      style={{
+        background:
+          "radial-gradient(circle at 15% 20%, rgba(255,215,0,0.25), transparent 40%)," +
+          "radial-gradient(circle at 85% 25%, rgba(255,140,0,0.18), transparent 42%)," +
+          "radial-gradient(circle at 20% 80%, rgba(76,175,80,0.18), transparent 40%)," +
+          "linear-gradient(135deg, #fef9f0 0%, #e8f8ff 50%, #fdf1dd 100%)",
+      }}
+    >
+      <MobileHeader
+        onMenuToggle={() => setIsSidebarOpen((prev) => !prev)}
+        isMenuOpen={isSidebarOpen}
+      />
+      <MobileSidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+        currentPage="home"
+      />
 
-      <div className="pt-20 relative z-10">
-        {/* HERO SECTION */}
-        <section
-          id="hero"
-          className="relative overflow-hidden flex items-center justify-center p-4"
-          style={{ minHeight: "100vh" }}
-        >
-          {/* ✅ Vanta background scoped only to hero */}
-          <div
-            id="vanta-bg"
-            className="absolute inset-0 w-full h-full z-0"
-          />
-          <div
-            className="hero-content relative max-w-xl mx-auto bg-gradient-to-br from-orange-500 to-orange-400 text-white rounded-[4rem] shadow-2xl p-8 md:p-10 text-center flex flex-col items-center justify-center min-h-[480px] z-10"
-            data-aos="zoom-in"
-            data-aos-duration="1000"
-          >
-            <div className="relative mb-6">
-              <div className="w-24 h-24 rounded-full bg-kiwizBlue flex items-center justify-center animate-pulseLight shadow-xl">
-                <i data-feather="zap" className="h-12 w-12 text-white" />
-              </div>
-              <div className="absolute -top-3 -right-3 w-8 h-8 bg-kiwizYellow rounded-full flex items-center justify-center shadow-md">
-                <i data-feather="star" className="h-4 w-4 text-white" />
-              </div>
+      <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-multiply">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(16px 16px at 16px 16px, rgba(255,255,255,0.7), transparent)",
+            backgroundSize: "48px 48px",
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 flex h-full flex-col">
+        {/* Hero Section */}
+        <section className="flex flex-1 flex-col-reverse items-center gap-10 px-4 py-16 md:flex-row md:px-12 lg:px-20">
+          <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
+            <div className="inline-flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-orange-600 shadow-sm backdrop-blur">
+              <Baby className="h-4 w-4" />
+              {isLoading
+                ? "Kid-approved creative fun"
+                : t("home.features.loved.title")}
             </div>
-
-            <h1 className="text-4xl md:text-5xl font-display font-extrabold mb-4 leading-tight text-white drop-shadow-lg">
-              {isLoading ? "Turn Any Idea Into" : t('home.hero.title')} <br />
-              <span className="text-kiwizYellow">{isLoading ? "Amazing Art!" : t('home.hero.titleHighlight')}</span>
+            <h1 className="text-4xl font-extrabold leading-tight text-slate-900 md:text-5xl lg:text-6xl">
+              {isLoading ? "Turn Any Idea Into" : t("home.hero.title")}{" "}
+              <span className="text-[#FF4C4C]">
+                {isLoading ? "Amazing Art!" : t("home.hero.titleHighlight")}
+              </span>
             </h1>
-            <p className="text-lg md:text-xl mb-8 text-white/90 drop-shadow-md">
-              {isLoading ? "AI creates personalized coloring pages & tracing worksheets for your child in seconds." : t('home.hero.subtitle')}
+            <p className="text-base text-slate-700 md:text-lg">
+              {isLoading
+                ? "AI creates personalised colouring pages & tracing worksheets in seconds."
+                : t("home.hero.subtitle")}
             </p>
-
-            <div className="w-full space-y-4 mb-8">
+            <div className="flex flex-wrap items-center justify-center gap-3 md:justify-start">
               <Link
                 href="/create"
-                className="inline-flex items-center justify-center w-full bg-kiwizBlue bg-blue-600 hover:bg-blue-700 text-white font-bold h-16 text-xl rounded-3xl transition-all shadow-xl hover:scale-105 duration-300"
+                className="inline-flex items-center rounded-full bg-[#FF4C4C] px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:bg-[#e23d3d]"
               >
-                <i data-feather="play-circle" className="h-6 w-6 mr-3" />
-                {isLoading ? "Start Creating Now - FREE" : t('home.hero.cta')}
+                {isLoading ? "Start" : t("home.hero.cta")}
               </Link>
-
-              <div className="flex items-center justify-center gap-2 text-sm md:text-base text-white/80">
-                <i data-feather="clock" className="h-5 w-5" />
-                <span>{isLoading ? "Takes less than 30 seconds" : t('home.hero.timeInfo')}</span>
-              </div>
+              <span className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/80 px-4 py-2 text-sm text-orange-600 shadow-sm backdrop-blur">
+                <Sparkles className="h-4 w-4" />
+                {isLoading
+                  ? "Takes less than 30 seconds"
+                  : t("home.hero.timeInfo")}
+              </span>
             </div>
+            <div className="grid grid-cols-3 gap-3 rounded-3xl bg-white/70 p-4 shadow-md backdrop-blur">
+              {statCards.map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p className="text-xl font-bold text-[#FF4C4C] md:text-2xl">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs text-slate-600 md:text-sm">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs md:text-sm mt-auto text-white/70">
-              <div className="flex items-center gap-1">
-                <i
-                  data-feather="shield"
-                  className="h-4 w-4 text-kiwizGreen"
-                />{" "}
-                Safe for Kids
-              </div>
-              <div className="flex items-center gap-1">
-                <i
-                  data-feather="zap"
-                  className="h-4 w-4 text-kiwizYellow"
-                />{" "}
-                Instant Results
-              </div>
-              <div className="flex items-center gap-1">
-                <i
-                  data-feather="gift"
-                  className="h-4 w-4 text-kiwizBlue"
-                />{" "}
-                Free to Try
+          <div className="relative flex w-full max-w-xl items-center justify-center md:w-1/2">
+            <div className="relative h-[280px] w-full max-w-md rounded-[2.5rem] bg-white/80 p-8 shadow-2xl backdrop-blur">
+              <div className="absolute -top-6 left-6 h-12 w-12 rounded-full bg-[#87CEEB] shadow" />
+              <div className="absolute -bottom-6 right-6 h-12 w-12 rounded-full bg-[#FFD700] shadow" />
+              <h3 className="mb-4 text-xl font-bold text-slate-900">Family & Classroom Ready</h3>
+              <ul className="space-y-3 text-sm text-slate-600">
+                <li className="flex items-start gap-2">
+                  <ShieldCheck className="mt-1 h-4 w-4 text-[#4CAF50]" />
+                  {isLoading
+                    ? "Safe, age-appropriate prompts for ages 2-8"
+                    : t("home.features.safe.description")}
+                </li>
+                <li className="flex items-start gap-2">
+                  <BookOpen className="mt-1 h-4 w-4 text-[#FFA500]" />
+                  {t("home.howItWorks.step2.description")}
+                </li>
+                <li className="flex items-start gap-2">
+                  <Palette className="mt-1 h-4 w-4 text-[#FF4C4C]" />
+                  {t("home.features.unlimited.description")}
+                </li>
+              </ul>
+              <div className="mt-6 rounded-2xl bg-gradient-to-r from-[#87CEEB] to-[#FFA500] p-[1px]">
+                <div className="rounded-[calc(1rem-1px)] bg-white/90 px-5 py-3 text-center text-sm text-slate-700">
+                  {t("home.cta.subtitle")}
+                </div>
               </div>
             </div>
           </div>
         </section>
-        {/* FEATURES */}
-        <section
-          id="features"
-          className="py-16 md:py-24 px-4 bg-gradient-to-b from-kiwizBackground to-white"
-        >
-          <div className="max-w-4xl mx-auto">
-            <h2
-              className="text-3xl md:text-4xl font-display font-bold text-kiwizOrange text-center mb-12 drop-shadow-sm"
-              data-aos="fade-up"
+
+        {/* Highlights Section */}
+        <section className="flex flex-1 flex-col justify-between gap-10 px-4 pb-12 pt-6 md:px-12 lg:px-20">
+          <div className="grid gap-6 md:grid-cols-3">
+            {featureCards.map((card) => (
+              <div
+                key={card.title}
+                className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${card.accent} p-[1px] shadow-lg transition-transform hover:-translate-y-1`}
+              >
+                <div className="rounded-[calc(1.5rem-1px)] bg-white/85 p-6 backdrop-blur">
+                  <card.icon className="mb-4 h-8 w-8 text-[#FF4C4C]" />
+                  <h3 className="mb-2 text-lg font-semibold text-slate-900">
+                    {card.title}
+                  </h3>
+                  <p className="text-sm text-slate-600">{card.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {audienceCards.map((card) => (
+              <div
+                key={card.label}
+                className="rounded-3xl border border-white/60 bg-white/80 p-6 shadow-sm backdrop-blur transition hover:shadow-md"
+              >
+                <div className="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-[#FFA500]">
+                  <Users className="h-4 w-4" />
+                  {card.label}
+                </div>
+                <p className="text-sm text-slate-600">{card.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded-3xl bg-white/85 px-6 py-5 shadow-md backdrop-blur">
+            <div>
+              <h4 className="text-lg font-semibold text-slate-900">
+                {t("home.cta.title")}
+              </h4>
+              <p className="text-sm text-slate-600">
+                {t("home.cta.subtitle")}
+              </p>
+            </div>
+            <Link
+              href="/create"
+              className="inline-flex items-center rounded-full bg-[#4CAF50] px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-[#3e9442]"
             >
-              {isLoading ? "Why Parents Choose Kiwiz" : t('home.features.title')}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div
-                className="p-6 bg-white rounded-3xl shadow-lg border border-orange-100 text-center hover:shadow-xl transition-all hover:-translate-y-1 duration-300"
-                data-aos="fade-up"
-                data-aos-delay="100"
-              >
-                <div className="flex justify-center mb-4">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-orange-300 flex items-center justify-center shadow-md">
-                    <i data-feather="zap" className="h-7 w-7 text-white" />
-                  </div>
-                </div>
-                <h3 className="font-display font-semibold text-lg text-gray-800 mb-1">
-                  {isLoading ? "Instant AI Magic" : t('home.features.instant.title')}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {isLoading ? "Create personalized content in seconds." : t('home.features.instant.description')}
-                </p>
-              </div>
-
-              <div
-                className="p-6 bg-white rounded-3xl shadow-lg border border-orange-100 text-center hover:shadow-xl transition-all hover:-translate-y-1 duration-300"
-                data-aos="fade-up"
-                data-aos-delay="200"
-              >
-                <div className="flex justify-center mb-4">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-blue-400 flex items-center justify-center shadow-md">
-                    <i data-feather="shield" className="h-7 w-7 text-white" />
-                  </div>
-                </div>
-                <h3 className="font-display font-semibold text-lg text-gray-800 mb-1">
-                  {isLoading ? "100% Kid-Safe" : t('home.features.safe.title')}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {isLoading ? "All content is filtered and safe for children." : t('home.features.safe.description')}
-                </p>
-              </div>
-
-              <div
-                className="p-6 bg-white rounded-3xl shadow-lg border border-orange-100 text-center hover:shadow-xl transition-all hover:-translate-y-1 duration-300"
-                data-aos="fade-up"
-                data-aos-delay="300"
-              >
-                <div className="flex justify-center mb-4">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-green-400 flex items-center justify-center shadow-md">
-                    <i data-feather="download" className="h-7 w-7 text-white" />
-                  </div>
-                </div>
-                <h3 className="font-display font-semibold text-lg text-gray-800 mb-1">
-                  {isLoading ? "Unlimited Downloads" : t('home.features.unlimited.title')}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {isLoading ? "Download and print as many times as you like." : t('home.features.unlimited.description')}
-                </p>
-              </div>
-
-              <div
-                className="p-6 bg-white rounded-3xl shadow-lg border border-orange-100 text-center hover:shadow-xl transition-all hover:-translate-y-1 duration-300"
-                data-aos="fade-up"
-                data-aos-delay="400"
-              >
-                <div className="flex justify-center mb-4">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-pink-500 to-pink-400 flex items-center justify-center shadow-md">
-                    <i data-feather="smile" className="h-7 w-7 text-white" />
-                  </div>
-                </div>
-                <h3 className="font-display font-semibold text-lg text-gray-800 mb-1">
-                  {isLoading ? "Kids Love It" : t('home.features.loved.title')}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {isLoading ? "Engaging activities that spark joy and creativity." : t('home.features.loved.description')}
-                </p>
-              </div>
-            </div>
+              {t("home.cta.button")}
+            </Link>
           </div>
+
+          <footer className="text-center text-xs text-slate-500">
+            © {new Date().getFullYear()} Kiwiz · Making printable learning joyful for
+            families, teachers, and therapists.
+          </footer>
         </section>
-
-        {/* BENEFITS */}
-        <section
-          id="benefits"
-          className="py-16 md:py-24 px-4 bg-gradient-to-r from-kiwizGreen to-green-400 text-white"
-        >
-          <div className="max-w-4xl mx-auto">
-            <h2
-              className="text-3xl md:text-4xl font-display font-bold text-center mb-12 drop-shadow-sm"
-              data-aos="fade-up"
-            >
-              {isLoading ? "Unlock Developmental Superpowers!" : t('home.benefits.title')}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div
-                className="bg-white/20 p-6 rounded-3xl shadow-lg"
-                data-aos="fade-right"
-                data-aos-delay="100"
-              >
-                <ul className="space-y-4 text-lg">
-                  <li className="flex items-center gap-3">
-                    <i
-                      data-feather="check-circle"
-                      className="h-6 w-6 text-kiwizYellow"
-                    />
-                    Develops fine motor skills
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <i
-                      data-feather="check-circle"
-                      className="h-6 w-6 text-kiwizYellow"
-                    />
-                    Boosts creativity & imagination
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <i
-                      data-feather="check-circle"
-                      className="h-6 w-6 text-kiwizYellow"
-                    />
-                    Improves handwriting & pre-writing skills
-                  </li>
-                </ul>
-              </div>
-
-              <div
-                className="bg-white/20 p-6 rounded-3xl shadow-lg"
-                data-aos="fade-left"
-                data-aos-delay="200"
-              >
-                <ul className="space-y-4 text-lg">
-                  <li className="flex items-center gap-3">
-                    <i
-                      data-feather="check-circle"
-                      className="h-6 w-6 text-kiwizYellow"
-                    />
-                    Builds concentration & focus
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <i
-                      data-feather="check-circle"
-                      className="h-6 w-6 text-kiwizYellow"
-                    />
-                    Screen-free learning & fun
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <i
-                      data-feather="check-circle"
-                      className="h-6 w-6 text-kiwizYellow"
-                    />
-                    Instant gratification & sense of accomplishment
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SOCIAL PROOF */}
-        <section
-          id="social-proof"
-          className="py-16 md:py-24 px-4 bg-gradient-to-b from-white to-kiwizBackground"
-        >
-          <div className="max-w-4xl mx-auto">
-            <h2
-              className="text-3xl md:text-4xl font-display font-bold text-kiwizBlue text-center mb-12 drop-shadow-sm"
-              data-aos="fade-up"
-            >
-              {isLoading ? "Loved by Families Worldwide!" : t('home.socialProof.title')}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div
-                className="p-6 bg-gradient-to-br from-kiwizBlue to-blue-400 text-white rounded-3xl shadow-xl text-center"
-                data-aos="zoom-in"
-                data-aos-delay="100"
-              >
-                <div className="flex justify-center mb-3">
-                  <i
-                    data-feather="droplet"
-                    className="h-8 w-8 text-kiwizYellow"
-                  />
-                </div>
-                <div className="text-3xl md:text-4xl font-display font-bold mb-1">
-                  50K+
-                </div>
-                <div className="text-sm md:text-base">Pages Created</div>
-              </div>
-
-              <div
-                className="p-6 bg-gradient-to-br from-orange-500 to-orange-400 text-white rounded-3xl shadow-xl text-center"
-                data-aos="zoom-in"
-                data-aos-delay="200"
-              >
-                <div className="flex justify-center mb-3">
-                  <i
-                    data-feather="users"
-                    className="h-8 w-8 text-kiwizYellow"
-                  />
-                </div>
-                <div className="text-3xl md:text-4xl font-display font-bold mb-1">
-                  10K+
-                </div>
-                <div className="text-sm md:text-base">Happy Families</div>
-              </div>
-
-              <div
-                className="p-6 bg-gradient-to-br from-green-500 to-green-400 text-white rounded-3xl shadow-xl text-center"
-                data-aos="zoom-in"
-                data-aos-delay="300"
-              >
-                <div className="flex justify-center mb-3">
-                  <i
-                    data-feather="target"
-                    className="h-8 w-8 text-kiwizYellow"
-                  />
-                </div>
-                <div className="text-3xl md:text-4xl font-display font-bold mb-1">
-                  25+
-                </div>
-                <div className="text-sm md:text-base">Countries Reached</div>
-              </div>
-
-              <div
-                className="p-6 bg-gradient-to-br from-pink-500 to-pink-400 text-white rounded-3xl shadow-xl text-center"
-                data-aos="zoom-in"
-                data-aos-delay="400"
-              >
-                <div className="flex justify-center mb-3">
-                  <i
-                    data-feather="star"
-                    className="h-8 w-8 text-kiwizYellow"
-                  />
-                </div>
-                <div className="text-3xl md:text-4xl font-display font-bold mb-1">
-                  4.9<span className="text-xl">★</span>
-                </div>
-                <div className="text-sm md:text-base">Parent Rating</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* HOW IT WORKS */}
-        <section
-          id="how-it-works"
-          className="py-16 md:py-24 px-4 bg-gradient-to-r from-kiwizOrange to-yellow-400 text-white"
-        >
-          <div className="max-w-4xl mx-auto">
-            <h2
-              className="text-3xl md:text-4xl font-display font-bold text-center mb-12 drop-shadow-sm"
-              data-aos="fade-up"
-            >
-              {isLoading ? "Creating is Super Easy!" : t('home.howItWorks.title')}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div
-                className="flex flex-col items-center text-center p-6 bg-white/20 rounded-3xl shadow-lg"
-                data-aos="fade-up"
-                data-aos-delay="100"
-              >
-                <div className="w-16 h-16 bg-white text-kiwizOrange rounded-full flex items-center justify-center font-bold text-3xl mb-4 shadow-md">
-                  1
-                </div>
-                <h3 className="font-display font-semibold text-xl mb-2">
-                  Choose Your Adventure
-                </h3>
-                <p className="text-base">
-                  Pick if you want a coloring page or a tracing worksheet for
-                  your child.
-                </p>
-              </div>
-
-              <div
-                className="flex flex-col items-center text-center p-6 bg-white/20 rounded-3xl shadow-lg"
-                data-aos="fade-up"
-                data-aos-delay="200"
-              >
-                <div className="w-16 h-16 bg-white text-kiwizOrange rounded-full flex items-center justify-center font-bold text-3xl mb-4 shadow-md">
-                  2
-                </div>
-                <h3 className="font-display font-semibold text-xl mb-2">
-                  Dream Up Anything!
-                </h3>
-                <p className="text-base">
-                  Type what you want to create (e.g., "a happy unicorn in space")
-                  or use our fun suggestions.
-                </p>
-              </div>
-
-              <div
-                className="flex flex-col items-center text-center p-6 bg-white/20 rounded-3xl shadow-lg"
-                data-aos="fade-up"
-                data-aos-delay="300"
-              >
-                <div className="w-16 h-16 bg-white text-kiwizOrange rounded-full flex items-center justify-center font-bold text-3xl mb-4 shadow-md">
-                  3
-                </div>
-                <h3 className="font-display font-semibold text-xl mb-2">
-                  Print & Play Instantly!
-                </h3>
-                <p className="text-base">
-                  Your unique creation appears instantly, ready to be downloaded
-                  and printed.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* TESTIMONIALS */}
-        <section
-          id="testimonials"
-          className="py-16 md:py-24 px-4 bg-gradient-to-b from-kiwizBackground to-white"
-        >
-          <div className="max-w-4xl mx-auto">
-            <h2
-              className="text-3xl md:text-4xl font-display font-bold text-kiwizOrange text-center mb-12 drop-shadow-sm"
-              data-aos="fade-up"
-            >
-              {isLoading ? "What Happy Parents Say!" : t('home.testimonials.title')}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div
-                className="p-8 bg-white rounded-3xl shadow-xl border border-orange-100 flex flex-col items-center text-center hover:shadow-2xl transition-all duration-300"
-                data-aos="fade-right"
-              >
-                <div className="flex mb-4">
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                </div>
-                <p className="text-lg text-gray-700 mb-4 italic leading-relaxed">
-                  "My 4-year-old is obsessed! Kiwiz creates exactly what she asks
-                  for. It's been a lifesaver for rainy days and keeps her engaged
-                  for hours!"
-                </p>
-                <p className="text-sm font-semibold text-gray-600">
-                  - Sarah M., Mom of a budding artist
-                </p>
-              </div>
-
-              <div
-                className="p-8 bg-white rounded-3xl shadow-xl border border-orange-100 flex flex-col items-center text-center hover:shadow-2xl transition-all duration-300"
-                data-aos="fade-left"
-              >
-                <div className="flex mb-4">
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                  <i data-feather="star" className="h-6 w-6 text-kiwizYellow" />
-                </div>
-                <p className="text-lg text-gray-700 mb-4 italic leading-relaxed">
-                  "My son's handwriting improved dramatically using the tracing
-                  worksheets! He actually enjoys learning now because he can trace
-                  his favorite characters."
-                </p>
-                <p className="text-sm font-semibold text-gray-600">
-                  - Michael R., Dad of a diligent learner
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FINAL CTA */}
-        <section
-          id="cta"
-          className="py-16 md:py-24 px-4 bg-gradient-to-r from-kiwizBlue to-blue-500 text-white text-center"
-        >
-          <div
-            className="max-w-2xl mx-auto p-8 rounded-4xl shadow-2xl bg-white/10 backdrop-blur-sm"
-            data-aos="zoom-in"
-          >
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 drop-shadow-sm">
-              {isLoading ? "Ready to Create Magic?" : t('home.cta.title')}
-            </h2>
-            <p className="text-lg md:text-xl mb-8 text-white/90">
-              {isLoading ? "Join thousands of families making learning fun with AI-powered art!" : t('home.cta.subtitle')}
-            </p>
-              <Link
-                href="/create"
-                className="inline-flex items-center justify-center bg-kiwizYellow bg-yellow-200 hover:bg-yellow-300 text-kiwizOrange font-bold h-16 md:h-20 text-xl md:text-2xl px-10 rounded-full transition-all shadow-xl hover:scale-105 duration-300"
-              >
-                <i data-feather="zap" className="h-7 w-7 mr-3" />
-                {isLoading ? "Start Your FREE Adventure!" : t('home.cta.button')}
-              </Link>
-            <p className="text-sm md:text-base mt-6 text-white/80">
-              No signup required • Works on any device • Instant results
-            </p>
-          </div>
-        </section>
-
-        {/* FOOTER */}
-        <footer className="py-12 px-4 bg-gradient-to-r from-kiwizOrange to-orange-400 text-white text-center">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-kiwizYellow flex items-center justify-center shadow-lg">
-              <i data-feather="star" className="h-8 w-8 text-white" />
-            </div>
-            <h3 className="font-display font-bold text-2xl mb-2">Kiwiz</h3>
-            <p className="text-base text-white/90">
-              AI-powered coloring & tracing for kids aged 2–8
-            </p>
-            <div className="flex justify-center gap-6 md:gap-8 text-sm md:text-base font-medium">
-              <a href="#" className="hover:underline hover:text-kiwizYellow">
-                How to Use
-              </a>
-              <a href="#" className="hover:underline hover:text-kiwizYellow">
-                About Us
-              </a>
-              <a href="#" className="hover:underline hover:text-kiwizYellow">
-                Membership
-              </a>
-              <a href="#" className="hover:underline hover:text-kiwizYellow">
-                Privacy Policy
-              </a>
-            </div>
-            <p className="text-xs md:text-sm text-white/70 mt-6">
-              © {new Date().getFullYear()} Kiwiz. All rights reserved. Making
-              learning fun with AI.
-            </p>
-          </div>
-        </footer>
       </div>
     </main>
   );

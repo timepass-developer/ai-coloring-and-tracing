@@ -1,6 +1,11 @@
 import { generateColoringImage } from "@/lib/image-generation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
+declare global {
+  // eslint-disable-next-line no-var
+  var __guestCache: Record<string, { count: number; lastReset: number }> | undefined;
+}
+
 export const dynamic = "force-dynamic";
 
 async function getPrisma() {
@@ -101,20 +106,38 @@ export async function POST(req: Request) {
     }
 
     const kindeId = user.id;
+    const fallbackEmail = user.email ?? `${kindeId}@users.kiwiz.app`;
 
-    // Ensure user exists in DB
-    let dbUser = await prisma.user.upsert({
-      where: { kindeId },
-      update: {
-        email: user.email ?? "",
-        name: user.given_name ?? user.family_name ?? "User",
-      },
-      create: {
-        kindeId,
-        email: user.email ?? "",
-        name: user.given_name ?? user.family_name ?? "User",
-      },
-    });
+    let dbUser = await prisma.user.findUnique({ where: { kindeId } });
+
+    if (!dbUser && user.email) {
+      dbUser = await prisma.user.findUnique({ where: { email: user.email } });
+
+      if (dbUser && !dbUser.kindeId) {
+        await prisma.user.update({
+          where: { id: dbUser.id },
+          data: { kindeId },
+        });
+      }
+    }
+
+    if (!dbUser) {
+      dbUser = await prisma.user.create({
+        data: {
+          kindeId,
+          email: fallbackEmail,
+          name: user.given_name ?? user.family_name ?? "User",
+        },
+      });
+    } else {
+      dbUser = await prisma.user.update({
+        where: { id: dbUser.id },
+        data: {
+          email: user.email ?? dbUser.email ?? fallbackEmail,
+          name: user.given_name ?? user.family_name ?? dbUser.name ?? "User",
+        },
+      });
+    }
 
     // -------------------------------
     // 📆 Reset daily generation count if day changed
@@ -162,7 +185,7 @@ export async function POST(req: Request) {
     // -------------------------------
     await prisma.$transaction([
       prisma.user.update({
-        where: { kindeId },
+        where: { id: dbUser.id },
         data: {
           generationCount:
             dbUser.plan === "FREE"

@@ -6,18 +6,16 @@ import { resolve } from "path";
 // ✅ Explicitly load your .env before Prisma reads it
 dotenv.config({ path: resolve(process.cwd(), ".env") });
 
-const resolvedDatabaseUrl =
-  process.env.DATABASE_URL ?? process.env.DATABASE_URL2 ?? "";
+const resolvedDatabaseUrl = process.env.DATABASE_URL2 ?? process.env.DATABASE_URL ?? "";
 
 if (!resolvedDatabaseUrl) {
   throw new Error(
-    "Prisma configuration error: DATABASE_URL or DATABASE_URL2 must be set."
+    "Prisma configuration error: DATABASE_URL2 (or legacy DATABASE_URL) must be set."
   );
 }
 
-// Copy the resolved URL into both env vars so downstream tools can rely on either key.
+// Normalize to DATABASE_URL for Prisma consumption.
 process.env.DATABASE_URL = resolvedDatabaseUrl;
-process.env.DATABASE_URL2 = resolvedDatabaseUrl;
 
 export default defineConfig({
   schema: "prisma/schema.prisma",

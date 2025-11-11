@@ -51,7 +51,7 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
           />
         </head>
-        <body className="overflow-x-hidden pb-16">
+        <body className="overflow-x-hidden">
           {/* ✅ Wrap your entire app in the ToastProvider */}
           <ToastProviderWrapper>
             <ClientLayout>{children}</ClientLayout>

@@ -127,7 +127,7 @@ export default function HomePage() {
             backgroundPosition: "center",
           }}
         >
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/65 via-transparent to-white/35" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.05] via-transparent to-white/[0.05]" />
 
           <div className="relative z-10 w-full md:w-1/2 space-y-6 text-center md:text-left">
             <div className="inline-flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-orange-600 shadow-sm backdrop-blur">
@@ -199,30 +199,6 @@ export default function HomePage() {
                   {t("home.cta.subtitle")}
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="pointer-events-none absolute inset-x-0 top-10 hidden translate-y-[-30%] justify-between px-6 md:flex">
-            <div className="relative hidden md:block">
-              <Image
-                src="/kid-drawing-hand.webp"
-                alt="Child colouring printable"
-                width={200}
-                height={220}
-                className="rounded-[2rem] border-4 border-white/70 shadow-xl"
-                priority
-              />
-              <div className="absolute -bottom-3 right-6 h-8 w-8 rounded-full bg-[#FF4C4C] shadow-lg" />
-            </div>
-            <div className="relative hidden md:block">
-              <Image
-                src="/objects-drawing-kids.webp"
-                alt="Kids drawing objects with crayons"
-                width={200}
-                height={220}
-                className="rounded-[2rem] border-4 border-white/70 shadow-xl"
-              />
-              <div className="absolute -top-4 left-6 h-9 w-9 rounded-full bg-[#4CAF50] shadow-lg" />
             </div>
           </div>
         </section>

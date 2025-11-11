@@ -15,10 +15,7 @@ import MobileSidebar from "@/components/mobile-sidebar";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { useTranslations } from "@/hooks/use-translations";
-import {
-  LOCAL_STORAGE_DISMISSED_KEY,
-  LOCAL_STORAGE_SUBSCRIBED_KEY,
-} from "@/components/NewsletterPrompt";
+import { LOCAL_STORAGE_SUBSCRIBED_KEY } from "@/components/NewsletterPrompt";
 
 export default function ParentingNewsletterPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -59,7 +56,6 @@ export default function ParentingNewsletterPage() {
 
       if (typeof window !== "undefined") {
         window.localStorage.setItem(LOCAL_STORAGE_SUBSCRIBED_KEY, "true");
-        window.localStorage.removeItem(LOCAL_STORAGE_DISMISSED_KEY);
         window.dispatchEvent(new Event("newsletterSubscribed"));
       }
       setEmail("");

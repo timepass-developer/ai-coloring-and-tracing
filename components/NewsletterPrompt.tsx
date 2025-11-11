@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState } from "react"
+import { usePathname } from "next/navigation"
 import { Sparkles, Mail } from "lucide-react"
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -10,28 +11,15 @@ import { useTranslations } from "@/hooks/use-translations"
 import { useToast } from "@/components/ui/use-toast"
 
 export const LOCAL_STORAGE_SUBSCRIBED_KEY = "kiwiz-newsletter-subscribed"
-export const LOCAL_STORAGE_DISMISSED_KEY = "kiwiz-newsletter-dismissed-until"
-const DISMISS_DURATION_MS = 1000 * 60 * 60 * 6 // 6 hours
 const PROMPT_DELAY_MS = 10_000
 
 function markSubscribedLocally() {
   try {
     if (typeof window === "undefined") return
     window.localStorage.setItem(LOCAL_STORAGE_SUBSCRIBED_KEY, "true")
-    window.localStorage.removeItem(LOCAL_STORAGE_DISMISSED_KEY)
     window.dispatchEvent(new Event("newsletterSubscribed"))
   } catch (error) {
     console.warn("Unable to persist newsletter subscription flag", error)
-  }
-}
-
-function markDismissedTemporarily() {
-  try {
-    if (typeof window === "undefined") return
-    const nextAllowed = Date.now() + DISMISS_DURATION_MS
-    window.localStorage.setItem(LOCAL_STORAGE_DISMISSED_KEY, String(nextAllowed))
-  } catch (error) {
-    console.warn("Unable to persist newsletter dismissal", error)
   }
 }
 
@@ -65,7 +53,8 @@ export default function NewsletterPrompt() {
   const [email, setEmail] = useState("")
   const [isChecking, setIsChecking] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const closeIntentRef = useRef<"dismiss" | "subscribed">("dismiss")
+  const hasMountedRef = useRef(false)
+  const pathname = usePathname()
   const { t, isLoading } = useTranslations()
   const { toast } = useToast()
 
@@ -78,7 +67,6 @@ export default function NewsletterPrompt() {
     if (typeof window === "undefined") return
 
     const handleExternalSubscription = () => {
-      closeIntentRef.current = "subscribed"
       setOpen(false)
     }
 
@@ -91,37 +79,34 @@ export default function NewsletterPrompt() {
   useEffect(() => {
     if (typeof window === "undefined") return
 
-    const alreadySubscribed = window.localStorage.getItem(LOCAL_STORAGE_SUBSCRIBED_KEY) === "true"
-    const dismissedUntil = Number(window.localStorage.getItem(LOCAL_STORAGE_DISMISSED_KEY) ?? "0")
+    setIsChecking(true)
+    setOpen(false)
 
-    if (alreadySubscribed || dismissedUntil > Date.now()) {
+    if (window.localStorage.getItem(LOCAL_STORAGE_SUBSCRIBED_KEY) === "true") {
       setIsChecking(false)
       return
     }
 
+    let cancelled = false
     const timer = window.setTimeout(async () => {
+      if (cancelled) return
+
       const resolved = await resolveRemoteSubscription()
+      if (cancelled) return
+
       if (!resolved) {
         setOpen(true)
       }
       setIsChecking(false)
-    }, PROMPT_DELAY_MS)
+    }, hasMountedRef.current ? 0 : PROMPT_DELAY_MS)
 
-    return () => window.clearTimeout(timer)
-  }, [])
+    hasMountedRef.current = true
 
-  const handleOpenChange = (nextOpen: boolean) => {
-    if (!nextOpen) {
-      if (closeIntentRef.current === "dismiss") {
-        markDismissedTemporarily()
-      }
-      setOpen(false)
-      return
+    return () => {
+      cancelled = true
+      window.clearTimeout(timer)
     }
-
-    closeIntentRef.current = "dismiss"
-    setOpen(true)
-  }
+  }, [pathname])
 
   const handleSubscribe = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -149,7 +134,6 @@ export default function NewsletterPrompt() {
       }
 
       markSubscribedLocally()
-      closeIntentRef.current = "subscribed"
       setOpen(false)
       setEmail("")
 
@@ -176,7 +160,7 @@ export default function NewsletterPrompt() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={(next) => setOpen(next)}>
       <DialogContent className="max-w-md border-orange-200 bg-white/95" showCloseButton={false}>
         <DialogHeader className="items-center gap-3 text-center">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
@@ -235,10 +219,7 @@ export default function NewsletterPrompt() {
           </div>
           <button
             type="button"
-            onClick={() => {
-              closeIntentRef.current = "dismiss"
-              setOpen(false)
-            }}
+            onClick={() => setOpen(false)}
             className="font-medium text-orange-500 transition hover:text-orange-600"
           >
             {isLoading ? "Maybe later" : t("newsletterPrompt.maybeLater")}

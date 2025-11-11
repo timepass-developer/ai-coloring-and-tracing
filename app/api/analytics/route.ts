@@ -1,5 +1,6 @@
-import { prisma } from "@/lib/prisma";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
@@ -9,6 +10,23 @@ export async function GET() {
     if (!user) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    if (!process.env.DATABASE_URL) {
+      console.warn("DATABASE_URL is not configured. Analytics API returning mock values.");
+      return Response.json(
+        {
+          coloringCount: 0,
+          tracingCount: 0,
+          totalHours: 0,
+          recentActivities: [],
+          plan: "FREE",
+          remainingGenerations: 5,
+        },
+        { status: 200 }
+      );
+    }
+
+    const { prisma } = await import("@/lib/prisma");
 
     const dbUser = await prisma.user.findUnique({
       where: { kindeId: user.id },

@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { prisma } from "@/lib/prisma";
+
+async function getPrisma() {
+  if (!process.env.DATABASE_URL) {
+    console.warn("DATABASE_URL is not configured. Analytics tracking disabled.");
+    return null;
+  }
+  const { prisma } = await import("@/lib/prisma");
+  return prisma;
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,6 +22,14 @@ export async function POST(request: NextRequest) {
     const user = await getUser();
 
     if (user) {
+      const prisma = await getPrisma();
+      if (!prisma) {
+        return NextResponse.json(
+          { success: true, warning: "Database not configured" },
+          { status: 200 }
+        );
+      }
+
       const dbUser = await prisma.user.findUnique({
         where: { kindeId: user.id },
       });

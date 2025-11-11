@@ -175,8 +175,8 @@ export default function HomePage() {
 
           <div className="relative z-10 flex w-full max-w-xl items-center justify-center md:w-1/2">
             <div className="relative h-[280px] w-full max-w-md rounded-[2.5rem] bg-white/80 p-8 shadow-2xl backdrop-blur">
-              <div className="absolute -top-6 left-6 h-12 w-12 rounded-full bg-[#87CEEB] shadow" />
-              <div className="absolute -bottom-6 right-6 h-12 w-12 rounded-full bg-[#FFD700] shadow" />
+              <div className="absolute -top-6 left-6 h-14 w-14 rounded-full bg-[#87CEEB] shadow-lg" />
+              <div className="absolute -bottom-6 right-6 h-14 w-14 rounded-full bg-[#FFD700] shadow-lg" />
               <h3 className="mb-4 text-xl font-bold text-slate-900">Family & Classroom Ready</h3>
               <ul className="space-y-3 text-sm text-slate-600">
                 <li className="flex items-start gap-2">
@@ -202,24 +202,28 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="pointer-events-none absolute -left-12 top-16 hidden md:block lg:-left-16">
-            <Image
-              src="/kid-drawing-hand.webp"
-              alt="Child colouring printable"
-              width={220}
-              height={260}
-              className="rounded-[2.5rem] border-4 border-white/70 shadow-xl"
-              priority
-            />
-          </div>
-          <div className="pointer-events-none absolute -right-10 bottom-6 hidden md:block lg:-right-14">
-            <Image
-              src="/objects-drawing-kids.webp"
-              alt="Kids drawing objects with crayons"
-              width={240}
-              height={260}
-              className="rounded-[2.5rem] border-4 border-white/70 shadow-xl"
-            />
+          <div className="pointer-events-none absolute inset-x-0 top-10 hidden translate-y-[-30%] justify-between px-6 md:flex">
+            <div className="relative hidden md:block">
+              <Image
+                src="/kid-drawing-hand.webp"
+                alt="Child colouring printable"
+                width={200}
+                height={220}
+                className="rounded-[2rem] border-4 border-white/70 shadow-xl"
+                priority
+              />
+              <div className="absolute -bottom-3 right-6 h-8 w-8 rounded-full bg-[#FF4C4C] shadow-lg" />
+            </div>
+            <div className="relative hidden md:block">
+              <Image
+                src="/objects-drawing-kids.webp"
+                alt="Kids drawing objects with crayons"
+                width={200}
+                height={220}
+                className="rounded-[2rem] border-4 border-white/70 shadow-xl"
+              />
+              <div className="absolute -top-4 left-6 h-9 w-9 rounded-full bg-[#4CAF50] shadow-lg" />
+            </div>
           </div>
         </section>
 

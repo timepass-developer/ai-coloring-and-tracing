@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState, type ComponentType } from "react";
 import Link from "next/link";
 import MobileHeader from "@/components/mobile-header";
@@ -117,8 +118,18 @@ export default function HomePage() {
 
       <div className="relative z-10 flex h-full flex-col">
         {/* Hero Section */}
-        <section className="flex flex-1 flex-col-reverse items-center gap-10 px-4 py-16 md:flex-row md:px-12 lg:px-20">
-          <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
+        <section
+          className="relative flex flex-1 flex-col-reverse items-center gap-10 px-4 py-16 md:flex-row md:px-12 lg:px-20"
+          style={{
+            backgroundImage:
+              'linear-gradient(180deg, rgba(135,206,235,0.85), rgba(135,206,235,0.3)), url("/waill-drawings-kids.webp")',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/65 via-transparent to-white/35" />
+
+          <div className="relative z-10 w-full md:w-1/2 space-y-6 text-center md:text-left">
             <div className="inline-flex items-center gap-3 rounded-full bg-white/70 px-4 py-2 text-sm font-semibold text-orange-600 shadow-sm backdrop-blur">
               <Baby className="h-4 w-4" />
               {isLoading
@@ -162,7 +173,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative flex w-full max-w-xl items-center justify-center md:w-1/2">
+          <div className="relative z-10 flex w-full max-w-xl items-center justify-center md:w-1/2">
             <div className="relative h-[280px] w-full max-w-md rounded-[2.5rem] bg-white/80 p-8 shadow-2xl backdrop-blur">
               <div className="absolute -top-6 left-6 h-12 w-12 rounded-full bg-[#87CEEB] shadow" />
               <div className="absolute -bottom-6 right-6 h-12 w-12 rounded-full bg-[#FFD700] shadow" />
@@ -189,6 +200,26 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="pointer-events-none absolute -left-12 top-16 hidden md:block lg:-left-16">
+            <Image
+              src="/kid-drawing-hand.webp"
+              alt="Child colouring printable"
+              width={220}
+              height={260}
+              className="rounded-[2.5rem] border-4 border-white/70 shadow-xl"
+              priority
+            />
+          </div>
+          <div className="pointer-events-none absolute -right-10 bottom-6 hidden md:block lg:-right-14">
+            <Image
+              src="/objects-drawing-kids.webp"
+              alt="Kids drawing objects with crayons"
+              width={240}
+              height={260}
+              className="rounded-[2.5rem] border-4 border-white/70 shadow-xl"
+            />
           </div>
         </section>
 
@@ -241,6 +272,36 @@ export default function HomePage() {
             >
               {t("home.cta.button")}
             </Link>
+          </div>
+
+          <div className="hidden w-full gap-6 md:grid md:grid-cols-3">
+            <div className="relative h-40 overflow-hidden rounded-3xl border border-white/60 shadow-lg">
+              <Image
+                src="/kids-art-wall.webp"
+                alt="Classroom art wall"
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="relative h-40 overflow-hidden rounded-3xl border border-white/60 shadow-lg">
+              <Image
+                src="/kid-coloring-hand.webp"
+                alt="Child colouring printable"
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="relative h-40 overflow-hidden rounded-3xl border border-white/60 shadow-lg">
+              <Image
+                src="/drawing.webp"
+                alt="Children drawing together"
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
 
           <footer className="text-center text-xs text-slate-500">

@@ -41,6 +41,22 @@
     "settings": "Paramètres",
     "help": "Aide"
   },
+  "newsletterPrompt": {
+    "title": "Débloquez des jetons bonus",
+    "description": "Abonnez-vous à notre newsletter pour parents et gagnez des crédits supplémentaires de génération d'images.",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "subscribeButton": "S'abonner et débloquer",
+    "subscribing": "Abonnement...",
+    "missingEmail": "E-mail requis",
+    "missingEmailDescription": "Veuillez entrer votre adresse e-mail pour vous abonner.",
+    "successTitle": "Vous êtes abonné(e) ! 🎉",
+    "successDescription": "Des jetons supplémentaires de génération d'images ont été ajoutés à votre compte.",
+    "errorTitle": "Échec de l'abonnement",
+    "errorDescription": "Une erreur est survenue. Veuillez réessayer.",
+    "privacy": "Conseils hebdomadaires. Désinscription à tout moment.",
+    "maybeLater": "Peut-être plus tard"
+  },
   "home": {
     "hero": {
       "title": "Transformez n'importe quelle idée en",

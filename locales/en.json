@@ -41,6 +41,22 @@
     "settings": "Settings",
     "help": "Help"
   },
+  "newsletterPrompt": {
+    "title": "Unlock Bonus Tokens",
+    "description": "Subscribe to our parenting newsletter and earn extra image generation credits.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email",
+    "subscribeButton": "Subscribe & Unlock",
+    "subscribing": "Subscribing...",
+    "missingEmail": "Email required",
+    "missingEmailDescription": "Please enter your email address to subscribe.",
+    "successTitle": "You're subscribed! 🎉",
+    "successDescription": "Bonus image generation tokens have been added to your account.",
+    "errorTitle": "Subscription failed",
+    "errorDescription": "Something went wrong. Please try again.",
+    "privacy": "Weekly tips. Unsubscribe anytime.",
+    "maybeLater": "Maybe later"
+  },
   "home": {
     "hero": {
       "title": "Turn Any Idea Into",

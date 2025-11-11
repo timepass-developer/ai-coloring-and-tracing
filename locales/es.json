@@ -41,6 +41,22 @@
     "settings": "Ajustes",
     "help": "Ayuda"
   },
+  "newsletterPrompt": {
+    "title": "Desbloquea fichas extra",
+    "description": "Suscríbete a nuestro boletín para padres y consigue créditos adicionales de generación de imágenes.",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "Introduce tu correo",
+    "subscribeButton": "Suscribirme y obtener",
+    "subscribing": "Suscribiendo...",
+    "missingEmail": "Correo obligatorio",
+    "missingEmailDescription": "Introduce tu correo electrónico para suscribirte.",
+    "successTitle": "¡Te has suscrito! 🎉",
+    "successDescription": "Se han añadido fichas extra de generación de imágenes a tu cuenta.",
+    "errorTitle": "Error al suscribirse",
+    "errorDescription": "Algo salió mal. Inténtalo de nuevo.",
+    "privacy": "Consejos semanales. Cancela cuando quieras.",
+    "maybeLater": "Quizá después"
+  },
   "home": {
     "hero": {
       "title": "Convierte cualquier idea en",

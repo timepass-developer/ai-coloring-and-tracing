@@ -41,6 +41,22 @@
     "settings": "Einstellungen",
     "help": "Hilfe"
   },
+  "newsletterPrompt": {
+    "title": "Bonus-Tokens freischalten",
+    "description": "Abonniere unseren Eltern-Newsletter und erhalte zusätzliche Bildgenerierungs-Credits.",
+    "emailLabel": "E-Mail-Adresse",
+    "emailPlaceholder": "E-Mail eingeben",
+    "subscribeButton": "Abonnieren & freischalten",
+    "subscribing": "Abonnieren...",
+    "missingEmail": "E-Mail erforderlich",
+    "missingEmailDescription": "Bitte gib deine E-Mail-Adresse ein, um dich anzumelden.",
+    "successTitle": "Du bist angemeldet! 🎉",
+    "successDescription": "Zusätzliche Bildgenerierungs-Tokens wurden deinem Konto gutgeschrieben.",
+    "errorTitle": "Anmeldung fehlgeschlagen",
+    "errorDescription": "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+    "privacy": "Wöchentliche Tipps. Jederzeit abbestellbar.",
+    "maybeLater": "Vielleicht später"
+  },
   "home": {
     "hero": {
       "title": "Verwandeln Sie jede Idee in",

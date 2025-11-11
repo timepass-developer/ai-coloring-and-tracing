@@ -41,6 +41,14 @@
     "settings": "Settings",
     "help": "Help"
   },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "analytics": "Analytics",
+    "newsletter": "Newsletter",
+    "settings": "Settings"
+  },
   "newsletterPrompt": {
     "title": "Unlock Bonus Tokens",
     "description": "Subscribe to our parenting newsletter and earn extra image generation credits.",

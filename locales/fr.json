@@ -41,6 +41,14 @@
     "settings": "Paramètres",
     "help": "Aide"
   },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Tableau de bord",
+    "users": "Utilisateurs",
+    "analytics": "Analyses",
+    "newsletter": "Newsletter",
+    "settings": "Paramètres"
+  },
   "newsletterPrompt": {
     "title": "Débloquez des jetons bonus",
     "description": "Abonnez-vous à notre newsletter pour parents et gagnez des crédits supplémentaires de génération d'images.",
@@ -563,14 +571,6 @@
     "feature3": "Vitesse de génération prioritaire",
     "upgradeButton": "Mettre à niveau maintenant",
     "laterButton": "Peut-être plus tard"
-  },
-  "admin": {
-    "title": "Admin",
-    "dashboard": "Tableau de bord",
-    "users": "Utilisateurs",
-    "analytics": "Analytique",
-    "newsletter": "Newsletter",
-    "settings": "Paramètres"
   },
   "meta": {
     "home": {

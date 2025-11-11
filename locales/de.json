@@ -41,6 +41,14 @@
     "settings": "Einstellungen",
     "help": "Hilfe"
   },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Dashboard",
+    "users": "Benutzer",
+    "analytics": "Analysen",
+    "newsletter": "Newsletter",
+    "settings": "Einstellungen"
+  },
   "newsletterPrompt": {
     "title": "Bonus-Tokens freischalten",
     "description": "Abonniere unseren Eltern-Newsletter und erhalte zusätzliche Bildgenerierungs-Credits.",
@@ -563,14 +571,6 @@
     "feature3": "Prioritäts-Generierungsgeschwindigkeit",
     "upgradeButton": "Jetzt upgraden",
     "laterButton": "Vielleicht später"
-  },
-  "admin": {
-    "title": "Admin",
-    "dashboard": "Dashboard",
-    "users": "Benutzer",
-    "analytics": "Analytik",
-    "newsletter": "Newsletter",
-    "settings": "Einstellungen"
   },
   "meta": {
     "home": {

@@ -41,6 +41,14 @@
     "settings": "Ajustes",
     "help": "Ayuda"
   },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Panel",
+    "users": "Usuarios",
+    "analytics": "Analítica",
+    "newsletter": "Boletín",
+    "settings": "Ajustes"
+  },
   "newsletterPrompt": {
     "title": "Desbloquea fichas extra",
     "description": "Suscríbete a nuestro boletín para padres y consigue créditos adicionales de generación de imágenes.",
@@ -563,14 +571,6 @@
     "feature3": "Velocidad de generación prioritaria",
     "upgradeButton": "Actualizar ahora",
     "laterButton": "Tal vez más tarde"
-  },
-  "admin": {
-    "title": "Admin",
-    "dashboard": "Panel",
-    "users": "Usuarios",
-    "analytics": "Analítica",
-    "newsletter": "Boletín",
-    "settings": "Ajustes"
   },
   "meta": {
     "home": {

@@ -1,24 +1,15 @@
 import { NextResponse } from "next/server";
-
-async function getPrisma() {
-  if (!process.env.DATABASE_URL) {
-    console.warn("DATABASE_URL is not configured. Admin users API unavailable.");
-    return null;
-  }
-  const { prisma } = await import("@/lib/prisma");
-  return prisma;
-}
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function GET(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params; // ✅ unwrap the params
   try {
-    const prisma = await getPrisma();
-    if (!prisma) {
-      return NextResponse.json(
-        { error: "Database not configured" },
-        { status: 503 }
-      );
+    const result = await requireAdmin();
+    if ("response" in result) {
+      return result.response;
     }
+
+    const { prisma } = result.context;
 
     const user = await prisma.user.findUnique({ where: { id } });
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -32,13 +23,12 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
 export async function PUT(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params; // ✅ fix here too
   try {
-    const prisma = await getPrisma();
-    if (!prisma) {
-      return NextResponse.json(
-        { error: "Database not configured" },
-        { status: 503 }
-      );
+    const result = await requireAdmin();
+    if ("response" in result) {
+      return result.response;
     }
+
+    const { prisma } = result.context;
 
     const body = await req.json();
     const { name, email, plan, isAdmin } = body;
@@ -67,13 +57,12 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
 export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params; // ✅ also fix here
   try {
-    const prisma = await getPrisma();
-    if (!prisma) {
-      return NextResponse.json(
-        { error: "Database not configured" },
-        { status: 503 }
-      );
+    const result = await requireAdmin();
+    if ("response" in result) {
+      return result.response;
     }
+
+    const { prisma } = result.context;
 
     await prisma.user.delete({ where: { id } });
     return NextResponse.json({ message: "User deleted successfully" });

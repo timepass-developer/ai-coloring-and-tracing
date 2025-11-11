@@ -1,24 +1,15 @@
 // app/admin/users/api/route.ts
 import { NextResponse } from "next/server";
-
-async function getPrisma() {
-  if (!process.env.DATABASE_URL) {
-    console.warn("DATABASE_URL is not configured. Admin users API unavailable.");
-    return null;
-  }
-  const { prisma } = await import("@/lib/prisma");
-  return prisma;
-}
+import { requireAdmin } from "@/lib/admin-auth";
 
 export async function GET() {
   try {
-    const prisma = await getPrisma();
-    if (!prisma) {
-      return NextResponse.json(
-        { error: "Database not configured" },
-        { status: 503 }
-      );
+    const result = await requireAdmin();
+    if ("response" in result) {
+      return result.response;
     }
+
+    const { prisma } = result.context;
 
     const users = await prisma.user.findMany({
       orderBy: { createdAt: "desc" },
@@ -32,13 +23,12 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const prisma = await getPrisma();
-    if (!prisma) {
-      return NextResponse.json(
-        { error: "Database not configured" },
-        { status: 503 }
-      );
+    const result = await requireAdmin();
+    if ("response" in result) {
+      return result.response;
     }
+
+    const { prisma } = result.context;
 
     const body = await req.json();
     const { kindeId, email, name, image, plan, isAdmin } = body;

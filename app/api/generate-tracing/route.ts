@@ -1,6 +1,16 @@
 import { generateTracingContent } from "@/lib/image-generation";
-import { prisma } from "@/lib/prisma";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+export const dynamic = "force-dynamic";
+
+async function getPrisma() {
+  if (!process.env.DATABASE_URL) {
+    console.warn("DATABASE_URL is not configured. Generate tracing API limited to guest mode.");
+    return null;
+  }
+  const { prisma } = await import("@/lib/prisma");
+  return prisma;
+}
 
 /**
  * POST /api/generate-tracing
@@ -79,6 +89,17 @@ export async function POST(req: Request) {
     // -------------------------------
     // 👤 Logged-in user logic
     // -------------------------------
+    const prisma = await getPrisma();
+    if (!prisma) {
+      return Response.json(
+        {
+          error: "service_unavailable",
+          message: "Database is not configured. Please try again later.",
+        },
+        { status: 503 }
+      );
+    }
+
     const kindeId = user.id;
 
     // Ensure user exists in DB

@@ -1,4 +1,9 @@
 import { generateTracingContent } from "@/lib/image-generation";
+import {
+  buildTracingImagePrompt,
+  generateTracingPlanFromPrompt,
+  TracingPlan,
+} from "@/lib/tracing-prompt-service";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export const dynamic = "force-dynamic";
@@ -34,8 +39,9 @@ export async function POST(req: Request) {
       return Response.json({ error: "Prompt is required" }, { status: 400 });
     }
 
-    // ✅ Parse tracing prompt (keep your original logic intact)
-    const tracingData = parseTracingPrompt(prompt);
+    // ✅ Parse tracing prompt (AI-assisted when needed)
+    const tracingData = await parseTracingPrompt(prompt);
+    const imagePrompt = buildTracingImagePrompt(tracingData, prompt);
     const uniqueId =
       Date.now() + Math.random().toString(36).substring(2, 9);
     const placeholderUrl = `/placeholder.svg?height=400&width=400&text=${encodeURIComponent(
@@ -85,6 +91,7 @@ export async function POST(req: Request) {
       return Response.json({
         success: true,
         ...tracingData,
+        imagePrompt,
         imageUrl: placeholderUrl,
         uniqueId,
         guestRemaining: 3 - guestData.count,
@@ -160,7 +167,7 @@ export async function POST(req: Request) {
     // -------------------------------
     // ✏️ Generate Tracing Image (if needed)
     // -------------------------------
-    const result = await generateTracingContent(prompt);
+    const result = await generateTracingContent(imagePrompt, tracingData);
     const imageUrl = result?.imageUrl || placeholderUrl;
 
     // -------------------------------
@@ -193,6 +200,7 @@ export async function POST(req: Request) {
       success: true,
       ...tracingData,
       originalPrompt: prompt,
+      imagePrompt,
       imageUrl,
       uniqueId,
     });
@@ -208,7 +216,14 @@ export async function POST(req: Request) {
 // --------------------------------------------------------------------
 // 🧩 Your Original Parsing Logic — fully preserved below
 // --------------------------------------------------------------------
-function parseTracingPrompt(prompt: string) {
+const DEFAULT_TRACING_DATA: TracingPlan = {
+  type: "letter",
+  content: "A",
+  style: "uppercase",
+  description: "Trace the letter A",
+};
+
+async function parseTracingPrompt(prompt: string): Promise<TracingPlan> {
   const lowerPrompt = prompt.toLowerCase();
 
   const letterMatch = prompt.match(/(?:letter|alphabet)\s+([A-Za-z])/i);
@@ -218,7 +233,7 @@ function parseTracingPrompt(prompt: string) {
       lowerPrompt.includes("lowercase") || letter === letter.toLowerCase();
     const isCursive = lowerPrompt.includes("cursive");
 
-    let style = "uppercase";
+    let style: TracingPlan["style"] = "uppercase";
     if (isCursive) {
       style = "cursive";
     } else if (isLowercase) {
@@ -302,10 +317,10 @@ function parseTracingPrompt(prompt: string) {
     };
   }
 
-  return {
-    type: "letter",
-    content: "A",
-    style: "uppercase",
-    description: "Trace the letter A",
-  };
+  const plan = await generateTracingPlanFromPrompt(prompt);
+  if (plan) {
+    return plan;
+  }
+
+  return DEFAULT_TRACING_DATA;
 }

@@ -11,7 +11,7 @@ import { downloadTracingTemplate, printImage } from "@/lib/download-utils";
 import AuthGate from "@/components/auth-gate";
 import { useAuthGate } from "@/hooks/use-auth-gate";
 import { useUserDataCollection } from "@/hooks/use-user-data-collection";
-import { getTracingPrompts, getLetterPrompts, getEnhancedTracingPrompt } from "@/lib/prompts-complete";
+import { getTracingPrompts, getLetterPrompts } from "@/lib/prompts-complete";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import {
   hasReachedGuestLimit,
@@ -30,6 +30,9 @@ interface TracingContent {
   content: string;
   style: "uppercase" | "lowercase" | "cursive";
   description: string;
+  imageUrl?: string;
+  imagePrompt?: string;
+  originalPrompt?: string;
 }
 
 export default function TracingPage() {
@@ -65,7 +68,7 @@ export default function TracingPage() {
     if (isAuthenticated) resetGuestGenerations();
   }, [isAuthenticated]);
 
-  const generateTracing = async (inputPrompt: string, originalPrompt?: string) => {
+  const generateTracing = async (inputPrompt: string) => {
     if (!inputPrompt.trim()) return;
 
     // 🧠 Guest Limit Check
@@ -88,8 +91,16 @@ export default function TracingPage() {
       if (!response.ok) throw new Error("Failed to generate tracing content");
 
       const data = await response.json();
-      setTracingContent(data);
-      trackActivity("generate_tracing", originalPrompt ?? inputPrompt);
+      setTracingContent({
+        type: data.type,
+        content: data.content,
+        style: data.style,
+        description: data.description,
+        imageUrl: data.imageUrl,
+        imagePrompt: data.imagePrompt,
+        originalPrompt: data.originalPrompt ?? inputPrompt,
+      });
+      trackActivity("generate_tracing", inputPrompt);
     } catch (error) {
       console.error("Error:", error);
       alert("Failed to generate tracing content. Please try again.");
@@ -100,14 +111,12 @@ export default function TracingPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const enhancedPrompt = getEnhancedTracingPrompt(prompt);
-    generateTracing(enhancedPrompt, prompt);
+    generateTracing(prompt);
   };
 
   const handleSuggestedPrompt = (suggestedPrompt: string) => {
     setPrompt(suggestedPrompt);
-    const enhancedPrompt = getEnhancedTracingPrompt(suggestedPrompt);
-    generateTracing(enhancedPrompt, suggestedPrompt);
+    generateTracing(suggestedPrompt);
   };
 
   const handleDownload = () => {

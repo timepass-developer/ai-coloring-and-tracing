@@ -7,11 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Loader2, Download, Printer, Mic, BookOpen } from "lucide-react";
 import TracingCanvas from "@/components/tracing-canvas";
-import { printContent } from "@/lib/download-utils";
+import { downloadTracingTemplate, printImage } from "@/lib/download-utils";
 import AuthGate from "@/components/auth-gate";
 import { useAuthGate } from "@/hooks/use-auth-gate";
 import { useUserDataCollection } from "@/hooks/use-user-data-collection";
-import { getTracingPrompts, getLetterPrompts } from "@/lib/prompts-complete";
+import { getTracingPrompts, getLetterPrompts, getEnhancedTracingPrompt } from "@/lib/prompts-complete";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import {
   hasReachedGuestLimit,
@@ -20,6 +20,7 @@ import {
 } from "@/lib/usage-tracker";
 import LoginPrompt from "@/components/LoginPrompt";
 import { useTranslations } from "@/hooks/use-translations";
+import { createTracingDataUrl } from "@/lib/tracing-renderer";
 
 const SUGGESTED_PROMPTS = getTracingPrompts();
 const LETTER_PROMPTS = getLetterPrompts(8);
@@ -64,7 +65,7 @@ export default function TracingPage() {
     if (isAuthenticated) resetGuestGenerations();
   }, [isAuthenticated]);
 
-  const generateTracing = async (inputPrompt: string) => {
+  const generateTracing = async (inputPrompt: string, originalPrompt?: string) => {
     if (!inputPrompt.trim()) return;
 
     // 🧠 Guest Limit Check
@@ -88,7 +89,7 @@ export default function TracingPage() {
 
       const data = await response.json();
       setTracingContent(data);
-      trackActivity("generate_tracing", inputPrompt);
+      trackActivity("generate_tracing", originalPrompt ?? inputPrompt);
     } catch (error) {
       console.error("Error:", error);
       alert("Failed to generate tracing content. Please try again.");
@@ -99,49 +100,24 @@ export default function TracingPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    generateTracing(prompt);
+    const enhancedPrompt = getEnhancedTracingPrompt(prompt);
+    generateTracing(enhancedPrompt, prompt);
   };
 
   const handleSuggestedPrompt = (suggestedPrompt: string) => {
     setPrompt(suggestedPrompt);
-    generateTracing(suggestedPrompt);
+    const enhancedPrompt = getEnhancedTracingPrompt(suggestedPrompt);
+    generateTracing(enhancedPrompt, suggestedPrompt);
   };
 
   const handleDownload = () => {
     if (!tracingContent) return;
     executeWithAuth(
       () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
-
-        canvas.width = 800;
-        canvas.height = 600;
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = "32px Arial";
-        ctx.fillStyle = "#333";
-        ctx.textAlign = "center";
-        ctx.fillText(tracingContent.description, canvas.width / 2, 60);
-        ctx.font = "200px Arial";
-        ctx.strokeStyle = "#ddd";
-        ctx.lineWidth = 4;
-        ctx.strokeText(tracingContent.content, canvas.width / 2, 250);
-        ctx.strokeStyle = "#ccc";
-        ctx.lineWidth = 2;
-        ctx.setLineDash([10, 10]);
-        for (let i = 0; i < 3; i++) {
-          const y = 350 + i * 80;
-          ctx.beginPath();
-          ctx.moveTo(50, y);
-          ctx.lineTo(canvas.width - 50, y);
-          ctx.stroke();
-        }
-
-        const link = document.createElement("a");
-        link.download = `tracing-${tracingContent.content.toLowerCase()}.jpg`;
-        link.href = canvas.toDataURL("image/jpeg", 0.9);
-        link.click();
+        downloadTracingTemplate(
+          tracingContent.content,
+          `tracing-${tracingContent.content.toLowerCase()}.png`
+        );
         trackActivity("download_tracing", tracingContent.description);
       },
       "download",
@@ -150,15 +126,16 @@ export default function TracingPage() {
   };
 
   const handlePrint = () => {
-    if (tracingContent)
-      executeWithAuth(
-        () => {
-          printContent(tracingContent.content, tracingContent.description);
-          trackActivity("print_tracing", tracingContent.description);
-        },
-        "print",
-        `Tracing Worksheet: ${tracingContent.description}`
-      );
+    if (!tracingContent) return;
+    executeWithAuth(
+      () => {
+        const dataUrl = createTracingDataUrl(tracingContent.content);
+        printImage(dataUrl, tracingContent.description);
+        trackActivity("print_tracing", tracingContent.description);
+      },
+      "print",
+      `Tracing Worksheet: ${tracingContent.description}`
+    );
   };
 
   return (

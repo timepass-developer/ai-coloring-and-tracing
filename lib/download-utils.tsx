@@ -1,3 +1,5 @@
+import { createTracingCanvas, createTracingDataUrl } from "./tracing-renderer"
+
 export const downloadImage = (imageUrl: string, filename: string) => {
   const link = document.createElement("a")
   link.href = imageUrl
@@ -16,60 +18,19 @@ export const downloadCanvas = (canvas: HTMLCanvasElement, filename: string) => {
   document.body.removeChild(link)
 }
 
+export const downloadTracingTemplate = (
+  content: string,
+  filename: string,
+  width?: number,
+  height?: number
+) => {
+  const canvas = createTracingCanvas(content, width, height)
+  downloadCanvas(canvas, filename)
+}
+
 export const printContent = (content: string, title: string) => {
-  const printWindow = window.open("", "_blank")
-  if (printWindow) {
-    printWindow.document.write(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>${title}</title>
-          <style>
-            body {
-              margin: 0;
-              padding: 40px;
-              text-align: center;
-              font-family: 'Arial', sans-serif;
-              background: white;
-            }
-            .header {
-              font-size: 24px;
-              font-weight: bold;
-              margin-bottom: 40px;
-              color: #333;
-            }
-            .content {
-              font-size: 200px;
-              color: #ddd;
-              font-weight: bold;
-              -webkit-text-stroke: 2px #ccc;
-              text-stroke: 2px #ccc;
-              margin: 40px 0;
-            }
-            .practice-lines {
-              border-top: 2px dashed #ccc;
-              margin: 40px 0;
-              height: 80px;
-            }
-            @media print {
-              body { margin: 20px; }
-              .content { font-size: 150px; }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">${title}</div>
-          <div class="content">${content}</div>
-          <div class="practice-lines"></div>
-          <div class="practice-lines"></div>
-          <div class="practice-lines"></div>
-        </body>
-      </html>
-    `)
-    printWindow.document.close()
-    printWindow.focus()
-    printWindow.print()
-  }
+  const dataUrl = createTracingDataUrl(content)
+  printImage(dataUrl, title)
 }
 
 export const printImage = (imageUrl: string, title: string) => {
@@ -108,7 +69,6 @@ export const printImage = (imageUrl: string, title: string) => {
 
   const img = printWindow.document.getElementById("printImage") as HTMLImageElement
 
-  // Wait until image loads
   img.onload = () => {
     printWindow.focus()
     printWindow.print()

@@ -4,6 +4,7 @@ import type React from "react"
 import { useRef, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { RotateCcw } from "lucide-react"
+import { drawTracingTemplate } from "@/lib/tracing-renderer"
 
 interface TracingCanvasProps {
   content: string
@@ -13,41 +14,44 @@ export default function TracingCanvas({ content }: TracingCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isDrawing, setIsDrawing] = useState(false)
   const [isClearing, setIsClearing] = useState(false)
+  const [canvasDimensions, setCanvasDimensions] = useState({ width: 360, height: 280 })
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
+    const determineDimensions = () => {
+      const baseWidth = Math.min(window.innerWidth * 0.9, 480)
+      const baseHeight = baseWidth * 0.75
+      setCanvasDimensions({ width: baseWidth, height: baseHeight })
+      redrawTemplate(canvas, content, baseWidth, baseHeight)
+    }
+
+    determineDimensions()
+    window.addEventListener("resize", determineDimensions)
+    return () => window.removeEventListener("resize", determineDimensions)
+  }, [content])
+
+  const redrawTemplate = (
+    canvas: HTMLCanvasElement,
+    text: string,
+    width: number,
+    height: number
+  ) => {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    // Make the canvas responsive
-    const resizeCanvas = () => {
-      const width = Math.min(window.innerWidth * 0.8, 400)
-      const height = width * 0.8
-      canvas.width = width
-      canvas.height = height
-      drawTemplate(ctx, content)
-    }
+    const scale = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1
 
-    resizeCanvas()
-    window.addEventListener("resize", resizeCanvas)
-    return () => window.removeEventListener("resize", resizeCanvas)
-  }, [content])
+    canvas.width = Math.round(width * scale)
+    canvas.height = Math.round(height * scale)
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${height}px`
 
-  const drawTemplate = (ctx: CanvasRenderingContext2D, text: string) => {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-    ctx.fillStyle = "white"
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
+    ctx.scale(scale, scale)
 
-    ctx.font = `${ctx.canvas.width / 2.5}px Arial`
-    ctx.strokeStyle = "#e0e0e0"
-    ctx.lineWidth = 3
-    ctx.setLineDash([8, 8])
-    ctx.textAlign = "center"
-    ctx.textBaseline = "middle"
-    ctx.strokeText(text, ctx.canvas.width / 2, ctx.canvas.height / 2)
-    ctx.setLineDash([])
+    drawTracingTemplate(ctx, text, { width, height })
   }
 
   const getPosition = (
@@ -68,7 +72,9 @@ export default function TracingCanvas({ content }: TracingCanvasProps) {
     }
   }
 
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+  const startDrawing = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  ) => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext("2d")
@@ -84,7 +90,9 @@ export default function TracingCanvas({ content }: TracingCanvasProps) {
     ctx.lineCap = "round"
   }
 
-  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+  const draw = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+  ) => {
     if (!isDrawing) return
     const canvas = canvasRef.current
     if (!canvas) return
@@ -101,12 +109,13 @@ export default function TracingCanvas({ content }: TracingCanvasProps) {
   const clearCanvas = () => {
     const canvas = canvasRef.current
     if (!canvas) return
+
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
     setIsClearing(true)
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    drawTemplate(ctx, content)
+    redrawTemplate(canvas, content, canvasDimensions.width, canvasDimensions.height)
 
     setTimeout(() => setIsClearing(false), 300)
   }

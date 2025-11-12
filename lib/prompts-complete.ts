@@ -9,6 +9,12 @@ export interface CSVPromptData {
   simplePrompts: string[];
 }
 
+export interface TracingPromptTemplate {
+  category: string;
+  userRequest: string;
+  enhancedPrompt: string;
+}
+
 // Complete CSV data extracted from ai_prompts.csv
 export const COMPLETE_CSV_PROMPTS: CSVPromptData[] = [
   // FlashCard Prompts
@@ -213,6 +219,59 @@ export const COMPLETE_CSV_PROMPTS: CSVPromptData[] = [
   }
 ];
 
+export const TRACING_PROMPT_LIBRARY: TracingPromptTemplate[] = [
+  {
+    category: "Letters/Alphabet",
+    userRequest: "Make letter B for my 3 year old",
+    enhancedPrompt: `Generate a tracing worksheet for toddlers aged 2-4 years learning alphabet recognition and writing. Create the letter "B" in cartoon visual style, featuring extra large size specification with dotted lines tracing elements. The design should be thick bold lines thickness guide and use bright primary color scheme. Include directional arrows educational elements with rounded corners safety margins for small hands. Background must be white for printing clarity.`
+  },
+  {
+    category: "Letters/Alphabet",
+    userRequest: "I need the letter A with animals",
+    enhancedPrompt: `Generate a flashcard for toddlers aged 2-4 years learning alphabet recognition and writing. Create the letter "A" in cartoon visual style, featuring jumbo sized size specification with adorable alligator integrated design. The design should be chunky design thickness guide and use bright primary color scheme. Include example words "Apple" and "Ant" educational elements with rounded corners safety margins and no sharp edges. Background must be white for printing clarity.`
+  },
+  {
+    category: "Letters/Alphabet",
+    userRequest: "Can you make lowercase d for tracing practice?",
+    enhancedPrompt: `Generate a tracing worksheet for toddlers aged 2-4 years learning alphabet recognition and writing. Create the letter "d" in hand-drawn visual style, featuring toddler-friendly proportions size specification with numbered arrows tracing elements. The design should be thick bold lines thickness guide and use monochrome bold color scheme. Include starting points and directional guides educational elements with wide spacing safety margins. Background must be white for printing clarity.`
+  },
+  {
+    category: "Letters/Alphabet",
+    userRequest: "My child needs to practice writing their name - Emma",
+    enhancedPrompt: `Generate a tracing worksheet for toddlers aged 2-4 years learning alphabet recognition and writing. Create the letters "EMMA" in bubble visual style, featuring extra large size specification with dotted lines tracing elements. The design should be chunky design thickness guide and use pastel rainbow color scheme. Include starting dots educational elements with safety margins for small hands. Background must be white for printing clarity.`
+  },
+  {
+    category: "Letters/Alphabet",
+    userRequest: "Make colorful ABC flashcards",
+    enhancedPrompt: `Generate a flashcard for toddlers aged 2-4 years learning alphabet recognition and writing. Create the letters "A-Z" in cartoon visual style, featuring jumbo sized size specification with bright decorative tracing elements. The design should be thick bold lines thickness guide and use rainbow gradient color scheme. Include matching pictures educational elements with rounded corners safety margins. Background must be white for printing clarity.`
+  },
+  {
+    category: "Letters/Alphabet",
+    userRequest: "I want bubble letters for coloring",
+    enhancedPrompt: `Generate a tracing worksheet for toddlers aged 2-4 years learning alphabet recognition and writing. Create bubble-style letters in photorealistic visual style, featuring extra large size specification with thick outlines tracing elements. The design should be finger-friendly width thickness guide and use monochrome bold color scheme. Include decorative borders educational elements with wide spacing safety margins. Background must be white for printing clarity.`
+  },
+  {
+    category: "Letters/Alphabet",
+    userRequest: "Make letter S that looks like a snake",
+    enhancedPrompt: `Generate a sticker for toddlers aged 2-4 years learning alphabet recognition and writing. Create the letter "S" in cartoon visual style, featuring toddler-friendly proportions size specification with snake design integration tracing elements. The design should be thick outlines thickness guide and use bright primary color scheme. Include friendly snake features educational elements with no sharp edges safety margins. Background must be white for printing clarity.`
+  },
+  {
+    category: "Letters/Alphabet",
+    userRequest: "Can I get cursive letters for my 4 year old?",
+    enhancedPrompt: `Generate a tracing worksheet for toddlers aged 2-4 years learning alphabet recognition and writing. Create simplified cursive letters in hand-drawn visual style, featuring large print size specification with gentle connecting strokes tracing elements. The design should be thick bold lines thickness guide and use high contrast color scheme. Include directional arrows educational elements with grip-friendly spacing safety margins. Background must be white for printing clarity.`
+  },
+  {
+    category: "Letters/Alphabet",
+    userRequest: "Make the alphabet with farm animals theme",
+    enhancedPrompt: `Generate a flashcard for toddlers aged 2-4 years learning alphabet recognition and writing. Create the letters "A-Z" in cartoon visual style, featuring jumbo sized size specification with farm animals integrated tracing elements. The design should be chunky design thickness guide and use bright primary color scheme. Include animal names and sounds educational elements with rounded edges safety margins. Background must be white for printing clarity.`
+  },
+  {
+    category: "Letters/Alphabet",
+    userRequest: "I need big letters for wall decoration",
+    enhancedPrompt: `Generate a flashcard for toddlers aged 2-4 years learning alphabet recognition and writing. Create decorative letters in photorealistic visual style, featuring extra large size specification suitable for wall display with 3D appearance tracing elements. The design should be bold appearance thickness guide and use vibrant gradient color scheme. Include shadow effects educational elements with rounded corners safety margins. Background must be white for printing clarity.`
+  }
+];
+
 // Enhanced utility functions
 export function getAllPromptsByCategory(category: string): CSVPromptData[] {
   return COMPLETE_CSV_PROMPTS.filter(prompt => prompt.category === category);
@@ -262,42 +321,12 @@ export function getColoringPrompts(): string[] {
   ];
 }
 
+export function getTracingPromptLibrary(): TracingPromptTemplate[] {
+  return TRACING_PROMPT_LIBRARY;
+}
+
 export function getTracingPrompts(): string[] {
-  // Generate more diverse tracing prompts
-  const alphabetPrompts = [];
-  const numberPrompts = [];
-  const wordPrompts = [];
-  const cursivePrompts = [];
-  
-  // Generate alphabet prompts for A-Z
-  for (let i = 0; i < 26; i++) {
-    const letter = String.fromCharCode(65 + i); // A-Z
-    const lowercase = String.fromCharCode(97 + i); // a-z
-    
-    alphabetPrompts.push(`Trace Alphabet ${letter}`);
-    alphabetPrompts.push(`Trace alphabet ${lowercase} in lowercase`);
-    cursivePrompts.push(`Trace alphabet ${letter} in cursive`);
-    cursivePrompts.push(`Trace alphabet ${lowercase} in cursive`);
-  }
-  
-  // Generate number prompts for 0-20
-  for (let i = 0; i <= 20; i++) {
-    numberPrompts.push(`Trace number ${i}`);
-    if (i <= 10) {
-      const numberWords = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
-      wordPrompts.push(`Spelling of ${numberWords[i].charAt(0).toUpperCase() + numberWords[i].slice(1)}`);
-    }
-  }
-  
-  // Additional word prompts
-  const commonWords = ['cat', 'dog', 'sun', 'moon', 'star', 'tree', 'house', 'car', 'ball', 'book'];
-  commonWords.forEach(word => {
-    wordPrompts.push(`Spelling of ${word.charAt(0).toUpperCase() + word.slice(1)}`);
-  });
-  
-  // Combine and shuffle all prompts
-  const allPrompts = [...alphabetPrompts, ...numberPrompts, ...wordPrompts, ...cursivePrompts];
-  return shuffleArray(allPrompts).slice(0, 50); // Return 50 random prompts
+  return TRACING_PROMPT_LIBRARY.map(prompt => prompt.userRequest);
 }
 
 // Utility function to shuffle array
@@ -324,12 +353,23 @@ export function getEnhancedColoringPrompt(simplePrompt: string): string {
 }
 
 export function getEnhancedTracingPrompt(simplePrompt: string): string {
+  const normalized = simplePrompt.trim().toLowerCase();
+  const matchedPrompt = TRACING_PROMPT_LIBRARY.find((entry) => {
+    const userRequest = entry.userRequest.trim().toLowerCase();
+    const enhanced = entry.enhancedPrompt.trim().toLowerCase();
+    return userRequest === normalized || enhanced === normalized;
+  });
+
+  if (matchedPrompt) {
+    return matchedPrompt.enhancedPrompt;
+  }
+
   return `Create a tracing worksheet for: ${simplePrompt}. 
-  The worksheet should include:
-  - Large, dotted letters or numbers for tracing
-  - Simple line drawings related to the content
-  - Practice lines for handwriting
-  - Child-friendly, educational design
-  - Suitable for children aged 2-8
-  - Black and white, printer-friendly format`;
+The worksheet should include:
+- Large, dotted letters or numbers for tracing
+- Simple line drawings related to the content
+- Practice lines for handwriting
+- Child-friendly, educational design
+- Suitable for children aged 2-8
+- Black and white, printer-friendly format`;
 }

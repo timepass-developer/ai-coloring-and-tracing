@@ -219,17 +219,17 @@ export default function TracingPage() {
                 <ul className="space-y-3 text-gray-700 text-base sm:text-lg">
                   <li>✏️ Type your prompt below</li>
                   <li>📚 Use ready-made tracing ideas</li>
-                  <li>⬇️ Download or print the sheet</li>
+                  <li>⬇️ Download or print the generated image</li>
                 </ul>
               </Card>
 
               <h2 className="text-3xl font-bold text-orange-600 animate-bounce-gentle px-4">
-                Oh! Here to learn? Let's trace then..✨
+                Generate your tracing worksheet! ✨
               </h2>
             </>
           )}
 
-          {/* 🖋 Generated Tracing */}
+          {/* 🖼 Generated Image */}
           {tracingContent && (
             <Card className="w-full sm:w-[90%] p-6 bg-white border-4 border-orange-300 shadow-xl rounded-2xl overflow-hidden flex flex-col items-center">
               <h3 className="text-lg sm:text-xl font-semibold text-orange-700 mb-4 leading-snug px-2">
@@ -237,7 +237,7 @@ export default function TracingPage() {
               </h3>
 
               <div className="flex justify-center w-full overflow-x-auto mb-4">
-                <div className="max-w-full sm:max-w-[480px] w-full">
+                <div className="max-w-full w-full">
                   <TracingCanvas 
                     content={tracingContent.content} 
                     imageUrl={tracingContent.imageUrl}

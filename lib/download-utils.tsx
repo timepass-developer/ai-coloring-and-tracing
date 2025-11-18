@@ -1,12 +1,52 @@
 import { createTracingCanvas, createTracingDataUrl } from "./tracing-renderer"
 
 export const downloadImage = (imageUrl: string, filename: string) => {
-  const link = document.createElement("a")
-  link.href = imageUrl
-  link.download = filename
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
+  // Handle base64 data URLs by converting to blob for better browser compatibility
+  if (imageUrl.startsWith("data:")) {
+    try {
+      // Convert base64 to blob
+      const response = fetch(imageUrl)
+        .then((res) => res.blob())
+        .then((blob) => {
+          const url = URL.createObjectURL(blob)
+          const link = document.createElement("a")
+          link.href = url
+          link.download = filename
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          // Clean up the object URL
+          setTimeout(() => URL.revokeObjectURL(url), 100)
+        })
+        .catch((error) => {
+          console.error("Error downloading base64 image:", error)
+          // Fallback to direct download
+          const link = document.createElement("a")
+          link.href = imageUrl
+          link.download = filename
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        })
+    } catch (error) {
+      console.error("Error processing base64 image:", error)
+      // Fallback to direct download
+      const link = document.createElement("a")
+      link.href = imageUrl
+      link.download = filename
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
+  } else {
+    // For regular URLs, use direct download
+    const link = document.createElement("a")
+    link.href = imageUrl
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 }
 
 export const downloadCanvas = (canvas: HTMLCanvasElement, filename: string) => {

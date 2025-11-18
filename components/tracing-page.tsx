@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Loader2, Download, Printer, Mic, BookOpen } from "lucide-react";
 import TracingCanvas from "@/components/tracing-canvas";
-import { downloadTracingTemplate, printImage } from "@/lib/download-utils";
+import { downloadTracingTemplate, printImage, downloadImage } from "@/lib/download-utils";
 import AuthGate from "@/components/auth-gate";
 import { useAuthGate } from "@/hooks/use-auth-gate";
 import { useUserDataCollection } from "@/hooks/use-user-data-collection";
@@ -123,10 +123,25 @@ export default function TracingPage() {
     if (!tracingContent) return;
     executeWithAuth(
       () => {
-        downloadTracingTemplate(
-          tracingContent.content,
-          `tracing-${tracingContent.content.toLowerCase()}.png`
-        );
+        // If we have a real image URL (not placeholder), use it directly
+        if (
+          tracingContent.imageUrl &&
+          !tracingContent.imageUrl.includes("/placeholder.svg") &&
+          (tracingContent.imageUrl.startsWith("data:") || 
+           tracingContent.imageUrl.startsWith("http://") ||
+           tracingContent.imageUrl.startsWith("https://"))
+        ) {
+          downloadImage(
+            tracingContent.imageUrl,
+            `tracing-${tracingContent.content.toLowerCase()}.png`
+          );
+        } else {
+          // Fall back to canvas-based download
+          downloadTracingTemplate(
+            tracingContent.content,
+            `tracing-${tracingContent.content.toLowerCase()}.png`
+          );
+        }
         trackActivity("download_tracing", tracingContent.description);
       },
       "download",
@@ -138,8 +153,20 @@ export default function TracingPage() {
     if (!tracingContent) return;
     executeWithAuth(
       () => {
-        const dataUrl = createTracingDataUrl(tracingContent.content);
-        printImage(dataUrl, tracingContent.description);
+        // If we have a real image URL (not placeholder), use it directly
+        if (
+          tracingContent.imageUrl &&
+          !tracingContent.imageUrl.includes("/placeholder.svg") &&
+          (tracingContent.imageUrl.startsWith("data:") || 
+           tracingContent.imageUrl.startsWith("http://") ||
+           tracingContent.imageUrl.startsWith("https://"))
+        ) {
+          printImage(tracingContent.imageUrl, tracingContent.description);
+        } else {
+          // Fall back to canvas-based print
+          const dataUrl = createTracingDataUrl(tracingContent.content);
+          printImage(dataUrl, tracingContent.description);
+        }
         trackActivity("print_tracing", tracingContent.description);
       },
       "print",
@@ -211,7 +238,10 @@ export default function TracingPage() {
 
               <div className="flex justify-center w-full overflow-x-auto mb-4">
                 <div className="max-w-full sm:max-w-[480px] w-full">
-                  <TracingCanvas content={tracingContent.content} />
+                  <TracingCanvas 
+                    content={tracingContent.content} 
+                    imageUrl={tracingContent.imageUrl}
+                  />
                 </div>
               </div>
 

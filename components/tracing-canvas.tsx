@@ -8,13 +8,54 @@ import { drawTracingTemplate } from "@/lib/tracing-renderer"
 
 interface TracingCanvasProps {
   content: string
+  imageUrl?: string
 }
 
-export default function TracingCanvas({ content }: TracingCanvasProps) {
+export default function TracingCanvas({ content, imageUrl }: TracingCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isDrawing, setIsDrawing] = useState(false)
   const [isClearing, setIsClearing] = useState(false)
   const [canvasDimensions, setCanvasDimensions] = useState({ width: 360, height: 280 })
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const imageRef = useRef<HTMLImageElement | null>(null)
+
+  // Load image if imageUrl is provided
+  useEffect(() => {
+    if (!imageUrl || imageUrl.includes("/placeholder.svg")) {
+      setImageLoaded(false)
+      imageRef.current = null
+      return
+    }
+
+    const img = new Image()
+    // Only set crossOrigin for external URLs, not for base64 data URLs
+    if (!imageUrl.startsWith("data:")) {
+      img.crossOrigin = "anonymous"
+    }
+    
+    img.onload = () => {
+      imageRef.current = img
+      setImageLoaded(true)
+      // Redraw canvas when image loads
+      const canvas = canvasRef.current
+      if (canvas) {
+        redrawTemplate(canvas, content, canvasDimensions.width, canvasDimensions.height)
+      }
+    }
+    
+    img.onerror = (error) => {
+      console.error("Failed to load image:", imageUrl, error)
+      setImageLoaded(false)
+      imageRef.current = null
+      // Fall back to text-only rendering
+      const canvas = canvasRef.current
+      if (canvas) {
+        redrawTemplate(canvas, content, canvasDimensions.width, canvasDimensions.height)
+      }
+    }
+    
+    img.src = imageUrl
+  }, [imageUrl, content, canvasDimensions.width, canvasDimensions.height])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -51,7 +92,41 @@ export default function TracingCanvas({ content }: TracingCanvasProps) {
     ctx.setTransform(1, 0, 0, 1, 0, 0)
     ctx.scale(scale, scale)
 
-    drawTracingTemplate(ctx, text, { width, height })
+    // Draw background image if available
+    if (imageRef.current && imageLoaded) {
+      try {
+        // Draw image to fill canvas while maintaining aspect ratio
+        const img = imageRef.current
+        const imgAspect = img.width / img.height
+        const canvasAspect = width / height
+        
+        let drawWidth = width
+        let drawHeight = height
+        let drawX = 0
+        let drawY = 0
+        
+        if (imgAspect > canvasAspect) {
+          // Image is wider - fit to height
+          drawHeight = height
+          drawWidth = height * imgAspect
+          drawX = (width - drawWidth) / 2
+        } else {
+          // Image is taller - fit to width
+          drawWidth = width
+          drawHeight = width / imgAspect
+          drawY = (height - drawHeight) / 2
+        }
+        
+        ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight)
+      } catch (error) {
+        console.error("Error drawing image:", error)
+        // Fall back to text-only rendering
+        drawTracingTemplate(ctx, text, { width, height })
+      }
+    } else {
+      // No image or image not loaded - use text-only rendering
+      drawTracingTemplate(ctx, text, { width, height })
+    }
   }
 
   const getPosition = (
@@ -119,6 +194,13 @@ export default function TracingCanvas({ content }: TracingCanvasProps) {
 
     setTimeout(() => setIsClearing(false), 300)
   }
+
+  // Redraw when image loads
+  useEffect(() => {
+    if (imageLoaded && canvasRef.current) {
+      redrawTemplate(canvasRef.current, content, canvasDimensions.width, canvasDimensions.height)
+    }
+  }, [imageLoaded, content, canvasDimensions.width, canvasDimensions.height])
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4 w-full">

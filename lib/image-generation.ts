@@ -16,62 +16,107 @@ export interface ImageGenerationResponse {
 
 export async function generateColoringImage(prompt: string): Promise<ImageGenerationResponse> {
   try {
-    const enhancedPrompt = `Simple black and white line art coloring page for children: ${prompt}. 
-    Style: Clean line drawing, no colors, bold outlines, child-friendly, suitable for coloring with crayons, no shading, cartoon style, large simple shapes`;
+    // ENHANCED: Maximize A4 page coverage with better vertical filling
+    const enhancedPrompt = `
+Create a black and white line art coloring page that MAXIMIZES coverage of an A4 paper page.
 
-    try {
-      console.log("Attempting image generation with Gemini 2.5 Flash Image Preview...");
-      console.log("Enhanced prompt:", enhancedPrompt);
+CRITICAL A4 PAGE FILLING REQUIREMENTS:
+- The artwork should extend to within 2% of all four edges of the A4 page
+- Use 98% of the vertical height - artwork should nearly touch top and bottom
+- Use 96% of the horizontal width - artwork should nearly touch left and right
+- Absolutely minimize any empty white space
 
-      const modelsToTry = [
-        "google/gemini-2.5-flash-image-preview",
-        "google/gemini-2.0-flash-exp",
-        "anthropic/claude-3.5-sonnet",
-      ];
+HEADER PLACEMENT:
+At the ABSOLUTE TOP, on ONE single compact line:
+"Name: _______ (TOP LEFT AND BOLD)   Date: _______ (TOP RIGHT AND BOLD)"
+- Use minimal vertical space for header (no more than 5% of page height)
+- Place header text close to top edge
+- Begin main artwork IMMEDIATELY below header
 
-      for (const model of modelsToTry) {
-        try {
-          console.log(`Trying model: ${model}`);
-          const imageResponse = await openai.chat.completions.create({
-            model,
-            messages: [
-              {
-                role: "user",
-                content: [
-                  {
-                    type: "text",
-                    text: enhancedPrompt,
-                  },
-                ],
-              },
-            ],
-            modalities: ["image", "text"],
-          });
+MAIN ARTWORK - MAXIMIZE VERTICAL USAGE:
+- Artwork should start directly under header with minimal gap
+- Extend artwork down to within 2% of bottom edge
+- Fill the entire width between left and right margins
+- Use tall, vertical compositions that utilize full height
+- Avoid small centered artwork with large empty borders
 
-          console.log(`Response from ${model}:`, JSON.stringify(imageResponse, null, 2));
+ARTWORK COMPOSITION FOR A4 FILLING:
+- Create artwork that naturally fills vertical space (trees, buildings, people, animals standing)
+- Use elements that stretch from near top to near bottom
+- Include background elements that extend to edges
+- For horizontal subjects, add vertical elements on sides
+- Make main subject large and prominent
 
-          const message = imageResponse.choices[0]?.message;
-          if (message?.images && message.images.length > 0) {
-            const imageUrl = message.images[0].image_url.url;
-            console.log(`Image generation successful with ${model}:`, imageUrl);
-            return {
-              success: true,
-              imageUrl,
-              prompt: enhancedPrompt,
-            };
-          }
-        } catch (modelError) {
-          console.log(`Model ${model} failed:`, modelError);
-          continue;
+ARTWORK STYLE:
+- Simple black & white line art
+- Bold outlines for easy coloring
+- Cartoon-style, child-friendly
+- No shading, no grayscale, no color
+- Large simple shapes suitable for crayons
+- Clean, printable lines
+
+BASED ON USER REQUEST: "${prompt}"
+
+Generate a coloring page that truly fills the A4 paper with minimal wasted space.
+`;
+
+    console.log("Attempting image generation with Gemini 2.5 Flash Image Preview...");
+    console.log("Enhanced A4-filling prompt:", enhancedPrompt);
+
+    const modelsToTry = [
+      "google/gemini-2.5-flash-image-preview",
+      "google/gemini-2.0-flash-exp",
+      "anthropic/claude-3.5-sonnet",
+    ];
+
+    let lastError: Error | null = null;
+
+    for (const model of modelsToTry) {
+      try {
+        console.log(`Trying model: ${model}`);
+        
+        // Add timeout handling
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+        
+        const imageResponse = await openai.chat.completions.create({
+          model,
+          messages: [
+            {
+              role: "user",
+              content: [{ type: "text", text: enhancedPrompt }],
+            },
+          ],
+          modalities: ["image", "text"],
+        }, { signal: controller.signal });
+
+        clearTimeout(timeoutId);
+
+        console.log(`Response from ${model}:`, JSON.stringify(imageResponse, null, 2));
+
+        const message = imageResponse.choices[0]?.message;
+        if (message?.images && message.images.length > 0) {
+          const imageUrl = message.images[0].image_url.url;
+          console.log(`Image generation successful with ${model}:`, imageUrl);
+          return {
+            success: true,
+            imageUrl,
+            prompt: enhancedPrompt,
+          };
+        } else {
+          console.warn(`Model ${model} returned no images`);
+          lastError = new Error(`Model ${model} returned no images`);
         }
+      } catch (modelError) {
+        console.warn(`Model ${model} failed:`, modelError);
+        lastError = modelError as Error;
+        continue;
       }
-
-      console.log("All image generation models failed");
-    } catch (imageError) {
-      console.log("Image generation failed, falling back to text model:", imageError);
-      console.log("Error details:", JSON.stringify(imageError, null, 2));
     }
 
+    console.log("All image generation models failed");
+
+    // Fallback to text model
     console.log("Using text model fallback...");
     const completion = await openai.chat.completions.create({
       model: "google/gemini-2.5-flash",
@@ -81,9 +126,8 @@ export async function generateColoringImage(prompt: string): Promise<ImageGenera
           content: [
             {
               type: "text",
-              text: `Generate a detailed description for a coloring page: ${prompt}. 
-              The description should be suitable for creating a simple line art coloring page for children aged 2-8. 
-              Focus on: simple shapes, bold outlines, child-friendly subjects, no complex details.`,
+              text: `Generate a detailed description for a children's coloring page that maximizes A4 page coverage based on: ${prompt}.
+Requirements: Header on one line at very top, artwork starts immediately below and extends to within 2% of bottom edge, fills 96% of width.`,
             },
           ],
         },
@@ -95,12 +139,20 @@ export async function generateColoringImage(prompt: string): Promise<ImageGenera
     console.log("Text model response:", response);
 
     if (!response) {
-      throw new Error("No response from AI model");
+      throw lastError || new Error("No response from any AI model");
     }
+
+    // Safer placeholder URL construction
+    const placeholderParams = new URLSearchParams({
+      height: '400',
+      width: '400', 
+      text: prompt.substring(0, 100), // Limit length
+      description: response.substring(0, 200) // Limit length
+    });
 
     return {
       success: true,
-      imageUrl: `/placeholder.svg?height=400&width=400&text=${encodeURIComponent(prompt)}&description=${encodeURIComponent(response)}`,
+      imageUrl: `/placeholder.svg?${placeholderParams.toString()}`,
       prompt: response,
     };
   } catch (error) {
@@ -137,12 +189,7 @@ export async function generateTracingContent(
             messages: [
               {
                 role: "user",
-                content: [
-                  {
-                    type: "text",
-                    text: tracingPrompt,
-                  },
-                ],
+                content: [{ type: "text", text: tracingPrompt }],
               },
             ],
             modalities: ["image", "text"],
@@ -191,19 +238,16 @@ export async function generateTracingContent(
   }
 }
 
-export async function generateImageWithOpenRouter(prompt: string): Promise<ImageGenerationResponse> {
+export async function generateImageWithOpenRouter(
+  prompt: string
+): Promise<ImageGenerationResponse> {
   try {
     const response = await openai.chat.completions.create({
       model: "google/gemini-2.5-flash-image-preview",
       messages: [
         {
           role: "user",
-          content: [
-            {
-              type: "text",
-              text: prompt,
-            },
-          ],
+          content: [{ type: "text", text: prompt }],
         },
       ],
       modalities: ["image", "text"],

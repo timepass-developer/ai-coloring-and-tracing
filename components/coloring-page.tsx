@@ -26,6 +26,46 @@ import { useTranslations } from "@/hooks/use-translations";
 const SUGGESTED_PROMPTS = getColoringPrompts();
 const FLASHCARD_PROMPTS = getFlashcardPrompts(8);
 
+// --- Convert ANY image into perfect A4 (2480×3508 px) ---
+async function convertToA4(imageUrl: string) {
+  return new Promise<string>((resolve) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+
+    img.onload = () => {
+      const A4_WIDTH = 2480;  // pixels
+      const A4_HEIGHT = 3508; // pixels
+
+      const canvas = document.createElement("canvas");
+      canvas.width = A4_WIDTH;
+      canvas.height = A4_HEIGHT;
+
+      const ctx = canvas.getContext("2d")!;
+
+      // Fill white background
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, A4_WIDTH, A4_HEIGHT);
+
+      // Scale the image to fit A4 while keeping aspect ratio
+      const scale = Math.min(A4_WIDTH / img.width, A4_HEIGHT / img.height);
+
+      const newWidth = img.width * scale;
+      const newHeight = img.height * scale;
+
+      // Center the image on the page
+      const offsetX = (A4_WIDTH - newWidth) / 2;
+      const offsetY = (A4_HEIGHT - newHeight) / 2;
+
+      ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
+
+      resolve(canvas.toDataURL("image/jpeg", 0.98));
+    };
+
+    img.src = imageUrl;
+  });
+}
+
+
 export default function ColoringPage() {
   const [prompt, setPrompt] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -138,11 +178,12 @@ export default function ColoringPage() {
     generateColoring(suggestedPrompt);
   };
 
-  const handleDownload = () => {
+  const handleDownload = async() => {
     if (generatedImage && currentPrompt) {
+      const a4Image = await convertToA4(generatedImage);  // Convert the generated image to A4 format
       executeWithAuth(() => {
         downloadImage(
-          generatedImage,
+          a4Image,
           `coloring-${currentPrompt.replace(/\s+/g, "-").toLowerCase()}.jpg`
         );
         trackActivity("download_coloring", currentPrompt);
@@ -150,10 +191,11 @@ export default function ColoringPage() {
     }
   };
 
-  const handlePrint = () => {
+  const handlePrint = async() => {
     if (generatedImage && currentPrompt) {
+      const a4Image = await convertToA4(generatedImage);  // Convert the generated image to A4 format
       executeWithAuth(() => {
-        printImage(generatedImage, `Coloring Page: ${currentPrompt}`);
+        printImage(a4Image, `Coloring Page: ${currentPrompt}`);
         trackActivity("print_coloring", currentPrompt);
       }, "print", `Coloring Page: ${currentPrompt}`);
     }

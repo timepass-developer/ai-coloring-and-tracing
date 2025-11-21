@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Loader2, Download, Printer, Mic, BookOpen } from "lucide-react";
 import TracingCanvas from "@/components/tracing-canvas";
-import { downloadTracingTemplate, printImage, downloadImage } from "@/lib/download-utils";
+import { downloadTracingTemplate, printImage, downloadImage, downloadImageA4, printImageA4 } from "@/lib/download-utils";
 import AuthGate from "@/components/auth-gate";
 import { useAuthGate } from "@/hooks/use-auth-gate";
 import { useUserDataCollection } from "@/hooks/use-user-data-collection";
@@ -131,16 +131,14 @@ export default function TracingPage() {
            tracingContent.imageUrl.startsWith("http://") ||
            tracingContent.imageUrl.startsWith("https://"))
         ) {
-          downloadImage(
+          downloadImageA4(
             tracingContent.imageUrl,
-            `tracing-${tracingContent.content.toLowerCase()}.png`
+            `tracing-${tracingContent.content.toLowerCase()}.jpg`
           );
         } else {
           // Fall back to canvas-based download
-          downloadTracingTemplate(
-            tracingContent.content,
-            `tracing-${tracingContent.content.toLowerCase()}.png`
-          );
+          const dataUrl=createTracingDataUrl(tracingContent.content);
+          downloadImageA4(dataUrl,`tracing-${tracingContent.content.toLowerCase()}.jpg`)
         }
         trackActivity("download_tracing", tracingContent.description);
       },
@@ -161,11 +159,11 @@ export default function TracingPage() {
            tracingContent.imageUrl.startsWith("http://") ||
            tracingContent.imageUrl.startsWith("https://"))
         ) {
-          printImage(tracingContent.imageUrl, tracingContent.description);
+          printImageA4(tracingContent.imageUrl, tracingContent.description);
         } else {
           // Fall back to canvas-based print
           const dataUrl = createTracingDataUrl(tracingContent.content);
-          printImage(dataUrl, tracingContent.description);
+          printImageA4(dataUrl, tracingContent.description);
         }
         trackActivity("print_tracing", tracingContent.description);
       },
@@ -173,6 +171,9 @@ export default function TracingPage() {
       `Tracing Worksheet: ${tracingContent.description}`
     );
   };
+
+
+
 
   return (
     <>

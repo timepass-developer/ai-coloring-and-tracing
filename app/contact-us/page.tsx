@@ -114,7 +114,6 @@ export default function ContactUsPage() {
                   </Button>
                 </div>
 
-                {/* Show details after click */}
                 {showWhatsAppDetails && (
                   <p className="mt-3 text-sm text-gray-700 break-all">
                     📞 <span className="font-semibold">{whatsappNumber}</span>
@@ -141,12 +140,17 @@ export default function ContactUsPage() {
                   </Button>
                 </div>
 
-                {/* Show details after click */}
                 {showEmailDetails && (
                   <p className="mt-3 text-sm text-gray-700 break-all">
                     ✉ <span className="font-semibold">{emailAddress}</span>
                   </p>
                 )}
+
+                {/* ⭐ NEW STATEMENT FOR BULK / SCHOOL ORDERS */}
+                <p className="mt-3 text-sm text-gray-700">
+                  For <span className="font-semibold">bulk orders, school packages, or high-volume usage</span>,
+                  please contact us using the email button above.
+                </p>
               </div>
 
             </CardContent>

@@ -87,7 +87,7 @@ export default function HomePage() {
 
   return (
     <main
-      className="relative h-[200vh] overflow-hidden text-slate-900 antialiased"
+      className="relative min-h-screen overflow-hidden text-slate-900 antialiased"
       style={{
         background:
           "radial-gradient(circle at 15% 20%, rgba(255,215,0,0.25), transparent 40%)," +
@@ -120,7 +120,7 @@ export default function HomePage() {
       <div className="relative z-10 flex h-full flex-col">
         {/* Hero Section */}
         <section
-          className="relative flex flex-1 flex-col-reverse items-center gap-10 px-4 py-16 md:flex-row md:px-12 lg:px-20"
+          className="relative flex min-h-screen flex-col-reverse items-center gap-10 px-4 py-16 md:flex-row md:px-12 lg:px-20"
           style={{
             backgroundImage:
               'linear-gradient(180deg, rgba(135,206,235,0.85), rgba(135,206,235,0.3)), url("/waill-drawings-kids.webp")',
@@ -168,7 +168,9 @@ export default function HomePage() {
                   <p className="text-xl font-bold text-[#FF4C4C] md:text-2xl">
                     {stat.value}
                   </p>
-                  <p className="text-xs text-slate-600 md:text-sm">{stat.label}</p>
+                  <p className="text-xs text-slate-600 md:text-sm">
+                    {stat.label}
+                  </p>
                 </div>
               ))}
             </div>
@@ -178,13 +180,13 @@ export default function HomePage() {
             <div className="relative h-[280px] w-full max-w-md rounded-[2.5rem] bg-white/80 p-8 shadow-2xl backdrop-blur">
               <div className="absolute -top-6 left-6 h-14 w-14 rounded-full bg-[#87CEEB] shadow-lg" />
               <div className="absolute -bottom-6 right-6 h-14 w-14 rounded-full bg-[#FFD700] shadow-lg" />
-              <h3 className="mb-4 text-xl font-bold text-slate-900">Family & Classroom Ready</h3>
+              <h3 className="mb-4 text-xl font-bold text-slate-900">
+                Family & Classroom Ready
+              </h3>
               <ul className="space-y-3 text-sm text-slate-600">
                 <li className="flex items-start gap-2">
                   <ShieldCheck className="mt-1 h-4 w-4 text-[#4CAF50]" />
-                  {isLoading
-                    ? "Safe, age-appropriate prompts for ages 2-8"
-                    : t("home.features.safe.description")}
+                  {t("home.features.safe.description")}
                 </li>
                 <li className="flex items-start gap-2">
                   <BookOpen className="mt-1 h-4 w-4 text-[#FFA500]" />
@@ -221,7 +223,9 @@ export default function HomePage() {
                       <card.icon className="h-4 w-4" />
                       {card.title}
                     </div>
-                    <p className="text-sm text-slate-600">{card.description}</p>
+                    <p className="text-sm text-slate-600">
+                      {card.description}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -239,11 +243,14 @@ export default function HomePage() {
                         <Users className="h-4 w-4" />
                         {card.label}
                       </div>
-                      <p className="text-sm text-slate-600">{card.description}</p>
+                      <p className="text-sm text-slate-600">
+                        {card.description}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
+
               <div className="relative hidden overflow-hidden rounded-3xl border border-white/70 bg-white/70 shadow-md backdrop-blur md:block">
                 <Image
                   src="/kids-art-wall.webp"
@@ -255,32 +262,50 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-white/70 via-transparent to-white/40" />
                 <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/85 px-4 py-3 text-xs text-slate-700 shadow">
-                  Ready-to-print galleries keep your classroom or playroom fresh every week.
+                  Ready-to-print galleries keep your classroom or playroom fresh
+                  every week.
                 </div>
               </div>
             </div>
 
-            <div className="rounded-3xl bg-[#4CAF50] px-6 py-6 text-white shadow-md">
-              <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                  <h4 className="text-lg font-semibold">
-                    {t("home.cta.title")}
-                  </h4>
-                  <p className="text-sm text-white/85">
-                    {t("home.cta.subtitle")}
-                  </p>
+            {/* CTA with How-to Guide Button */}
+            <div className="space-y-8">
+              <div className="rounded-3xl bg-[#4CAF50] px-6 pd-12 py-6 text-white shadow-md">
+                <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+                  <div>
+                    <h4 className="text-lg font-semibold">
+                      {t("home.cta.title")}
+                    </h4>
+                    <p className="text-sm text-white/85">
+                      {t("home.cta.subtitle")}
+                    </p>
+                  </div>
+
+                  {/* Buttons side-by-side */}
+                  <div className="flex items-center gap-3">
+                    <Link
+                      href="/how-to-use"
+                      className="inline-flex items-center rounded-full bg-[#FF4C4C] px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-[#e23d3d]"
+                    >
+                      <Sparkles className="h-4 w-4 mr-2" />
+                      {isLoading
+                        ? "How-to Guide"
+                        : t("home.features.howToUse.button")}
+                    </Link>
+
+                    <Link
+                      href="/create"
+                      className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#4CAF50] shadow transition hover:bg-white/90"
+                    >
+                      {t("home.cta.button")}
+                    </Link>
+                  </div>
                 </div>
-                <Link
-                  href="/create"
-                  className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#4CAF50] shadow transition hover:bg-white/90"
-                >
-                  {t("home.cta.button")}
-                </Link>
               </div>
             </div>
+
           </div>
         </section>
-
       </div>
     </main>
   );

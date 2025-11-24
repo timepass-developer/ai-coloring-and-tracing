@@ -87,7 +87,8 @@ export default function NewsletterPrompt() {
       return
     }
 
-    let cancelled = false
+    let cancelled = false;
+    
     const timer = window.setTimeout(async () => {
       if (cancelled) return
 
@@ -98,7 +99,7 @@ export default function NewsletterPrompt() {
         setOpen(true)
       }
       setIsChecking(false)
-    }, hasMountedRef.current ? 0 : PROMPT_DELAY_MS)
+    }, PROMPT_DELAY_MS)
 
     hasMountedRef.current = true
 

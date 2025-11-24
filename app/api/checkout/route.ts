@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     let priceId;
     if (plan === "basic") priceId = process.env.STRIPE_BASIC_PRICE_ID;
     else if (plan === "premium") priceId = process.env.STRIPE_PREMIUM_PRICE_ID;
-    else if (plan === "family") priceId = process.env.STRIPE_FAMILY_PRICE_ID;
+    else if (plan === "Custom") priceId = process.env.STRIPE_FAMILY_PRICE_ID;
     else return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
 
     const session = await stripe.checkout.sessions.create({

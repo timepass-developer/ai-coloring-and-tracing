@@ -184,7 +184,7 @@ export default function MobileHeader({ onMenuToggle, isMenuOpen }: MobileHeaderP
             </>
           ) : (
             // Not logged in → Show Login
-            <LoginLink postLoginRedirectURL="/dashboard">
+            <LoginLink postLoginRedirectURL="/">
               <Button
                 variant="ghost"
                 size="icon"

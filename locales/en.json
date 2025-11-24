@@ -39,7 +39,8 @@
     "newsletter": "Parenting Newsletter",
     "profile": "Profile",
     "settings": "Settings",
-    "help": "Help"
+    "help": "Help",
+    "contactUs": "Contact Us"
   },
   "admin": {
     "title": "Admin",
@@ -90,6 +91,11 @@
       "loved": {
         "title": "Kids Love It",
         "description": "Engaging activities that spark joy and creativity."
+      },
+      "howToUse": {
+        "title": "New to Kiwiz?",
+        "description": "Learn step-by-step how to create coloring pages and tracing worksheets effortlessly — perfect for parents, teachers, or therapists.",
+        "button": "View How-To Guide"
       }
     },
     "benefits": {

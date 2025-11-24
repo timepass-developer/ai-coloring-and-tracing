@@ -11,12 +11,12 @@ import {
 import { Button } from "@/components/ui/button";
 import {
   Crown,
-  Star,
   Gift,
   Heart,
   Check,
   HelpCircle,
   Sparkles,
+  Package,
 } from "lucide-react";
 import MobileHeader from "@/components/mobile-header";
 import MobileSidebar from "@/components/mobile-sidebar";
@@ -31,30 +31,26 @@ export default function MembershipPage() {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  // 🔹 Fetch current user plan
+  // -------------------------
+  // Fetch user plan
+  // -------------------------
   useEffect(() => {
     const fetchUserPlan = async () => {
       try {
         const res = await fetch("/api/user/me");
-        
-        // If user is not authenticated (401), keep default FREE plan
+
         if (res.status === 401) {
           setSelectedPlan("FREE");
           setIsLoading(false);
           return;
         }
-        
-        if (!res.ok) {
-          throw new Error("Failed to fetch user data");
-        }
-        
+
+        if (!res.ok) throw new Error("Failed to fetch user data");
+
         const data = await res.json();
-        if (data.plan) {
-          setSelectedPlan(data.plan.toUpperCase());
-        }
+        if (data.plan) setSelectedPlan(data.plan.toUpperCase());
       } catch (err) {
         console.error("Error fetching user plan:", err);
-        // Default to FREE plan on error
         setSelectedPlan("FREE");
       } finally {
         setIsLoading(false);
@@ -66,7 +62,11 @@ export default function MembershipPage() {
 
   const handlePlanSelection = async (planName: string) => {
     if (planName.toUpperCase() === selectedPlan) {
-      alert(isLoadingTranslations ? `You're already on the ${planName} plan!` : t('membership.alreadyOn').replace('{plan}', planName));
+      alert(
+        isLoadingTranslations
+          ? `You're already on the ${planName} plan!`
+          : t("membership.alreadyOn").replace("{plan}", planName)
+      );
       return;
     }
 
@@ -81,91 +81,83 @@ export default function MembershipPage() {
 
       const data = await res.json();
       if (data.url) window.location.href = data.url;
-      else alert(isLoadingTranslations ? "Something went wrong starting checkout." : t('membership.checkoutFailed'));
+      else alert(t("membership.checkoutFailed"));
     } catch (error) {
       console.error("Checkout error:", error);
-      alert(isLoadingTranslations ? "Failed to start checkout. Please try again." : t('membership.checkoutError'));
+      alert(t("membership.checkoutError"));
     } finally {
       setLoadingPlan(null);
     }
   };
 
-  // Get currency symbol for current locale
-  const currency = isLoadingTranslations ? "$" : t('membership.currency');
+  const currency = "$";
 
+  // -------------------------
+  // ⭐ Updated Plans
+  // -------------------------
   const plans = [
     {
-      name: isLoadingTranslations ? "Free" : t('membership.plans.free.name'),
-      price: t('membership.plans.free.price'),
-      period: isLoadingTranslations ? "lifetime" : t('membership.plans.free.period'),
-      description: isLoadingTranslations ? "Perfect for trying out Kiwiz" : t('membership.plans.free.description'),
-      features: isLoadingTranslations ? [
-        "5 generations total (lifetime)",
+      name: "Free",
+      price: "0",
+      period: "lifetime",
+      description: "Perfect for trying out Kiwiz",
+      features: [
+        "5 generations total",
         "Basic coloring pages",
-        "Standard tracing",
+        "Standard tracing sheets",
         "Community support",
-      ] : [
-        t('membership.plans.free.feature1'),
-        t('membership.plans.free.feature2'),
-        t('membership.plans.free.feature3'),
-        t('membership.plans.free.feature4'),
       ],
       popular: false,
     },
+
     {
-      name: isLoadingTranslations ? "Premium" : t('membership.plans.premium.name'),
-      price: t('membership.plans.premium.price'),
-      period: isLoadingTranslations ? "month" : t('membership.plans.premium.period'),
-      description: isLoadingTranslations ? "Best for regular users" : t('membership.plans.premium.description'),
-      features: isLoadingTranslations ? [
+      name: "Premium",
+      price: "9.99",
+      period: "month",
+      description: "Best for regular Kiwiz creators",
+      features: [
         "Unlimited generations",
-        "Premium content",
-        "Advanced tools",
+        "Premium content library",
+        "Advanced tracing tools",
         "Priority support",
-      ] : [
-        t('membership.plans.premium.feature1'),
-        t('membership.plans.premium.feature2'),
-        t('membership.plans.premium.feature3'),
-        t('membership.plans.premium.feature4'),
       ],
       popular: true,
     },
+
+    // ⭐ New: Custom Activity Pack (no overflow)
     {
-      name: isLoadingTranslations ? "Family" : t('membership.plans.family.name'),
-      price: t('membership.plans.family.price'),
-      period: isLoadingTranslations ? "month" : t('membership.plans.family.period'),
-      description: isLoadingTranslations ? "Perfect for families" : t('membership.plans.family.description'),
-      features: isLoadingTranslations ? [
-        "Everything in Premium",
-        "Up to 5 accounts",
-        "Family dashboard",
-        "Bulk downloads",
-      ] : [
-        t('membership.plans.family.feature1'),
-        t('membership.plans.family.feature2'),
-        t('membership.plans.family.feature3'),
-        t('membership.plans.family.feature4'),
+      name: "Custom",
+      price: "9.50 per pack",
+      period: "month",
+      description: "Get custom plans the way you need.",
+      features: [
+        "Order custom premium packs",
+        "Choose your own quantity",
+        "Personalized matching your needs",
+        "Great for large sets",
       ],
       popular: false,
-    },
+      icon: Package,
+    }
+
   ];
 
   const faqs = [
     {
-      q: isLoadingTranslations ? "What payment methods do you accept?" : t('membership.faq.q1.question'),
-      a: isLoadingTranslations ? "We accept all major credit and debit cards via Stripe's secure payment system." : t('membership.faq.q1.answer'),
+      q: "What payment methods do you accept?",
+      a: "We accept all major credit and debit cards via Stripe.",
     },
     {
-      q: isLoadingTranslations ? "Can I cancel anytime?" : t('membership.faq.q2.question'),
-      a: isLoadingTranslations ? "Yes! You can cancel your subscription at any time, and your plan will remain active until the end of the billing cycle." : t('membership.faq.q2.answer'),
+      q: "Can I cancel anytime?",
+      a: "Yes, your subscription stays active until the end of the billing cycle.",
     },
     {
-      q: isLoadingTranslations ? "Do you offer refunds?" : t('membership.faq.q3.question'),
-      a: isLoadingTranslations ? "We do not offer partial refunds, but you can cancel before your next billing period." : t('membership.faq.q3.answer'),
+      q: "Do you offer refunds?",
+      a: "We do not offer partial refunds, but you can cancel anytime.",
     },
     {
-      q: isLoadingTranslations ? "Is my payment information secure?" : t('membership.faq.q4.question'),
-      a: isLoadingTranslations ? "Absolutely. All transactions are processed securely through Stripe. We never store your card details." : t('membership.faq.q4.answer'),
+      q: "Is my payment secure?",
+      a: "All payments are processed through Stripe. We never store your card details.",
     },
   ];
 
@@ -186,10 +178,11 @@ export default function MembershipPage() {
               <Crown className="h-12 w-12 text-orange-600" />
             </div>
             <h1 className="text-4xl font-extrabold text-orange-800 mb-3">
-              {isLoadingTranslations ? "Choose Your Kiwiz Plan" : t('membership.title')}
+              Choose Your Kiwiz Plan
             </h1>
             <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              {isLoadingTranslations ? "Unlock the full potential of AI-powered coloring and tracing for your children." : t('membership.subtitle')}
+              Unlock magical printable experiences for your home, classroom, or
+              therapy practice.
             </p>
           </div>
 
@@ -197,36 +190,31 @@ export default function MembershipPage() {
           <div className="grid md:grid-cols-3 gap-8 mb-20">
             {plans.map((plan, index) => {
               const isCurrent = selectedPlan === plan.name.toUpperCase();
-              const shouldBlurFree =
-                selectedPlan !== "FREE" && plan.name === "Free";
 
               return (
                 <Card
                   key={index}
-                  className={`relative bg-yellow-50 border border-orange-200 transition-all duration-300 
+                  className={`relative bg-yellow-50 border border-orange-200 transition-all duration-300
                     ${
                       isCurrent
                         ? "border-2 border-orange-500 shadow-lg scale-[1.03]"
                         : "hover:shadow-lg hover:scale-[1.02]"
                     }
-                    ${shouldBlurFree ? "opacity-40 blur-[1.5px]" : ""}
-                  `}
+                    `}
                 >
-                  {/* Active Plan Badge */}
                   {isCurrent && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                       <div className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1 shadow-md">
                         <Sparkles className="h-3 w-3" />
-                        {isLoadingTranslations ? "Active Plan" : t('membership.activePlan')}
+                        Active Plan
                       </div>
                     </div>
                   )}
 
-                  {/* Popular Label */}
                   {plan.popular && !isCurrent && (
                     <div className="absolute -top-3 right-3">
                       <div className="bg-orange-600 text-white px-2 py-1 rounded-full text-xs font-semibold shadow">
-                        {isLoadingTranslations ? "Most Popular" : t('membership.mostPopular')}
+                        Most Popular
                       </div>
                     </div>
                   )}
@@ -235,12 +223,13 @@ export default function MembershipPage() {
                     <CardTitle className="text-xl font-bold text-orange-800">
                       {plan.name}
                     </CardTitle>
-                    <div className="mt-2">
-                      <span className="text-3xl font-extrabold text-orange-600">
-                        {currency}{plan.price}
-                      </span>
-                      <span className="text-gray-600">/{plan.period}</span>
+
+                    <div className="mt-2 text-orange-600 text-3xl font-extrabold break-words">
+                      {currency}
+                      {plan.price}
                     </div>
+                    <span className="text-gray-600 text-sm">/{plan.period}</span>
+
                     <CardDescription className="mt-2 text-gray-700">
                       {plan.description}
                     </CardDescription>
@@ -248,12 +237,9 @@ export default function MembershipPage() {
 
                   <CardContent className="pt-0">
                     <ul className="space-y-3 mb-6">
-                      {plan.features.map((feature, featureIndex) => (
-                        <li
-                          key={featureIndex}
-                          className="flex items-center gap-2 text-gray-800"
-                        >
-                          <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2 text-gray-800">
+                          <Check className="h-4 w-4 text-green-500" />
                           <span className="text-sm">{feature}</span>
                         </li>
                       ))}
@@ -263,20 +249,16 @@ export default function MembershipPage() {
                       className={`w-full ${
                         isCurrent
                           ? "bg-gray-400 text-white cursor-not-allowed"
-                          : plan.name.includes("Premium") || (isLoadingTranslations && plan.name === "Premium")
-                          ? "bg-blue-600 hover:bg-blue-700 text-white"
                           : "bg-orange-500 hover:bg-orange-600 text-white"
                       }`}
                       disabled={isCurrent || loadingPlan === plan.name}
-                      onClick={() => handlePlanSelection(isLoadingTranslations ? plan.name : (plan.name === t('membership.plans.free.name') ? 'Free' : plan.name === t('membership.plans.premium.name') ? 'Premium' : 'Family'))}
+                      onClick={() => handlePlanSelection(plan.name)}
                     >
                       {isCurrent
-                        ? (isLoadingTranslations ? "Current Plan" : t('membership.currentPlan'))
+                        ? "Current Plan"
                         : loadingPlan === plan.name
-                        ? (isLoadingTranslations ? "Redirecting..." : t('membership.redirecting'))
-                        : (plan.name.includes("Premium") || (!isLoadingTranslations && plan.name === t('membership.plans.premium.name')))
-                        ? (isLoadingTranslations ? "Upgrade Now" : t('membership.upgradeNow'))
-                        : (isLoadingTranslations ? "Choose Plan" : t('membership.choosePlan'))}
+                        ? "Redirecting..."
+                        : "Choose Plan"}
                     </Button>
                   </CardContent>
                 </Card>
@@ -289,41 +271,47 @@ export default function MembershipPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-800">
                 <Gift className="h-5 w-5 text-yellow-500" />
-                {isLoadingTranslations ? "Why Choose Premium?" : t('membership.whyPremium.title')}
+                Why Choose Premium?
               </CardTitle>
             </CardHeader>
+
             <CardContent>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <h3 className="font-semibold text-lg text-orange-800">
-                    {isLoadingTranslations ? "For Parents" : t('membership.whyPremium.forParents.title')}
+                    For Parents
                   </h3>
                   <ul className="space-y-2 text-gray-800">
                     <li className="flex items-center gap-2">
-                      <Heart className="h-4 w-4 text-red-500" /> {isLoadingTranslations ? "Unlimited creativity for children" : t('membership.whyPremium.forParents.benefit1')}
+                      <Heart className="h-4 w-4 text-red-500" /> Unlimited
+                      creativity
                     </li>
                     <li className="flex items-center gap-2">
-                      <Heart className="h-4 w-4 text-red-500" /> {isLoadingTranslations ? "Educational premium content" : t('membership.whyPremium.forParents.benefit2')}
+                      <Heart className="h-4 w-4 text-red-500" /> Premium content
+                      library
                     </li>
                     <li className="flex items-center gap-2">
-                      <Heart className="h-4 w-4 text-red-500" /> {isLoadingTranslations ? "Save time with instant generation" : t('membership.whyPremium.forParents.benefit3')}
+                      <Heart className="h-4 w-4 text-red-500" /> Save time with
+                      instant generation
                     </li>
                   </ul>
                 </div>
 
                 <div className="space-y-4">
                   <h3 className="font-semibold text-lg text-orange-800">
-                    {isLoadingTranslations ? "For Children" : t('membership.whyPremium.forChildren.title')}
+                    For Children
                   </h3>
                   <ul className="space-y-2 text-gray-800">
                     <li className="flex items-center gap-2">
-                      <Heart className="h-4 w-4 text-green-500" /> {isLoadingTranslations ? "Endless coloring & tracing fun" : t('membership.whyPremium.forChildren.benefit1')}
+                      <Heart className="h-4 w-4 text-green-500" /> Endless fun
                     </li>
                     <li className="flex items-center gap-2">
-                      <Heart className="h-4 w-4 text-green-500" /> {isLoadingTranslations ? "Age-appropriate creative tools" : t('membership.whyPremium.forChildren.benefit2')}
+                      <Heart className="h-4 w-4 text-green-500" /> Age-friendly
+                      creativity tools
                     </li>
                     <li className="flex items-center gap-2">
-                      <Heart className="h-4 w-4 text-green-500" /> {isLoadingTranslations ? "Develop fine motor skills" : t('membership.whyPremium.forChildren.benefit3')}
+                      <Heart className="h-4 w-4 text-green-500" /> Build motor
+                      skills
                     </li>
                   </ul>
                 </div>
@@ -331,14 +319,15 @@ export default function MembershipPage() {
             </CardContent>
           </Card>
 
-          {/* FAQs */}
+          {/* FAQ */}
           <Card className="mb-10 bg-yellow-50 border border-orange-200 shadow-md">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-800">
                 <HelpCircle className="h-5 w-5 text-yellow-500" />
-                {isLoadingTranslations ? "Frequently Asked Questions" : t('membership.faq.title')}
+                Frequently Asked Questions
               </CardTitle>
             </CardHeader>
+
             <CardContent>
               <div className="space-y-6">
                 {faqs.map((faq, index) => (

@@ -10,6 +10,7 @@ import {
   Home as HomeIcon,
   PenTool,
   LayoutDashboard,
+  MessageCircle,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -34,6 +35,7 @@ export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
     { label: "How to Use", translationKey: "navigation.howToUse", icon: HelpCircle, href: "/how-to-use" },
     { label: "About Us", translationKey: "navigation.aboutUs", icon: Info, href: "/about-us" },
     { label: "Parenting Newsletter", translationKey: "navigation.newsletter", icon: Mail, href: "/parenting-newsletter" },
+    { label: "Contact Us", translationKey: "navigation.contactUs", icon: MessageCircle, href: "/contact-us" },
   ]
 
   const navItems = isAuthenticated

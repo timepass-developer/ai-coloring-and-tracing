@@ -124,17 +124,16 @@ export default function MembershipPage() {
       popular: true,
     },
 
-    // ⭐ New: Custom Activity Pack (no overflow)
     {
-      name: "Custom",
-      price: "9.50 per pack",
+      name: "Family",
+      price: "19.90",
       period: "month",
-      description: "Get custom plans the way you need.",
+      description: "Ideal for families with diverse needs",
       features: [
-        "Order custom premium packs",
-        "Choose your own quantity",
-        "Personalized matching your needs",
-        "Great for large sets",
+        "Login on multiple devices",
+        "with 1000 generations Monthly",
+        "exhusive family activities",
+        "Family-friendly content",
       ],
       popular: false,
       icon: Package,
